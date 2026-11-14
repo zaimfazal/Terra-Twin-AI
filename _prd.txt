@@ -1,0 +1,722 @@
+[Normal] PRODUCT REQUIREMENTS DOCUMENT
+[Normal] Earth–Moon–Mars
+Analog Discovery Platform
+[Normal] A global search and scientific intelligence platform for terrestrial planetary analogs
+[Normal] DRAFT FOR TEAM REVIEW
+[Normal] Scientific integrity • Explainable discovery • Reproducible analysis
+[Heading 1] Document Contents
+[List Bullet] 1. Executive Summary
+[List Bullet] 2. Problem Statement
+[List Bullet] 3. Product Goals
+[List Bullet] 4. Target Audience
+[List Bullet] 5. Product Scope
+[List Bullet] 6. Planetary Reference Catalog
+[List Bullet] 7. Mission Profiles
+[List Bullet] 8. Scientific Similarity Framework
+[List Bullet] 9. Global Earth Discovery Engine
+[List Bullet] 10. Discovery Ranking and Novelty
+[List Bullet] 11. Tiered Candidate Eligibility
+[List Bullet] 12. Scientific Validation
+[List Bullet] 13. Evidence Classification
+[List Bullet] 14. Earth Field-Test Feasibility
+[List Bullet] 15. Scientific Dataset Architecture
+[List Bullet] 16. Analog Intelligence Report
+[List Bullet] 17. Ranking and Research Workspace
+[List Bullet] 18. AI Scientific Research Assistant
+[List Bullet] 19. Product Performance
+[List Bullet] 20. Data Exports
+[List Bullet] 21. Functional Requirements
+[List Bullet] 22. Non-Functional Requirements
+[List Bullet] 23. Technical Architecture
+[List Bullet] 24. User Stories
+[List Bullet] 25. MVP Discovery Demonstration
+[List Bullet] 26. Scope Exclusions
+[List Bullet] 27. Team Structure
+[List Bullet] 28. Development Timeline
+[List Bullet] 29. Product Success Metrics
+[List Bullet] 30. Acceptance Criteria
+[List Bullet] 31. Risks and Mitigation
+[List Bullet] 32. Open Decisions and Implementation Assumptions
+[List Bullet] 33. Final Product Definition
+[Heading 1] 1. Executive Summary
+[Heading 2] 1.1 Product vision
+[Normal] Build an intelligent, scientifically grounded platform that systematically searches Earth's land surface for environments analogous to the Moon and Mars.
+[Normal] The platform will use open Earth-observation and planetary datasets from NASA and other space agencies to identify, rank, visualize, compare, and characterize promising terrestrial analog environments.
+[Normal] It will combine:
+[List Bullet] Global terrestrial analog discovery.
+[List Bullet] Interactive Earth-Moon-Mars exploration.
+[List Bullet] Scientific similarity calculations.
+[List Bullet] Mission-specific analysis.
+[List Bullet] Evidence-based discovery reports.
+[List Bullet] AI-assisted scientific interpretation.
+[Normal] The platform should go beyond finding locations that visually resemble other planets. It should explain why an environment is analogous, quantify the strength of that analogy, identify missing evidence, and explain where the comparison breaks down.
+[Heading 2] 1.2 Core product proposition
+[Normal] Discover where Earth can help us understand and prepare for exploring the Moon and Mars.
+[Heading 2] 1.3 Primary differentiator
+[Normal] Rather than merely displaying known planetary analog locations, the platform will systematically search Earth's land surface and identify potentially overlooked environments.
+[Normal] Every discovery should be supported by measurable scientific evidence, transparent calculations, and traceable datasets.
+[Heading 1] 2. Problem Statement
+[Normal] Space agencies already use terrestrial environments such as Atacama, Antarctica, Death Valley, Iceland, and Haughton Crater to test exploration technologies and study planetary processes.
+[Normal] However, these environments do not reproduce all the conditions found on the Moon or Mars. Different locations may offer useful analogies for different geological, environmental, or operational characteristics.
+[Normal] Existing approaches are often focused on particular well-known locations or specialized research objectives.
+[Normal] There is an opportunity to create a systematic discovery platform that combines:
+[Normal] 1. Global Earth observations.
+[Normal] 2. Lunar and Martian scientific observations.
+[Normal] 3. Geospatial and statistical analysis.
+[Normal] 4. Mission-specific similarity calculations.
+[Normal] 5. Reproducible scientific reporting.
+[Normal] The challenge is to discover meaningful analogies while being honest about the limitations of terrestrial environments.
+[Heading 1] 3. Product Goals
+[Heading 2] 3.1 Primary goals
+[Normal] 1. Search Earth's terrestrial land surface for candidate Moon and Mars analogs.
+[Normal] 2. Support both target-based and independent global discovery.
+[Normal] 3. Compare Earth environments with predefined or user-defined lunar and Martian regions.
+[Normal] 4. Calculate explainable, mission-specific scientific similarity scores.
+[Normal] 5. Identify and characterize four promising Earth analog regions, ideally two for the Moon and two for Mars.
+[Normal] 6. Produce reproducible scientific discovery reports.
+[Normal] 7. Validate the methodology against established analog environments and planetary observations.
+[Heading 2] 3.2 Secondary goals
+[List Bullet] Make planetary science understandable to students and enthusiasts.
+[List Bullet] Support researchers through a personal scientific workspace.
+[List Bullet] Provide an AI assistant for interpreting scientific evidence.
+[List Bullet] Enable researchers to export results into external scientific tools.
+[List Bullet] Identify potentially underexplored terrestrial environments.
+[Heading 2] 3.3 Success philosophy
+[Normal] Scientific achievement is more important than the number of implemented features.
+[Normal] The platform must demonstrate actual data-driven discovery rather than relying on mocked similarity scores, manually selected showcase locations, or fabricated scientific measurements.
+[Heading 1] 4. Target Audience
+[Normal] The platform serves three audience groups.
+[Heading 2] 4.1 Planetary scientists and researchers
+[Normal] Needs:
+[List Bullet] Scientific measurements.
+[List Bullet] Dataset provenance.
+[List Bullet] Reproducible calculations.
+[List Bullet] Detailed Earth-planet comparisons.
+[List Bullet] Evidence quality and uncertainty.
+[List Bullet] Exportable research results.
+[Heading 2] 4.2 Aerospace and mission-planning teams
+[Normal] Needs:
+[List Bullet] Potential terrestrial testing environments.
+[List Bullet] Landing and mobility analogs.
+[List Bullet] Resource-related geological indicators.
+[List Bullet] Equipment-testing opportunities.
+[List Bullet] Preliminary operational feasibility information.
+[Heading 2] 4.3 Students and space enthusiasts
+[Normal] Needs:
+[List Bullet] Accessible explanations.
+[List Bullet] Visual planetary comparisons.
+[List Bullet] Interactive discovery.
+[List Bullet] Scientific context.
+[List Bullet] Understandable reports.
+[Heading 1] 5. Product Scope
+[Heading 2] 5.1 Core capabilities
+[Normal] The MVP consists of three primary capabilities.
+[Normal] A. Discover
+[Normal] Identify potentially promising Earth environments using global scientific datasets.
+[Normal] B. Explore
+[Normal] Allow users to explore Earth, Moon, and Mars reference environments and compare their characteristics.
+[Normal] C. Analyze
+[Normal] Calculate scientifically explainable similarity scores, evidence confidence, and mission-specific relevance.
+[Heading 2] 5.2 Discovery modes
+[Normal] The platform must support three discovery workflows.
+[Normal] Target-based discovery
+[Normal] A user selects a lunar or Martian region. The engine searches Earth for corresponding analog environments.
+[Normal] Global discovery
+[Normal] The engine scans Earth independently and identifies promising analog candidates for Moon and Mars exploration.
+[Normal] Analog explorer
+[Normal] Users browse, filter, rank, and investigate previously identified candidate regions.
+[Heading 2] 5.3 Scope of geographic discovery
+[Normal] The MVP covers terrestrial land surfaces worldwide, including:
+[List Bullet] Deserts and arid environments.
+[List Bullet] Volcanic terrain.
+[List Bullet] Mountains and exposed geological formations.
+[List Bullet] Polar environments.
+[List Bullet] Glaciers and ice-covered land.
+[List Bullet] Salt flats.
+[List Bullet] Impact craters.
+[List Bullet] Other unusual geological environments.
+[Normal] Oceans and underwater environments are excluded. Detailed cave and subsurface discovery is deferred.
+[Heading 1] 6. Planetary Reference Catalog
+[Normal] The platform will provide a curated catalog of approximately five representative reference environments per planet. Users will also be able to select custom points and geographical regions.
+[Heading 2] 6.1 Lunar reference catalog
+[Normal] Proposed environments:
+[Normal] 1. Shackleton Crater and the lunar south pole.
+[Normal] 2. Permanently shadowed regions.
+[Normal] 3. Mare basaltic terrain.
+[Normal] 4. Lunar highlands.
+[Normal] 5. Representative impact crater terrain.
+[Heading 3] Primary deep-analysis targets
+[Normal] Shackleton Crater
+[Normal] Primary mission: Lunar permanent base preparation.
+[Normal] Scientific interests:
+[List Bullet] Illumination patterns.
+[List Bullet] Permanently shadowed regions.
+[List Bullet] Thermal extremes.
+[List Bullet] Potential water ice.
+[List Bullet] Terrain and slope characteristics.
+[Normal] Mare Tranquillitatis
+[Normal] Primary mission: Lunar landing and robotic operations.
+[Normal] Scientific interests:
+[List Bullet] Basaltic terrain.
+[List Bullet] Surface material characteristics.
+[List Bullet] Slopes and roughness.
+[List Bullet] Landing and mobility analogs.
+[Heading 2] 6.2 Martian reference catalog
+[Normal] Proposed environments:
+[Normal] 1. Jezero Crater.
+[Normal] 2. Elysium Planitia.
+[Normal] 3. Olympus Mons.
+[Normal] 4. Valles Marineris.
+[Normal] 5. Gale Crater.
+[Normal] Utopia Planitia may be included as an additional reference environment.
+[Heading 3] Primary deep-analysis targets
+[Normal] Jezero Crater
+[Normal] Primary mission: Mars scientific exploration and habitability research.
+[Normal] Scientific interests:
+[List Bullet] Sedimentary geology.
+[List Bullet] Ancient water-related processes.
+[List Bullet] Delta formations.
+[List Bullet] Mineralogical characteristics.
+[List Bullet] Environmental history.
+[Normal] Elysium Planitia
+[Normal] Primary mission: Mars landing and surface exploration.
+[Normal] Scientific interests:
+[List Bullet] Volcanic plains.
+[List Bullet] Terrain characteristics.
+[List Bullet] Thermal properties.
+[List Bullet] Geological structure.
+[List Bullet] Potential subsurface ice indicators.
+[Heading 2] 6.3 Custom reference targets
+[Normal] Users must be able to:
+[List Bullet] Select an individual coordinate.
+[List Bullet] Select a predefined planetary feature.
+[List Bullet] Draw a custom polygon.
+[List Bullet] Define an analysis radius around a point.
+[List Bullet] Specify the geographical footprint for comparison.
+[Normal] Planetary and Earth analysis regions must use comparable spatial footprints and appropriate projections.
+[Heading 1] 7. Mission Profiles
+[Normal] The MVP will support four independently configurable mission profiles.
+[Normal] The same Earth candidate may receive different scores under different mission profiles.
+[Normal] Users should be able to select one mission for focused discovery and also inspect performance across all four profiles.
+[Normal] The platform must distinguish:
+[List Bullet] Geological analogy.
+[List Bullet] Environmental analogy.
+[List Bullet] Mission usefulness.
+[List Bullet] Practical terrestrial field-test feasibility.
+[Normal] These are separate assessments.
+[Heading 1] 8. Scientific Similarity Framework
+[Normal] This is the core scientific subsystem.
+[Heading 2] 8.1 Scientific dimensions
+[Normal] The MVP will implement five primary dimensions.
+[Normal] Solar illumination is especially important for lunar south pole operations. It may also be evaluated for Mars where the selected target and mission objective make it relevant.
+[Normal] Each feature will be used only when an appropriate dataset and scientifically defensible comparison method exist. Unavailable measurements must not be fabricated.
+[Heading 2] 8.2 Planetary-aware comparison
+[Normal] The engine must account for the fundamental differences between Earth, Moon, and Mars.
+[Normal] Examples:
+[List Bullet] Atmospheric differences.
+[List Bullet] Gravity differences.
+[List Bullet] Thermal behavior.
+[List Bullet] Solar exposure.
+[List Bullet] Wind and dust processes.
+[List Bullet] Differences in water and ice environments.
+[Normal] The engine will use direct numerical comparison where valid and process-based or proxy-based comparison where direct equivalence is inappropriate.
+[Normal] An Earth environment must never be described as a perfect planetary replica.
+[Heading 2] 8.3 Similarity calculation
+[Normal] The selected approach is a hybrid scientific similarity model.
+[Normal] Processing steps:
+[Normal] 1. Extract measurable features from Earth and planetary datasets.
+[Normal] 2. Convert measurements into comparable representations.
+[Normal] 3. Apply scientifically appropriate normalization.
+[Normal] 4. Calculate feature-specific similarity.
+[Normal] 5. Aggregate features into dimension scores.
+[Normal] 6. Apply mission-specific scientific weights.
+[Normal] 7. Calculate an overall similarity score.
+[Normal] 8. Report evidence confidence and data coverage separately.
+[Normal] Conceptual formula:
+[Normal] S_overall = sum(w_i * S_i) / sum(w_i)
+[Normal] Where:
+[List Bullet] S_i is the similarity score for a dimension.
+[List Bullet] w_i is its mission-specific weight.
+[List Bullet] The sum includes only dimensions with valid measurements.
+[Normal] This formula applies only after the required evidence eligibility checks have passed. Missing dimensions will not silently receive zero values.
+[Heading 2] 8.4 Three independent result metrics
+[Normal] Every candidate must report:
+[Normal] Similarity score
+[Normal] How closely the measured environment resembles the selected planetary target.
+[Normal] Data coverage
+[Normal] How much of the intended scientific feature set is available and usable.
+[Normal] Data confidence
+[Normal] How reliable the comparison is, taking account of source quality, resolution, uncertainty, temporal relevance, and evidence type.
+[Normal] These must never be collapsed into a misleading single score.
+[Heading 2] 8.5 Feature weighting
+[Normal] Weights will vary across the four mission profiles. Users will be able to adjust weights in advanced analysis.
+[Normal] The original default weights must always be visible and recorded in the analysis provenance.
+[Normal] The team must document scientific justification for weights and test their effects using known analog locations.
+[Heading 2] 8.6 Multi-scale similarity
+[Normal] Comparison must support three spatial scales.
+[Normal] The engine will report scale-specific scores.
+[Heading 2] 8.7 Temporal comparison
+[Normal] The platform will support multi-temporal analysis.
+[Normal] Global screening:
+[List Bullet] Multi-year averages.
+[List Bullet] Seasonal statistics.
+[List Bullet] Long-term patterns.
+[Normal] Detailed investigation:
+[List Bullet] Time-series observations.
+[List Bullet] Environmental extremes.
+[List Bullet] Seasonal variation.
+[List Bullet] Relevant daily variations where data permits.
+[Normal] Calendar dates will not be treated as equivalent across Earth, Moon, and Mars.
+[Heading 1] 9. Global Earth Discovery Engine
+[Heading 2] 9.1 Discovery architecture
+[Normal] The engine will use coarse-to-fine global discovery.
+[Heading 3] Stage 1: Global screening
+[List Bullet] Scan Earth's land surface.
+[List Bullet] Use approximately 5-10 km analysis resolution.
+[List Bullet] Apply globally available environmental and geological datasets.
+[List Bullet] Generate initial scientific feature indices.
+[Heading 3] Stage 2: Candidate identification
+[List Bullet] Target approximately 1 km analysis resolution.
+[List Bullet] Identify promising grid cells.
+[List Bullet] Identify spatially neighboring high-potential cells.
+[List Bullet] Cluster them into geographical regions.
+[Heading 3] Stage 3: Detailed investigation
+[List Bullet] Target approximately 100-500 m where reliable data supports it.
+[List Bullet] Retrieve additional observations.
+[List Bullet] Analyze individual candidate regions.
+[List Bullet] Calculate multi-scale scientific comparisons.
+[Normal] The stated resolutions are analysis targets, not guarantees of native data resolution. Original dataset resolution must always be retained in metadata.
+[Heading 2] 9.2 Hybrid region identification
+[Normal] The engine will:
+[Normal] 1. Create global grid-based screening units.
+[Normal] 2. Calculate similarity for eligible cells.
+[Normal] 3. Identify neighboring promising cells.
+[Normal] 4. Cluster them into contiguous regions.
+[Normal] 5. Refine boundaries using geological and terrain information.
+[Normal] 6. Identify representative points within the region.
+[Normal] This produces geographical discoveries rather than a random collection of map pins.
+[Heading 2] 9.3 Discovery profiles
+[Normal] Each discovered region must have:
+[List Bullet] Region name or generated identifier.
+[List Bullet] Geographical boundary.
+[List Bullet] Representative coordinates.
+[List Bullet] Area.
+[List Bullet] Target planet.
+[List Bullet] Planetary reference region.
+[List Bullet] Mission profile.
+[List Bullet] Similarity score.
+[List Bullet] Five dimension scores.
+[List Bullet] Data coverage.
+[List Bullet] Data confidence.
+[List Bullet] Evidence classifications.
+[List Bullet] Scientific explanations.
+[List Bullet] Potential mission applications.
+[List Bullet] Known differences and limitations.
+[Heading 1] 10. Discovery Ranking and Novelty
+[Heading 2] 10.1 Candidate selection
+[Normal] Candidate selection will consider five independent factors:
+[Normal] 1. Scientific similarity.
+[Normal] 2. Data quality and coverage.
+[Normal] 3. Scientific significance.
+[Normal] 4. Discovery novelty.
+[Normal] 5. Geographical diversity.
+[Normal] These factors must remain distinguishable from the scientific similarity formula.
+[Heading 2] 10.2 Discovery views
+[Normal] Users will be able to browse:
+[List Bullet] Best scientific matches.
+[List Bullet] Most reliable candidates.
+[List Bullet] Most underexplored candidates.
+[List Bullet] Most scientifically interesting candidates.
+[List Bullet] Best multi-mission analogs.
+[Heading 2] 10.3 Search and filters
+[Normal] Users can:
+[List Bullet] Set a similarity threshold.
+[List Bullet] Select the number of results.
+[List Bullet] Filter by planet and target.
+[List Bullet] Filter by mission profile.
+[List Bullet] Filter by data confidence.
+[List Bullet] Filter by evidence coverage.
+[List Bullet] Filter by scientific dimension.
+[List Bullet] Explore unusual candidates outside the top-ranked list.
+[Normal] Spatial clustering and diversity-aware ranking will prevent neighboring regions from dominating discovery results.
+[Heading 2] 10.4 Novelty classification
+[Normal] Three discovery categories are required.
+[Normal] Established analogs
+[Normal] Known terrestrial environments used as model validation benchmarks. Examples include Atacama Desert, Antarctica, Haughton Crater, Iceland, and Death Valley.
+[Normal] Underexplored analogs
+[Normal] Locations with promising scientific similarities but limited existing analog research.
+[Normal] Potential new discoveries
+[Normal] Locations identified by the engine that are not represented in the platform's current analog-site database.
+[Normal] The system must not claim absolute scientific novelty simply because a location is absent from its database.
+[Heading 1] 11. Tiered Candidate Eligibility
+[Normal] Candidates will advance through four stages.
+[Normal] The first three stages remain algorithmically identified. Independent investigation requires researcher review. Expert scientific endorsement is not part of the MVP.
+[Heading 1] 12. Scientific Validation
+[Normal] Three validation layers are required.
+[Heading 2] 12.1 Known analog validation
+[Normal] Test whether the model recognizes established terrestrial analog environments. Known locations will serve as benchmarks rather than being excluded from global discovery.
+[Heading 2] 12.2 Planetary reference validation
+[Normal] Check whether Earth-Moon-Mars comparisons are consistent with documented planetary observations.
+[Heading 2] 12.3 Independent candidate validation
+[Normal] Investigate the strongest newly identified candidates using:
+[List Bullet] Additional datasets.
+[List Bullet] Scientific literature.
+[List Bullet] Geological surveys.
+[List Bullet] Independent environmental observations.
+[List Bullet] Contradictory scientific evidence.
+[Heading 2] 12.4 Structured evidence review
+[Normal] An independently investigated candidate must contain:
+[List Bullet] At least one supporting independent scientific dataset.
+[List Bullet] At least one relevant scientific publication or geological reference.
+[List Bullet] Claims linked to their supporting sources.
+[List Bullet] Distinction between measured observations and interpretations.
+[List Bullet] Contradictory evidence.
+[List Bullet] Evidence-quality ratings.
+[List Bullet] Explanation of where the analogy succeeds and fails.
+[List Bullet] Reviewer identity and review date.
+[List Bullet] Auditable review history.
+[Heading 1] 13. Evidence Classification
+[Normal] Every scientific claim or measurement must have an evidence classification.
+[Normal] Evidence type and quality must be visible to users. Proxy-based evidence must never be presented as a direct measurement.
+[Heading 1] 14. Earth Field-Test Feasibility
+[Normal] Scientific analogy and practical field-test feasibility must be evaluated separately.
+[Normal] The preliminary feasibility assessment can consider:
+[List Bullet] Geographical accessibility.
+[List Bullet] Terrain hazards.
+[List Bullet] Infrastructure availability.
+[List Bullet] Logistics.
+[List Bullet] Environmental and protected-area restrictions.
+[List Bullet] Seasonal conditions.
+[Normal] Feasibility indicators must not affect planetary similarity scores.
+[Normal] The platform will not provide legal clearance, site access guarantees, or certified safety assessments.
+[Heading 1] 15. Scientific Dataset Architecture
+[Heading 2] 15.1 Dataset strategy
+[Normal] Use a NASA-first, multi-agency open-data approach.
+[Normal] NASA is the primary foundation. ESA, ISRO, JAXA, USGS, Copernicus, NSIDC, and other scientific sources may supplement coverage.
+[Normal] Every integration must record:
+[List Bullet] Dataset name and identifier.
+[List Bullet] Source organization.
+[List Bullet] Instrument or mission.
+[List Bullet] Version.
+[List Bullet] Spatial resolution.
+[List Bullet] Temporal resolution.
+[List Bullet] Acquisition date.
+[List Bullet] Coordinate reference system.
+[List Bullet] Units.
+[List Bullet] Processing methodology.
+[List Bullet] Known limitations.
+[List Bullet] Source URL or DOI.
+[Heading 2] 15.2 Two-tier dataset management
+[Normal] Tier 1: Global discovery datasets
+[Normal] Preprocessed and stored for global screening.
+[Normal] Tier 2: Detailed analysis datasets
+[Normal] Retrieved and processed for promising candidate regions.
+[Normal] Use caching to avoid repeated downloads and processing.
+[Normal] Dataset updates must not silently modify previously generated scientific reports.
+[Heading 2] 15.3 Proposed Earth datasets
+[Normal] Important limitations:
+[List Bullet] Copernicus DEM is a digital surface model, not a pure bare-earth terrain model.
+[List Bullet] GLiM represents generalized lithological information and cannot resolve every local mineralogical feature.
+[List Bullet] Landsat spectral observations can support surface-material interpretation but are not definitive mineral identification without appropriate analysis.
+[List Bullet] MODIS land surface temperature is not equivalent to air temperature.
+[List Bullet] Glacier inventories and permafrost maps are not interchangeable indicators of subsurface water or ice.
+[Heading 2] 15.4 Proposed lunar datasets
+[Heading 2] 15.5 Proposed Martian datasets
+[Normal] Dataset availability and coverage must be checked for the selected target and the intended comparison scale.
+[Heading 2] 15.6 NASA challenge resources
+[Normal] Additional challenge resources are expected to become available on November 13, 2026, according to the challenge brief supplied to the team. The team should inspect them and integrate relevant resources without delaying the existing implementation.
+[Heading 1] 16. Discovery Output: Analog Intelligence Report
+[Normal] Every detailed candidate should generate a standardized report.
+[Heading 2] 16.1 Geographic information
+[List Bullet] Region name and identifier.
+[List Bullet] Coordinates.
+[List Bullet] Boundary.
+[List Bullet] Total area.
+[List Bullet] Representative sub-sites.
+[Heading 2] 16.2 Planetary comparison
+[List Bullet] Target planet.
+[List Bullet] Planetary reference region.
+[List Bullet] Mission profile.
+[List Bullet] Comparison scale.
+[Heading 2] 16.3 Scientific analysis
+[List Bullet] Overall similarity.
+[List Bullet] Dimension-wise scores.
+[List Bullet] Feature-level measurements.
+[List Bullet] Data coverage.
+[List Bullet] Data confidence.
+[List Bullet] Evidence classifications.
+[List Bullet] Missing measurements.
+[Heading 2] 16.4 Scientific explanation
+[List Bullet] Why the environment is analogous.
+[List Bullet] Which characteristics are strongly matched.
+[List Bullet] Where the analogy is weak.
+[List Bullet] What evidence is contradictory.
+[List Bullet] Which important planetary characteristics cannot be reproduced on Earth.
+[Heading 2] 16.5 Mission relevance
+[List Bullet] Suggested field experiments.
+[List Bullet] Potential instruments to test.
+[List Bullet] Robotic or human exploration exercises.
+[List Bullet] Relevant mission preparation opportunities.
+[List Bullet] Preliminary field-test feasibility.
+[List Bullet] Environmental and operational limitations.
+[Heading 2] 16.6 Reproducibility
+[List Bullet] Dataset identifiers and versions.
+[List Bullet] Acquisition dates.
+[List Bullet] Processing parameters.
+[List Bullet] Scoring formulas and weights.
+[List Bullet] Software and method versions.
+[List Bullet] Analysis provenance.
+[List Bullet] Supporting references.
+[Heading 1] 17. Ranking and Research Workspace
+[Heading 2] 17.1 Public discovery explorer
+[Normal] Public users can:
+[List Bullet] Browse discovered analogs.
+[List Bullet] Search and filter candidates.
+[List Bullet] View planetary comparisons.
+[List Bullet] Inspect similarity and confidence.
+[List Bullet] Read scientific reports.
+[Normal] No account should be required for basic exploration.
+[Heading 2] 17.2 Registered research workspace
+[Normal] Registered users can:
+[List Bullet] Save discoveries.
+[List Bullet] Create research collections.
+[List Bullet] Compare multiple Earth regions.
+[List Bullet] Compare one Earth region against multiple planetary targets.
+[List Bullet] Maintain personal research notes.
+[List Bullet] Access saved analysis records.
+[List Bullet] Export research results.
+[Normal] Multi-user collaborative editing is excluded.
+[Heading 2] 17.3 Custom geographical uploads
+[Normal] Users may upload GeoJSON boundaries and custom geographical reference features. Uploaded boundaries can become comparison areas.
+[Normal] Arbitrary scientific raster uploads and full custom scientific data ingestion are excluded.
+[Heading 2] 17.4 Data ownership
+[List Bullet] Private by default.
+[List Bullet] Users control whether selected collections are shared publicly.
+[List Bullet] Uploaded boundaries and personal notes remain private by default.
+[List Bullet] User-shared discoveries must be distinguished from platform-generated discoveries.
+[Heading 1] 18. AI Scientific Research Assistant
+[Heading 2] 18.1 Purpose
+[Normal] The AI assistant will help users understand the results of the deterministic scientific discovery engine.
+[Heading 2] 18.2 Capabilities
+[List Bullet] Explain why a location is analogous.
+[List Bullet] Summarize scientific evidence.
+[List Bullet] Explain differences between Earth and planetary environments.
+[List Bullet] Identify contradictory scientific evidence.
+[List Bullet] Compare locations in natural language.
+[List Bullet] Answer questions about planetary targets.
+[List Bullet] Generate accessible scientific summaries.
+[Heading 2] 18.3 AI safeguards
+[Normal] The assistant must:
+[List Bullet] Use retrieved datasets and verified references.
+[List Bullet] Link explanations to supporting evidence.
+[List Bullet] Never invent measurements or citations.
+[List Bullet] Never generate or modify scientific similarity scores.
+[List Bullet] Clearly distinguish measurements, calculations, proxies, and interpretations.
+[List Bullet] State uncertainty and limitations.
+[Normal] Machine-learning-based global discovery is deferred.
+[Normal] AI functionality must not be a dependency for the core scientific engine. It should degrade gracefully if no suitable free model or inference service is available.
+[Heading 1] 19. Product Performance
+[Normal] Two types of analysis will be supported.
+[Heading 2] Quick discovery
+[Normal] Uses precomputed environmental indices and candidate databases.
+[Normal] Target response time: approximately 5-10 seconds under normal conditions.
+[Heading 2] Detailed investigation
+[Normal] Runs as a background processing task.
+[Normal] It must:
+[List Bullet] Show processing status.
+[List Bullet] Report completed stages.
+[List Bullet] Retrieve required datasets.
+[List Bullet] Perform detailed scientific analysis.
+[List Bullet] Generate a report.
+[List Bullet] Store results for future access.
+[Normal] The platform should not require users to wait for complete global processing every time they adjust their search criteria.
+[Normal] Performance targets will be validated against actual free-tier infrastructure.
+[Heading 1] 20. Data Exports
+[Normal] Only export formats that can be generated faithfully from the underlying data will be exposed.
+[Heading 1] 21. Functional Requirements
+[Heading 1] 22. Non-Functional Requirements
+[Heading 2] Scientific integrity
+[List Bullet] No fabricated scientific measurements.
+[List Bullet] Every measurement has units and provenance.
+[List Bullet] Missing data is represented explicitly.
+[List Bullet] Similarity and confidence remain separate.
+[List Bullet] Uncertainty must be visible.
+[List Bullet] Scores must be reproducible.
+[List Bullet] Claims must have supporting evidence.
+[Heading 2] Performance
+[List Bullet] Precomputed discovery should support responsive searches.
+[List Bullet] Detailed analyses should execute asynchronously.
+[List Bullet] Expensive processing should be cached and reused.
+[Heading 2] Reliability
+[List Bullet] External data-source failures should not crash the entire application.
+[List Bullet] Missing external data must be reported.
+[List Bullet] Failed analysis jobs should provide understandable error states.
+[Heading 2] Accessibility
+[List Bullet] Basic discovery must be publicly accessible.
+[List Bullet] Scientific terminology should have understandable explanations.
+[List Bullet] Reports should be readable by non-specialists.
+[Heading 2] Security
+[List Bullet] Research notes and collections must be private by default.
+[List Bullet] Authentication must use a trusted managed service.
+[List Bullet] User uploads must undergo basic validation.
+[List Bullet] API credentials must never be exposed to the browser.
+[Heading 2] Cost
+[List Bullet] No mandatory paid service.
+[List Bullet] No mandatory paid AI API.
+[List Bullet] No paid infrastructure dependency.
+[List Bullet] Free-tier restrictions must be checked before deployment.
+[Heading 1] 23. Technical Architecture
+[Heading 2] 23.1 Approved technology stack
+[Heading 2] 23.2 Logical architecture
+[Normal] The application will have the following logical subsystems:
+[Normal] 1. Web application.
+[Normal] 2. Authentication and research workspace.
+[Normal] 3. Discovery API.
+[Normal] 4. Earth data ingestion pipeline.
+[Normal] 5. Planetary data ingestion pipeline.
+[Normal] 6. Geospatial processing engine.
+[Normal] 7. Scientific similarity engine.
+[Normal] 8. Candidate ranking and clustering engine.
+[Normal] 9. Background analysis worker.
+[Normal] 10. Scientific report generator.
+[Normal] 11. AI research assistant.
+[Normal] 12. Dataset and provenance database.
+[Heading 2] 23.3 Core data entities
+[Normal] The database should support:
+[List Bullet] Users.
+[List Bullet] Earth candidate regions.
+[List Bullet] Planetary targets.
+[List Bullet] Mission profiles.
+[List Bullet] Scientific dimensions.
+[List Bullet] Dataset sources.
+[List Bullet] Dataset versions.
+[List Bullet] Geospatial observations.
+[List Bullet] Feature measurements.
+[List Bullet] Similarity scores.
+[List Bullet] Data confidence records.
+[List Bullet] Evidence records.
+[List Bullet] Analysis jobs.
+[List Bullet] Discovery reports.
+[List Bullet] Research collections.
+[List Bullet] Research notes.
+[List Bullet] Validation reviews.
+[Heading 2] 23.4 Important architectural decision
+[Normal] The scientific scoring logic must remain independent of the frontend. The frontend should consume calculated results rather than implementing scientific formulas itself.
+[Normal] This will allow the scientific engine to be tested independently and reduce integration conflicts.
+[Heading 1] 24. User Stories
+[Heading 2] Discovery
+[List Bullet] As a researcher, I want to select a lunar or Martian region so that I can discover geographically similar Earth environments.
+[List Bullet] As a researcher, I want to search the entire Earth without specifying a target so that I can identify unexpected analog environments.
+[Heading 2] Analysis
+[List Bullet] As a researcher, I want to see individual dimension scores so that I understand why an Earth location received its overall similarity score.
+[List Bullet] As a researcher, I want to inspect missing data and uncertainty so that I can judge whether a discovery is scientifically reliable.
+[Heading 2] Exploration
+[List Bullet] As a student, I want to explore Earth and planetary targets so that I can understand their similarities and differences.
+[Heading 2] Mission planning
+[List Bullet] As a mission planner, I want to evaluate candidates against different mission profiles so that I can identify useful terrestrial testing environments.
+[Heading 2] Research
+[List Bullet] As a scientist, I want to save discoveries and organize collections so that I can maintain an ongoing research workflow.
+[Heading 2] Reporting
+[List Bullet] As a scientist, I want to export measurements, scientific explanations, and processing information so that other researchers can reproduce my analysis.
+[Heading 1] 25. MVP Discovery Demonstration
+[Normal] The primary scientific demonstration will use four planetary reference targets:
+[Normal] The discovery engine will aim to identify:
+[List Bullet] Two Earth analog candidates for Moon exploration.
+[List Bullet] Two Earth analog candidates for Mars exploration.
+[Normal] At least one underexplored candidate should be included for each planet if supported by evidence.
+[Normal] The actual Earth candidates must be selected through scientific calculations and data analysis, not predetermined by the team.
+[Normal] A candidate must not be promoted artificially simply to meet the target count. If the evidence is insufficient, the report must identify that limitation.
+[Heading 1] 26. Scope Exclusions
+[Normal] The following capabilities are explicitly excluded from the MVP.
+[Normal] The system should remain modular enough to support these enhancements later.
+[Heading 1] 27. Team Structure
+[Normal] Six proposed parallel workstreams:
+[Normal] These are functional workstreams. Team members may assist each other as needed.
+[Heading 2] Integration requirement
+[Normal] All teams must agree on common data structures and API contracts before implementing their independent modules.
+[Normal] Each workstream should deliver testable components rather than isolated code that only works on an individual developer's machine.
+[Heading 1] 28. Development Timeline
+[Normal] November 5-12: Core development and preparation
+[List Bullet] Establish repository and shared architecture.
+[List Bullet] Set up frontend and backend.
+[List Bullet] Collect and test initial datasets.
+[List Bullet] Build the first global screening pipeline.
+[List Bullet] Implement planetary reference data.
+[List Bullet] Develop initial scoring methodology.
+[List Bullet] Generate first candidate regions.
+[List Bullet] Prepare baseline documentation.
+[Normal] November 13: Challenge resource integration
+[List Bullet] Review newly released NASA challenge resources.
+[List Bullet] Integrate relevant observations.
+[List Bullet] Reassess dataset coverage.
+[List Bullet] Improve scientific analysis.
+[Normal] November 14: Finalization
+[List Bullet] Complete the four target workflows.
+[List Bullet] Validate candidate regions.
+[List Bullet] Generate scientific reports.
+[List Bullet] Test deployment.
+[List Bullet] Finalize presentation and demonstration.
+[List Bullet] Freeze the submission build.
+[Normal] Submission deadline: Before November 15, 2026.
+[Heading 1] 29. Product Success Metrics
+[Heading 2] Product success
+[Normal] The web application must support the central discovery, comparison, and reporting workflows.
+[Heading 2] Scientific success
+[Normal] The most important achievement is the identification and defensible characterization of genuinely interesting terrestrial analog environments.
+[Normal] Scientific quality takes priority over the quantity of features or discoveries.
+[Heading 1] 30. Acceptance Criteria
+[Heading 2] Must-have
+[Normal] The MVP is submission-ready only when:
+[Normal] 1. The web application runs successfully.
+[Normal] 2. Both Moon and Mars discovery workflows operate.
+[Normal] 3. The global Earth screening pipeline processes real scientific datasets.
+[Normal] 4. The four primary planetary targets are available.
+[Normal] 5. Scientific measurements are processed for all five dimensions wherever reliable data exists.
+[Normal] 6. Similarity scores are explainable.
+[Normal] 7. Data confidence and coverage are separately reported.
+[Normal] 8. Candidate Earth regions can be identified and investigated.
+[Normal] 9. Known analog benchmarks can be evaluated.
+[Normal] 10. Detailed discovery reports can be generated.
+[Normal] 11. Reports identify data sources and limitations.
+[Normal] 12. There are no knowingly fabricated scientific values or claims.
+[Heading 2] Should-have
+[List Bullet] Multi-scale comparisons.
+[List Bullet] AI research assistant.
+[List Bullet] Research workspaces.
+[List Bullet] Planetary catalog expansion.
+[List Bullet] Advanced ranking views.
+[List Bullet] Custom region uploads.
+[List Bullet] Basic scientific exports.
+[Heading 2] Stretch goals
+[List Bullet] Full reproducibility package.
+[List Bullet] Advanced spatial clustering.
+[List Bullet] Extensive planetary reference coverage.
+[List Bullet] More advanced AI evidence retrieval.
+[List Bullet] Fully automated report generation.
+[Heading 1] 31. Risks and Mitigation
+[Heading 1] 32. Open Decisions and Implementation Assumptions
+[Normal] The following details have not yet been assigned exact technical values. They should be resolved during scientific implementation rather than guessed.
+[Normal] 1. Exact mission-specific scoring weights.
+[Normal] 2. Feature-specific similarity functions.
+[Normal] 3. Minimum evidence coverage thresholds.
+[Normal] 4. Minimum data confidence thresholds.
+[Normal] 5. Exact numerical definitions of the four candidate eligibility stages.
+[Normal] 6. Final dataset combinations for each primary planetary target.
+[Normal] 7. Final Earth discovery coordinates and region boundaries.
+[Normal] 8. The managed authentication provider.
+[Normal] 9. The available free-tier deployment configuration.
+[Normal] 10. The AI model and inference approach.
+[Normal] 11. Exact UI/UX layout, design system and interaction patterns.
+[Normal] The team should record these decisions in the methodology and implementation documentation.
+[Heading 1] 33. Final Product Definition
+[Normal] The Earth-Moon-Mars Analog Discovery Platform is a public-facing, scientifically grounded web application that searches Earth's land surface for terrestrial environments analogous to lunar and Martian exploration targets.
+[Normal] It combines global geospatial discovery, planetary reference comparisons, explainable scientific similarity calculations, data-confidence assessment, mission-specific rankings, independent evidence review, and AI-assisted scientific interpretation.
+[Normal] Its central purpose is to identify potentially overlooked Earth environments that can help scientists and engineers prepare for future lunar bases and Martian exploration.
+[Normal] The platform must demonstrate not only where Earth resembles the Moon or Mars, but also:
+[List Bullet] Why the similarity exists.
+[List Bullet] How strong the analogy is.
+[List Bullet] What scientific evidence supports it.
+[List Bullet] What evidence is missing.
+[List Bullet] Where the analogy breaks down.
+[List Bullet] How the location could contribute to real exploration research.
+[Normal] Our ultimate objective is to turn Earth into a searchable laboratory for planetary exploration.

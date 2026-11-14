@@ -1,0 +1,700 @@
+{
+  "_fixture_only": true,
+  "_warning": "SYNTHETIC TEST-ONLY RECORDS. These are not platform outputs, not real measurements, and must never be presented as scientific evidence. They exist only to exercise the assistant's evidence-pack, validation and fallback code paths. Every record is labelled is_fixture=true and every response carries data_provenance_mode=fixture_test_only.",
+  "candidates": [
+    {
+      "candidate_id": "CAND-001",
+      "name": "Fixture Site Alpha (synthetic; test-only)",
+      "planet": "Earth",
+      "region_name": "Synthetic test region A",
+      "coordinates": null,
+      "area_km2": null,
+      "target_id": "TARGET-JEZERO",
+      "mission_profiles": [
+        "Mars landing and surface exploration",
+        "Mars scientific exploration and habitability"
+      ],
+      "eligibility_stage": "test_fixture",
+      "is_fixture": true
+    },
+    {
+      "candidate_id": "CAND-002",
+      "name": "Fixture Site Beta (synthetic; test-only)",
+      "planet": "Earth",
+      "region_name": "Synthetic test region B",
+      "coordinates": null,
+      "area_km2": null,
+      "target_id": "TARGET-JEZERO",
+      "mission_profiles": [
+        "Mars landing and surface exploration"
+      ],
+      "eligibility_stage": "test_fixture",
+      "is_fixture": true
+    }
+  ],
+  "targets": [
+    {
+      "target_id": "TARGET-JEZERO",
+      "name": "Jezero Crater",
+      "planet": "Mars",
+      "reference_type": "catalog reference",
+      "mission_profiles": [
+        "Mars landing and surface exploration",
+        "Mars scientific exploration and habitability"
+      ],
+      "is_fixture": true
+    },
+    {
+      "target_id": "TARGET-SHACKLETON",
+      "name": "Shackleton Crater",
+      "planet": "Moon",
+      "reference_type": "catalog reference",
+      "mission_profiles": [
+        "Permanent base preparation",
+        "Landing and robotic operations"
+      ],
+      "is_fixture": true
+    }
+  ],
+  "reports": [
+    {
+      "report_id": "REPORT-001",
+      "candidate_id": "CAND-001",
+      "target_id": "TARGET-JEZERO",
+      "target_name": "Jezero Crater",
+      "mission_profile": "Mars landing and surface exploration",
+      "comparison_scale": "regional",
+      "generated_at": "2026-11-13",
+      "overall_similarity": {
+        "metric": "overall_similarity",
+        "dimension": null,
+        "value": 62.4,
+        "value_text": "62.4",
+        "scale": "0-100 (as supplied by fixture record)",
+        "source_record_id": "REPORT-001",
+        "is_missing": false
+      },
+      "dimension_scores": [
+        {
+          "metric": "dimension_similarity",
+          "dimension": "terrain_and_topography",
+          "value": 71.2,
+          "value_text": "71.2",
+          "scale": "0-100 (as supplied by fixture record)",
+          "source_record_id": "REPORT-001",
+          "is_missing": false
+        },
+        {
+          "metric": "dimension_similarity",
+          "dimension": "temperature_and_thermal_environment",
+          "value": 58.9,
+          "value_text": "58.9",
+          "scale": "0-100 (as supplied by fixture record)",
+          "source_record_id": "REPORT-001",
+          "is_missing": false
+        },
+        {
+          "metric": "dimension_similarity",
+          "dimension": "water_and_ice",
+          "value": 41.3,
+          "value_text": "41.3",
+          "scale": "0-100 (as supplied by fixture record)",
+          "source_record_id": "REPORT-001",
+          "is_missing": false
+        },
+        {
+          "metric": "dimension_similarity",
+          "dimension": "geology_and_surface_materials",
+          "value": null,
+          "value_text": null,
+          "scale": null,
+          "source_record_id": "REPORT-001",
+          "is_missing": true,
+          "missing_reason": "No usable mineralogy feature in the fixture record."
+        }
+      ],
+      "data_coverage": {
+        "metric": "data_coverage",
+        "dimension": null,
+        "value": 55.0,
+        "value_text": "55.0",
+        "scale": "percent of intended feature set (as supplied)",
+        "source_record_id": "REPORT-001",
+        "is_missing": false
+      },
+      "data_confidence": {
+        "metric": "data_confidence",
+        "dimension": null,
+        "value": 0.48,
+        "value_text": "0.48",
+        "scale": "0-1 (as supplied)",
+        "source_record_id": "REPORT-001",
+        "is_missing": false
+      },
+      "strong_match_evidence_ids": [
+        "EV-C1-001",
+        "EV-C1-004"
+      ],
+      "weak_match_evidence_ids": [
+        "EV-C1-008"
+      ],
+      "contradiction_evidence_ids": [
+        "EV-C1-004",
+        "EV-C1-006"
+      ],
+      "missing_evidence_ids": [
+        "EV-C1-010",
+        "EV-C1-011"
+      ],
+      "dataset_source_ids": [
+        "SRC-FIX-DEM",
+        "SRC-FIX-MODIS-LST",
+        "SRC-FIX-LANDSAT-ST",
+        "SRC-FIX-GLIM",
+        "SRC-FIX-GLACIER",
+        "SRC-FIX-ILLUM"
+      ],
+      "limitations": [
+        "All values in this report are synthetic test-only fixture values, not scientific measurements.",
+        "The fixture temperature sources disagree; the disagreement is intentionally preserved.",
+        "Mineralogy and subsurface ice evidence are unavailable in the fixture record.",
+        "The fixture record contains no coordinates and no field-test feasibility assessment."
+      ],
+      "provenance_notes": [
+        "Synthetic fixture for LLM workstream tests; not generated by the deterministic science engine.",
+        "Scores, coverage and confidence are supplied verbatim to test immutability and separation."
+      ],
+      "is_fixture": true
+    },
+    {
+      "report_id": "REPORT-002",
+      "candidate_id": "CAND-002",
+      "target_id": "TARGET-JEZERO",
+      "target_name": "Jezero Crater",
+      "mission_profile": "Mars landing and surface exploration",
+      "comparison_scale": "local",
+      "generated_at": "2026-11-13",
+      "overall_similarity": {
+        "metric": "overall_similarity",
+        "value": 48.7,
+        "value_text": "48.7",
+        "scale": "0-100 (as supplied by fixture record)",
+        "source_record_id": "REPORT-002",
+        "is_missing": false
+      },
+      "dimension_scores": [
+        {
+          "metric": "dimension_similarity",
+          "dimension": "terrain_and_topography",
+          "value": 66.5,
+          "value_text": "66.5",
+          "scale": "0-100 (as supplied by fixture record)",
+          "source_record_id": "REPORT-002",
+          "is_missing": false
+        },
+        {
+          "metric": "dimension_similarity",
+          "dimension": "temperature_and_thermal_environment",
+          "value": null,
+          "value_text": null,
+          "source_record_id": "REPORT-002",
+          "is_missing": true,
+          "missing_reason": "No thermal measurement in the fixture record."
+        },
+        {
+          "metric": "dimension_similarity",
+          "dimension": "geology_and_surface_materials",
+          "value": null,
+          "value_text": null,
+          "source_record_id": "REPORT-002",
+          "is_missing": true,
+          "missing_reason": "No mineralogy feature in the fixture record."
+        }
+      ],
+      "data_coverage": {
+        "metric": "data_coverage",
+        "value": 70.0,
+        "value_text": "70.0",
+        "scale": "percent of intended feature set (as supplied)",
+        "source_record_id": "REPORT-002",
+        "is_missing": false
+      },
+      "data_confidence": {
+        "metric": "data_confidence",
+        "value": 0.61,
+        "value_text": "0.61",
+        "scale": "0-1 (as supplied)",
+        "source_record_id": "REPORT-002",
+        "is_missing": false
+      },
+      "strong_match_evidence_ids": [
+        "EV-C2-001"
+      ],
+      "weak_match_evidence_ids": [
+        "EV-C2-002"
+      ],
+      "contradiction_evidence_ids": [],
+      "missing_evidence_ids": [
+        "EV-C2-003",
+        "EV-C2-004"
+      ],
+      "dataset_source_ids": [
+        "SRC-FIX-DEM"
+      ],
+      "limitations": [
+        "All values in this report are synthetic test-only fixture values, not scientific measurements.",
+        "No thermal or mineralogical evidence exists in the fixture record.",
+        "The fixture record contains no coordinates and no field-test feasibility assessment."
+      ],
+      "provenance_notes": [
+        "Synthetic fixture for LLM workstream tests; not generated by the deterministic science engine."
+      ],
+      "is_fixture": true
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "EV-C1-001",
+      "candidate_id": "CAND-001",
+      "target_id": "TARGET-JEZERO",
+      "mission_profile": "Mars landing and surface exploration",
+      "dimension": "terrain_and_topography",
+      "feature": "mean_slope",
+      "value": 8.4,
+      "value_text": "8.4",
+      "unit": "deg",
+      "evidence_classification": "directly_observed",
+      "dataset_source_id": "SRC-FIX-DEM",
+      "source_record_id": "fixture:feature-measurement:CAND-001:mean_slope",
+      "observed_at": "fixture-2026-01-01",
+      "spatial_resolution": "90 m (fixture metadata)",
+      "temporal_coverage": "fixture single epoch",
+      "method": "fixture DEM slope calculation",
+      "note": "Synthetic value for validation tests only.",
+      "is_fixture": true
+    },
+    {
+      "evidence_id": "EV-C1-002",
+      "candidate_id": "CAND-001",
+      "target_id": "TARGET-JEZERO",
+      "mission_profile": "Mars landing and surface exploration",
+      "dimension": "terrain_and_topography",
+      "feature": "mean_elevation",
+      "value": 1240.0,
+      "value_text": "1240.0",
+      "unit": "m",
+      "evidence_classification": "directly_observed",
+      "dataset_source_id": "SRC-FIX-DEM",
+      "source_record_id": "fixture:feature-measurement:CAND-001:mean_elevation",
+      "observed_at": "fixture-2026-01-01",
+      "spatial_resolution": "90 m (fixture metadata)",
+      "method": "fixture DEM sampling",
+      "note": "Synthetic value for validation tests only.",
+      "is_fixture": true
+    },
+    {
+      "evidence_id": "EV-C1-003",
+      "candidate_id": "CAND-001",
+      "target_id": "TARGET-JEZERO",
+      "mission_profile": "Mars landing and surface exploration",
+      "dimension": "terrain_and_topography",
+      "feature": "roughness_index",
+      "value": 1.7,
+      "value_text": "1.7",
+      "unit": "index",
+      "evidence_classification": "derived",
+      "dataset_source_id": "SRC-FIX-DEM",
+      "source_record_id": "fixture:feature-measurement:CAND-001:roughness_index",
+      "method": "fixture derived roughness",
+      "note": "Synthetic derived value for validation tests only.",
+      "is_fixture": true
+    },
+    {
+      "evidence_id": "EV-C1-004",
+      "candidate_id": "CAND-001",
+      "target_id": "TARGET-JEZERO",
+      "mission_profile": "Mars landing and surface exploration",
+      "dimension": "temperature_and_thermal_environment",
+      "feature": "mean_land_surface_temperature",
+      "value": -3.2,
+      "value_text": "-3.2",
+      "unit": "degC",
+      "evidence_classification": "directly_observed",
+      "dataset_source_id": "SRC-FIX-MODIS-LST",
+      "source_record_id": "fixture:feature-measurement:CAND-001:lst_modis",
+      "observed_at": "fixture multi-year period",
+      "spatial_resolution": "1 km (fixture metadata)",
+      "temporal_coverage": "fixture multi-year average",
+      "method": "fixture land-surface temperature summary",
+      "contradiction_group": "T-C1",
+      "related_evidence_ids": [
+        "EV-C1-005",
+        "EV-C1-006"
+      ],
+      "note": "Land-surface temperature, not air temperature. Synthetic value.",
+      "is_fixture": true
+    },
+    {
+      "evidence_id": "EV-C1-005",
+      "candidate_id": "CAND-001",
+      "target_id": "TARGET-JEZERO",
+      "mission_profile": "Mars landing and surface exploration",
+      "dimension": "temperature_and_thermal_environment",
+      "feature": "land_surface_temperature_seasonal_amplitude",
+      "value": 31.5,
+      "value_text": "31.5",
+      "unit": "degC",
+      "evidence_classification": "derived",
+      "dataset_source_id": "SRC-FIX-MODIS-LST",
+      "source_record_id": "fixture:feature-measurement:CAND-001:lst_amplitude",
+      "method": "fixture derived seasonal amplitude",
+      "contradiction_group": "T-C1",
+      "related_evidence_ids": [
+        "EV-C1-004"
+      ],
+      "note": "Synthetic derived value.",
+      "is_fixture": true
+    },
+    {
+      "evidence_id": "EV-C1-006",
+      "candidate_id": "CAND-001",
+      "target_id": "TARGET-JEZERO",
+      "mission_profile": "Mars landing and surface exploration",
+      "dimension": "temperature_and_thermal_environment",
+      "feature": "mean_land_surface_temperature",
+      "value": -8.1,
+      "value_text": "-8.1",
+      "unit": "degC",
+      "evidence_classification": "directly_observed",
+      "dataset_source_id": "SRC-FIX-LANDSAT-ST",
+      "source_record_id": "fixture:feature-measurement:CAND-001:lst_landsat",
+      "observed_at": "fixture single scene date",
+      "spatial_resolution": "100 m (fixture metadata)",
+      "temporal_coverage": "fixture single scene",
+      "method": "fixture single-scene surface temperature",
+      "contradiction_group": "T-C1",
+      "related_evidence_ids": [
+        "EV-C1-004"
+      ],
+      "note": "Land-surface temperature from a different fixture instrument/date. Synthetic value.",
+      "is_fixture": true
+    },
+    {
+      "evidence_id": "EV-C1-007",
+      "candidate_id": "CAND-001",
+      "target_id": "TARGET-JEZERO",
+      "mission_profile": "Mars landing and surface exploration",
+      "dimension": "geology_and_surface_materials",
+      "feature": "generalized_lithology_class",
+      "value": "mixed sedimentary (fixture class label)",
+      "value_text": "mixed sedimentary (fixture class label)",
+      "unit": null,
+      "evidence_classification": "derived",
+      "dataset_source_id": "SRC-FIX-GLIM",
+      "source_record_id": "fixture:feature-measurement:CAND-001:lithology",
+      "method": "fixture generalized lithological mapping",
+      "note": "Generalized lithology, not a mineral identification. Synthetic label.",
+      "is_fixture": true
+    },
+    {
+      "evidence_id": "EV-C1-008",
+      "candidate_id": "CAND-001",
+      "target_id": "TARGET-JEZERO",
+      "mission_profile": "Mars landing and surface exploration",
+      "dimension": "water_and_ice",
+      "feature": "glacier_indicator",
+      "value": "present (fixture indicator)",
+      "value_text": "present (fixture indicator)",
+      "unit": null,
+      "evidence_classification": "proxy_based",
+      "dataset_source_id": "SRC-FIX-GLACIER",
+      "source_record_id": "fixture:feature-measurement:CAND-001:glacier_indicator",
+      "method": "fixture glacier inventory indicator",
+      "note": "A glacier indicator is proxy evidence. It is not confirmation of subsurface water or ice. Synthetic value.",
+      "is_fixture": true
+    },
+    {
+      "evidence_id": "EV-C1-009",
+      "candidate_id": "CAND-001",
+      "target_id": "TARGET-JEZERO",
+      "mission_profile": "Mars landing and surface exploration",
+      "dimension": "solar_illumination",
+      "feature": "illumination_duration",
+      "value": 9.2,
+      "value_text": "9.2",
+      "unit": "h",
+      "evidence_classification": "derived",
+      "dataset_source_id": "SRC-FIX-ILLUM",
+      "source_record_id": "fixture:feature-measurement:CAND-001:illumination",
+      "method": "fixture terrain illumination model",
+      "note": "Synthetic derived value. Terrestrial illumination geometry is not a lunar analogue in itself.",
+      "is_fixture": true
+    },
+    {
+      "evidence_id": "EV-C1-010",
+      "candidate_id": "CAND-001",
+      "target_id": "TARGET-JEZERO",
+      "mission_profile": "Mars landing and surface exploration",
+      "dimension": "geology_and_surface_materials",
+      "feature": "mineral_abundance",
+      "value": null,
+      "value_text": null,
+      "unit": null,
+      "evidence_classification": "unavailable",
+      "dataset_source_id": null,
+      "source_record_id": "fixture:missing:CAND-001:mineral_abundance",
+      "missing_reason": "No spectroscopic mineral-abundance measurement exists in the fixture record.",
+      "note": "Explicitly unavailable. Not zero.",
+      "is_fixture": true
+    },
+    {
+      "evidence_id": "EV-C1-011",
+      "candidate_id": "CAND-001",
+      "target_id": "TARGET-JEZERO",
+      "mission_profile": "Mars landing and surface exploration",
+      "dimension": "water_and_ice",
+      "feature": "subsurface_water_ice",
+      "value": null,
+      "value_text": null,
+      "unit": null,
+      "evidence_classification": "unavailable",
+      "dataset_source_id": null,
+      "source_record_id": "fixture:missing:CAND-001:subsurface_ice",
+      "missing_reason": "No subsurface ice measurement exists in the fixture record.",
+      "note": "Explicitly unavailable. Not zero. A glacier indicator does not fill this gap.",
+      "is_fixture": true
+    },
+    {
+      "evidence_id": "EV-C1-012",
+      "candidate_id": "CAND-001",
+      "target_id": "TARGET-JEZERO",
+      "mission_profile": "Mars landing and surface exploration",
+      "dimension": "water_and_ice",
+      "feature": "mapped_surface_water_extent",
+      "value": 0.0,
+      "value_text": "0.0",
+      "unit": "km2",
+      "evidence_classification": "directly_observed",
+      "dataset_source_id": "SRC-FIX-WATER-MAP",
+      "source_record_id": "fixture:feature-measurement:CAND-001:surface_water_extent",
+      "method": "fixture mapped surface-water extent",
+      "note": "A supplied zero value, distinct from unavailable. Synthetic value.",
+      "is_fixture": true
+    },
+    {
+      "evidence_id": "EV-C2-001",
+      "candidate_id": "CAND-002",
+      "target_id": "TARGET-JEZERO",
+      "mission_profile": "Mars landing and surface exploration",
+      "dimension": "terrain_and_topography",
+      "feature": "mean_slope",
+      "value": 14.2,
+      "value_text": "14.2",
+      "unit": "deg",
+      "evidence_classification": "directly_observed",
+      "dataset_source_id": "SRC-FIX-DEM",
+      "source_record_id": "fixture:feature-measurement:CAND-002:mean_slope",
+      "observed_at": "fixture-2026-01-01",
+      "spatial_resolution": "90 m (fixture metadata)",
+      "method": "fixture DEM slope calculation",
+      "note": "Synthetic value for validation tests only.",
+      "is_fixture": true
+    },
+    {
+      "evidence_id": "EV-C2-002",
+      "candidate_id": "CAND-002",
+      "target_id": "TARGET-JEZERO",
+      "mission_profile": "Mars landing and surface exploration",
+      "dimension": "terrain_and_topography",
+      "feature": "roughness_index",
+      "value": 3.1,
+      "value_text": "3.1",
+      "unit": "index",
+      "evidence_classification": "derived",
+      "dataset_source_id": "SRC-FIX-DEM",
+      "source_record_id": "fixture:feature-measurement:CAND-002:roughness_index",
+      "method": "fixture derived roughness",
+      "note": "Synthetic derived value.",
+      "is_fixture": true
+    },
+    {
+      "evidence_id": "EV-C2-003",
+      "candidate_id": "CAND-002",
+      "target_id": "TARGET-JEZERO",
+      "mission_profile": "Mars landing and surface exploration",
+      "dimension": "temperature_and_thermal_environment",
+      "feature": "mean_land_surface_temperature",
+      "value": null,
+      "value_text": null,
+      "unit": null,
+      "evidence_classification": "unavailable",
+      "dataset_source_id": null,
+      "source_record_id": "fixture:missing:CAND-002:lst",
+      "missing_reason": "No thermal measurement exists in the fixture record.",
+      "note": "Explicitly unavailable. Not zero.",
+      "is_fixture": true
+    },
+    {
+      "evidence_id": "EV-C2-004",
+      "candidate_id": "CAND-002",
+      "target_id": "TARGET-JEZERO",
+      "mission_profile": "Mars landing and surface exploration",
+      "dimension": "geology_and_surface_materials",
+      "feature": "mineral_abundance",
+      "value": null,
+      "value_text": null,
+      "unit": null,
+      "evidence_classification": "unavailable",
+      "dataset_source_id": null,
+      "source_record_id": "fixture:missing:CAND-002:mineral_abundance",
+      "missing_reason": "No spectroscopic mineral-abundance measurement exists in the fixture record.",
+      "note": "Explicitly unavailable. Not zero.",
+      "is_fixture": true
+    }
+  ],
+  "contradictions": [
+    {
+      "contradiction_id": "CON-C1-TEMP",
+      "topic": "Mean land-surface temperature",
+      "evidence_ids": [
+        "EV-C1-004",
+        "EV-C1-006"
+      ],
+      "description": "Two fixture land-surface temperature values disagree within the stored records.",
+      "documented_differences": [
+        "Instrument/source differs between the two fixture records.",
+        "Acquisition period differs: multi-year average versus single scene.",
+        "Spatial resolution differs: 1 km versus 100 m (fixture metadata)."
+      ],
+      "resolution_status": "unresolved"
+    }
+  ],
+  "dataset_sources": [
+    {
+      "source_id": "SRC-FIX-DEM",
+      "dataset_name": "Copernicus DEM GLO-90 (dataset identity only; fixture values)",
+      "organization": "Copernicus / ESA (dataset identity only)",
+      "instrument_or_mission": "Copernicus DEM",
+      "version": "GLO-90 (fixture metadata)",
+      "spatial_resolution": "90 m (fixture metadata)",
+      "temporal_resolution": null,
+      "acquisition_date": null,
+      "crs": null,
+      "units": "m",
+      "processing_methodology": "Fixture only. No actual platform processing is represented.",
+      "known_limitations": "Copernicus DEM is a digital surface model, not a pure bare-earth terrain model. Fixture values are synthetic.",
+      "url": "https://dataspace.copernicus.eu/",
+      "doi": null,
+      "licence": "See Copernicus DEM provider terms. Fixture record is not a redistribution.",
+      "is_fixture": true
+    },
+    {
+      "source_id": "SRC-FIX-MODIS-LST",
+      "dataset_name": "MODIS MOD11A2 Version 6.1 (dataset identity only; fixture values)",
+      "organization": "NASA LP DAAC (dataset identity only)",
+      "instrument_or_mission": "Terra MODIS",
+      "version": "061 (fixture metadata)",
+      "spatial_resolution": "1 km (fixture metadata)",
+      "temporal_resolution": "8-day composite (fixture metadata)",
+      "acquisition_date": null,
+      "crs": null,
+      "units": "degC (fixture-converted value)",
+      "processing_methodology": "Fixture only. The real product is land-surface temperature, not air temperature.",
+      "known_limitations": "MODIS MOD11A2 provides land-surface temperature, not near-surface air temperature. Fixture values are synthetic.",
+      "url": "https://lpdaac.usgs.gov/products/mod11a2v061/",
+      "doi": null,
+      "licence": "NASA open data; see provider terms.",
+      "is_fixture": true
+    },
+    {
+      "source_id": "SRC-FIX-LANDSAT-ST",
+      "dataset_name": "Landsat Collection 2 surface temperature (dataset identity only; fixture values)",
+      "organization": "USGS (dataset identity only)",
+      "instrument_or_mission": "Landsat 8/9 TIRS",
+      "version": "Collection 2 (fixture metadata)",
+      "spatial_resolution": "100 m thermal (fixture metadata)",
+      "temporal_resolution": "single scene (fixture metadata)",
+      "acquisition_date": null,
+      "crs": null,
+      "units": "degC (fixture-converted value)",
+      "processing_methodology": "Fixture only. No actual platform processing is represented.",
+      "known_limitations": "Surface temperature from a single scene is not interchangeable with a multi-year MODIS composite. Fixture values are synthetic.",
+      "url": "https://www.usgs.gov/landsat-missions/landsat-collection-2",
+      "doi": null,
+      "licence": "USGS open data; see provider terms.",
+      "is_fixture": true
+    },
+    {
+      "source_id": "SRC-FIX-GLIM",
+      "dataset_name": "Global Lithological Map (GLiM) (dataset identity only; fixture values)",
+      "organization": "Hartmann & Moosdorf (dataset identity only)",
+      "instrument_or_mission": null,
+      "version": null,
+      "spatial_resolution": null,
+      "temporal_resolution": null,
+      "acquisition_date": null,
+      "crs": null,
+      "units": "class",
+      "processing_methodology": "Fixture only. Generalized lithological class, not mineral identification.",
+      "known_limitations": "GLiM is a generalized lithological map and cannot resolve every local mineralogical feature. Fixture values are synthetic.",
+      "url": null,
+      "doi": "10.1016/j.gloplacha.2011.07.005",
+      "licence": "See publisher terms.",
+      "is_fixture": true
+    },
+    {
+      "source_id": "SRC-FIX-GLACIER",
+      "dataset_name": "Glacier inventory indicator (dataset identity only; fixture values)",
+      "organization": "GLIMS / NSIDC (dataset identity only)",
+      "instrument_or_mission": null,
+      "version": null,
+      "spatial_resolution": null,
+      "temporal_resolution": null,
+      "acquisition_date": null,
+      "crs": null,
+      "units": null,
+      "processing_methodology": "Fixture only. A glacier indicator is a proxy, not a subsurface water/ice measurement.",
+      "known_limitations": "Glacier inventories and permafrost maps are not interchangeable indicators of subsurface water or ice. Fixture values are synthetic.",
+      "url": "https://www.glims.org/RGI/",
+      "doi": null,
+      "licence": "See GLIMS/RGI provider terms.",
+      "is_fixture": true
+    },
+    {
+      "source_id": "SRC-FIX-ILLUM",
+      "dataset_name": "Synthetic illumination fixture (test-only)",
+      "organization": "LLM workstream test fixture",
+      "instrument_or_mission": null,
+      "version": null,
+      "spatial_resolution": null,
+      "temporal_resolution": null,
+      "acquisition_date": null,
+      "crs": null,
+      "units": "h",
+      "processing_methodology": "Synthetic fixture only.",
+      "known_limitations": "No real illumination dataset is represented.",
+      "url": null,
+      "doi": null,
+      "licence": "Test fixture; not for redistribution as data.",
+      "is_fixture": true
+    },
+    {
+      "source_id": "SRC-FIX-WATER-MAP",
+      "dataset_name": "Synthetic surface-water extent fixture (test-only)",
+      "organization": "LLM workstream test fixture",
+      "instrument_or_mission": null,
+      "version": null,
+      "spatial_resolution": null,
+      "temporal_resolution": null,
+      "acquisition_date": null,
+      "crs": null,
+      "units": "km2",
+      "processing_methodology": "Synthetic fixture only. Supplies a real zero for missing-vs-zero tests.",
+      "known_limitations": "No real surface-water dataset is represented.",
+      "url": null,
+      "doi": null,
+      "licence": "Test fixture; not for redistribution as data.",
+      "is_fixture": true
+    }
+  ]
+}

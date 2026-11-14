@@ -1,0 +1,123 @@
+{
+  "run_at": "2026-11-14T13:52:42.997874+00:00",
+  "question": "Which scientific dimensions have the strongest evidence for CAND-001, and what remains unavailable?",
+  "candidate_id": "CAND-001",
+  "ollama": {
+    "base_url": "http://127.0.0.1:11434",
+    "configured_model": "qwen3:4b-instruct-2507-q4_K_M",
+    "installed_models": [
+      "qwen3:4b-instruct-2507-q4_K_M"
+    ]
+  },
+  "elapsed_ms": 300688.2,
+  "generation_mode": "evidence_only_fallback",
+  "model": null,
+  "error": "local generation failed: timed out",
+  "validation": {
+    "schema_valid": true,
+    "evidence_ids_valid": true,
+    "sources_valid": true,
+    "numeric_claims_valid": true,
+    "score_immutability_valid": true,
+    "rejected_claim_count": 0,
+    "rejected_evidence_ids": [],
+    "rejected_source_ids": [],
+    "numeric_mismatches": [],
+    "overclaim_flags": [],
+    "untrusted_instruction_flags": [],
+    "errors": [
+      "local generation failed: timed out"
+    ]
+  },
+  "claim_count": 10,
+  "claim_evidence_ids": [
+    "EV-C1-001",
+    "EV-C1-002",
+    "EV-C1-003",
+    "EV-C1-004",
+    "EV-C1-005",
+    "EV-C1-006",
+    "EV-C1-007",
+    "EV-C1-008",
+    "EV-C1-009",
+    "EV-C1-012"
+  ],
+  "missing_evidence_ids": [
+    "EV-C1-010",
+    "EV-C1-011"
+  ],
+  "supplied_scores": [
+    {
+      "metric": "overall_similarity",
+      "dimension": null,
+      "value": 62.4,
+      "value_text": "62.4",
+      "scale": "0-100 (as supplied by fixture record)",
+      "source_record_id": "REPORT-001",
+      "is_missing": false,
+      "missing_reason": null
+    },
+    {
+      "metric": "dimension_similarity",
+      "dimension": "terrain_and_topography",
+      "value": 71.2,
+      "value_text": "71.2",
+      "scale": "0-100 (as supplied by fixture record)",
+      "source_record_id": "REPORT-001",
+      "is_missing": false,
+      "missing_reason": null
+    },
+    {
+      "metric": "dimension_similarity",
+      "dimension": "temperature_and_thermal_environment",
+      "value": 58.9,
+      "value_text": "58.9",
+      "scale": "0-100 (as supplied by fixture record)",
+      "source_record_id": "REPORT-001",
+      "is_missing": false,
+      "missing_reason": null
+    },
+    {
+      "metric": "dimension_similarity",
+      "dimension": "water_and_ice",
+      "value": 41.3,
+      "value_text": "41.3",
+      "scale": "0-100 (as supplied by fixture record)",
+      "source_record_id": "REPORT-001",
+      "is_missing": false,
+      "missing_reason": null
+    },
+    {
+      "metric": "dimension_similarity",
+      "dimension": "geology_and_surface_materials",
+      "value": null,
+      "value_text": null,
+      "scale": null,
+      "source_record_id": "REPORT-001",
+      "is_missing": true,
+      "missing_reason": "No usable mineralogy feature in the fixture record."
+    },
+    {
+      "metric": "data_coverage",
+      "dimension": null,
+      "value": 55.0,
+      "value_text": "55.0",
+      "scale": "percent of intended feature set (as supplied)",
+      "source_record_id": "REPORT-001",
+      "is_missing": false,
+      "missing_reason": null
+    },
+    {
+      "metric": "data_confidence",
+      "dimension": null,
+      "value": 0.48,
+      "value_text": "0.48",
+      "scale": "0-1 (as supplied)",
+      "source_record_id": "REPORT-001",
+      "is_missing": false,
+      "missing_reason": null
+    }
+  ],
+  "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable",
+  "raw_model_output": null
+}

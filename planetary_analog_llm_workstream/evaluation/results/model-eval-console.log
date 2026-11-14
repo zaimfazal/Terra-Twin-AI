@@ -1,0 +1,5 @@
+C:\Users\Zaim\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\pydantic\plugin\_schema_validator.py:39: UserWarning: ImportError while loading the `logfire-plugin` Pydantic plugin, this plugin will not be installed.
+
+ImportError("cannot import name '_ExtendedAttributes' from 'opentelemetry.util.types' (C:\\Users\\Zaim\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python312\\site-packages\\opentelemetry\\util\\types.py)")
+  plugins = get_plugins()
+warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.

@@ -1,0 +1,110 @@
+{
+  "run_at": "2026-11-14T13:47:03.515386+00:00",
+  "question": "Which scientific dimensions have the strongest evidence for CAND-001, and what remains unavailable?",
+  "candidate_id": "CAND-001",
+  "ollama": {
+    "base_url": "http://127.0.0.1:11434",
+    "configured_model": "qwen3:4b-instruct-2507-q4_K_M",
+    "installed_models": [
+      "qwen3:4b-instruct-2507-q4_K_M"
+    ]
+  },
+  "elapsed_ms": 203775.3,
+  "generation_mode": "model",
+  "model": "qwen3:4b-instruct-2507-q4_K_M",
+  "error": null,
+  "validation": {
+    "schema_valid": true,
+    "evidence_ids_valid": true,
+    "sources_valid": true,
+    "numeric_claims_valid": true,
+    "score_immutability_valid": true,
+    "rejected_claim_count": 0,
+    "rejected_evidence_ids": [],
+    "rejected_source_ids": [],
+    "numeric_mismatches": [],
+    "overclaim_flags": [],
+    "untrusted_instruction_flags": [],
+    "errors": []
+  },
+  "claim_count": 0,
+  "claim_evidence_ids": [],
+  "missing_evidence_ids": [
+    "EV-C1-010",
+    "EV-C1-011"
+  ],
+  "supplied_scores": [
+    {
+      "metric": "overall_similarity",
+      "dimension": null,
+      "value": 62.4,
+      "value_text": "62.4",
+      "scale": "0-100 (as supplied by fixture record)",
+      "source_record_id": "REPORT-001",
+      "is_missing": false,
+      "missing_reason": null
+    },
+    {
+      "metric": "dimension_similarity",
+      "dimension": "terrain_and_topography",
+      "value": 71.2,
+      "value_text": "71.2",
+      "scale": "0-100 (as supplied by fixture record)",
+      "source_record_id": "REPORT-001",
+      "is_missing": false,
+      "missing_reason": null
+    },
+    {
+      "metric": "dimension_similarity",
+      "dimension": "temperature_and_thermal_environment",
+      "value": 58.9,
+      "value_text": "58.9",
+      "scale": "0-100 (as supplied by fixture record)",
+      "source_record_id": "REPORT-001",
+      "is_missing": false,
+      "missing_reason": null
+    },
+    {
+      "metric": "dimension_similarity",
+      "dimension": "water_and_ice",
+      "value": 41.3,
+      "value_text": "41.3",
+      "scale": "0-100 (as supplied by fixture record)",
+      "source_record_id": "REPORT-001",
+      "is_missing": false,
+      "missing_reason": null
+    },
+    {
+      "metric": "dimension_similarity",
+      "dimension": "geology_and_surface_materials",
+      "value": null,
+      "value_text": null,
+      "scale": null,
+      "source_record_id": "REPORT-001",
+      "is_missing": true,
+      "missing_reason": "No usable mineralogy feature in the fixture record."
+    },
+    {
+      "metric": "data_coverage",
+      "dimension": null,
+      "value": 55.0,
+      "value_text": "55.0",
+      "scale": "percent of intended feature set (as supplied)",
+      "source_record_id": "REPORT-001",
+      "is_missing": false,
+      "missing_reason": null
+    },
+    {
+      "metric": "data_confidence",
+      "dimension": null,
+      "value": 0.48,
+      "value_text": "0.48",
+      "scale": "0-1 (as supplied)",
+      "source_record_id": "REPORT-001",
+      "is_missing": false,
+      "missing_reason": null
+    }
+  ],
+  "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. The available evidence does not establish this. The strongest evidence for CAND-001 relates to terrain and topography, with a similarity score of 71.2. Temperature and thermal environment shows moderate evidence with a score of 58.9, while water and ice has limited evidence at 41.3. Geological material evidence is unavailable, and subsurface water or ice is explicitly missing. The data coverage is 55.0%, and data confidence is 0.48. Key contradictions exist in temperature measurements due to differing instruments, acquisition periods, and spatial resolutions. All values are synthetic test-only fixture values and not real scientific measurements.",
+  "raw_model_output": "{\n  \"answer_summary\": \"The strongest evidence for CAND-001 relates to terrain and topography, with a similarity score of 71.2. Temperature and thermal environment shows moderate evidence with a score of 58.9, while water and ice has limited evidence at 41.3. Geological material evidence is unavailable, and subsurface water or ice is explicitly missing. The data coverage is 55.0%, and data confidence is 0.48. Key contradictions exist in temperature measurements due to differing instruments, acquisition periods, and spatial resolutions. All values are synthetic test-only fixture values and not real scientific measurements.\",\n  \"planetary_target\": \"Jezero Crater\",\n  \"strong_matches\": [\n    {\n      \"statement\": \"Terrain and topography has strong evidence with a similarity score of 71.2.\",\n      \"evidence_ids\": [\n        \"EV-C1-001\",\n        \"EV-C1-004\"\n      ]\n    }\n  ],\n  \"weak_matches\": [\n    {\n      \"statement\": \"Water and ice has a proxy-based indicator of glacier presence, with a similarity score of 41.3.\",\n      \"evidence_ids\": [\n        \"EV-C1-008\"\n      ]\n    }\n  ]\n  }"
+}
