@@ -13,7 +13,8 @@ continuing this workstream.
 | Baseline commit | `38d9f62` (merge, `main`) |
 | Milestone 1 | `325297d5eb05521cf81afc5149f25310d60108e3` — audit + cleanup |
 | Milestone 2 | `30ea632` — integration architecture + roadmap |
-| Milestone 3 | this handover doc — verify with `git log -1` |
+| Milestone 3 | `279ac49` — evaluation record + handover |
+| Milestone 4 | Phase 1 adapter — verify with `git log -1` |
 | Pushed | no (report status before assuming a remote copy exists) |
 
 ## Completed
@@ -29,10 +30,18 @@ continuing this workstream.
 4. Repository cleanup: `.gitignore` added; `__pycache__`, runtime DBs and temp DBs
    untracked; model evaluation JSONs and console record preserved.
 5. Roadmap with phases 1–9 and exit criteria in `ROADMAP.md`.
+6. **Phase 1 done**: `assistant/adapters/team_backend.py` and
+   `assistant/adapters/team_records.py`, wired through
+   `ASSISTANT_STRUCTURED_BACKEND=team_backend`. 13 mocked adapter tests.
+   Full suite: **87 passed**; Ruff clean.
 
 ## Files created in this branch
 
 - `.gitignore`
+- `planetary_analog_llm_workstream/.env.example`
+- `planetary_analog_llm_workstream/assistant/adapters/team_records.py`
+- `planetary_analog_llm_workstream/assistant/adapters/team_backend.py`
+- `planetary_analog_llm_workstream/tests/test_team_backend_adapter.py`
 - `planetary_analog_llm_workstream/docs/llm/TEAM_INTEGRATION.md`
 - `planetary_analog_llm_workstream/docs/llm/ROADMAP.md`
 - `planetary_analog_llm_workstream/docs/llm/HANDOVER.md` (this file)
@@ -43,6 +52,10 @@ continuing this workstream.
 - `docs/llm/EXPERIMENT_LOG.md` (Runs 9 and 10 recorded)
 - `docs/llm/AGENT_ACTIVITY.md` (2026-11-15 session)
 - `docs/llm/TASKS.md` (LLM-017 … LLM-029)
+- `docs/llm/HANDOVER.md` (this file)
+- `planetary_analog_llm_workstream/assistant/config.py` (team backend settings)
+- `planetary_analog_llm_workstream/assistant/service.py` (adapter factory)
+- `planetary_analog_llm_workstream/README.md` (config table)
 - `evaluation/results/latest.json`, `model-eval-console.log`
 
 ## Files removed from Git tracking (kept on disk)
@@ -73,26 +86,18 @@ globally installed `logfire` pytest plugin fails to import.
 
 ## Pending tasks (in order)
 
-1. **Phase 1** — `assistant/adapters/team_backend.py`:
-   read-only `httpx` adapter for `/api/health`, `/api/analog`,
-   `/api/analog/:id`, `/api/targets`, `/api/nasa-datasets`,
-   `/api/mission-profiles`, `/api/analog/nearby`, `/api/analog/within-polygon`.
-   Strict timeouts, `AdapterUnavailable`, verbatim scores, missing ≠ zero,
-   both coordinate shapes. Config: `TERRATWIN_BACKEND_URL`,
-   `ASSISTANT_TEAM_BACKEND_TIMEOUT_S=10`, `structured_backend="team_backend"`.
-   Tests: `tests/test_team_backend_adapter.py` with mocked transports.
-2. **Phase 2** — `assistant/retrieval/query_parser.py`,
+1. **Phase 2** — `assistant/retrieval/query_parser.py`,
    `assistant/places/contracts.py`, place search service, `POST
    /api/assistant/places/search`, tests.
-3. **Phase 3** — wire place search to the adapter and target resolution;
+2. **Phase 3** — wire place search to the adapter and target resolution;
    mocked end-to-end test.
-4. **Phases 4–7** — NASA Image Library, GIBS (Earth only), PDS, grouping
+3. **Phases 4–7** — NASA Image Library, GIBS (Earth only), PDS, grouping
    orchestrator, `POST /api/assistant/images/search`.
-5. **Phase 8** — provider/SSRF/duplicate/attribution tests, visual-vs-scientific
+4. **Phase 8** — provider/SSRF/duplicate/attribution tests, visual-vs-scientific
    separation tests.
-6. **Phase 9** — finish `TEAM_INTEGRATION.md`, update this file and
+5. **Phase 9** — finish `TEAM_INTEGRATION.md`, update this file and
    `AGENT_ACTIVITY.md`, `TASKS.md`, `EXPERIMENT_LOG.md`.
-7. Push branch to the personal repository if authenticated; otherwise report
+6. Push branch to the personal repository if authenticated; otherwise report
    unpushed commits by SHA.
 
 ## Blockers

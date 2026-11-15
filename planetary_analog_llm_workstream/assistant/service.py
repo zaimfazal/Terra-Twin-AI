@@ -84,6 +84,14 @@ class AssistantService:
                 "The postgres adapter is a proposed contract awaiting the platform "
                 "backend owner. No platform database exists in this repository."
             )
+        if backend == "team_backend":
+            from assistant.adapters.team_backend import TeamBackendAdapter
+
+            return TeamBackendAdapter(
+                self.settings.team_backend_url,
+                timeout_s=self.settings.team_backend_timeout_s,
+                max_retries=self.settings.team_backend_max_retries,
+            )
         raise AdapterUnavailable(f"unknown structured backend: {backend}")
 
     # ------------------------------------------------------------------

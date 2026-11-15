@@ -75,7 +75,9 @@ All settings are environment-overridable with `ASSISTANT_`:
 | Variable | Default |
 |---|---|
 | `ASSISTANT_DB_PATH` | `data/assistant.db` |
-| `ASSISTANT_STRUCTURED_BACKEND` | `fixture` (`fixture`, `json_export`, `postgres`) |
+| `ASSISTANT_STRUCTURED_BACKEND` | `fixture` (`fixture`, `json_export`, `postgres`, `team_backend`) |
+| `TERRATWIN_BACKEND_URL` | `http://localhost:8000` (team Node/Express read-only API) |
+| `ASSISTANT_TEAM_BACKEND_TIMEOUT_S` | `10` |
 | `ASSISTANT_ALLOW_FIXTURE_DATA` | `true` (set `false` outside development) |
 | `ASSISTANT_OLLAMA_BASE_URL` | `http://127.0.0.1:11434` |
 | `ASSISTANT_OLLAMA_MODEL` | `qwen3:4b-instruct-2507-q4_K_M` |

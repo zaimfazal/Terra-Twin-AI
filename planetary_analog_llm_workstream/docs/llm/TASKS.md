@@ -22,7 +22,7 @@ Status values: `done`, `partial`, `blocked`, `not started`.
 | LLM-016 | Production auth/rate limiting | not started | Owned by platform/backend, not this workstream |
 | LLM-017 | Team repository audit and integration design | done | `TEAM_INTEGRATION.md`; read-only sibling clone |
 | LLM-018 | Repository cleanup and `.gitignore` | done | Untracked pycache/runtime DBs; artifacts preserved on disk |
-| LLM-019 | Team backend read-only HTTP adapter | not started | `assistant/adapters/team_backend.py`; `TERRATWIN_BACKEND_URL`; mocked tests |
+| LLM-019 | Team backend read-only HTTP adapter | done | `team_backend.py` + `team_records.py`; 13 mocked tests; no write verbs |
 | LLM-020 | Natural-language query parser | not started | Deterministic rules; unsupported fields become warnings |
 | LLM-021 | Place search contracts | not started | `assistant/places/contracts.py`; provenance + missing fields |
 | LLM-022 | Place search service and API | not started | `POST /api/assistant/places/search` |

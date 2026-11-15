@@ -21,6 +21,7 @@ class Settings(BaseSettings):
         env_file=".env",
         extra="ignore",
         case_sensitive=False,
+        populate_by_name=True,
     )
 
     # Storage
@@ -35,9 +36,21 @@ class Settings(BaseSettings):
     # fixture: synthetic records marked test-only (development/evaluation only)
     # json_export: a read-only export produced by the platform owner
     # postgres: read-only SQL views described in docs/llm/API_CONTRACT.md
-    structured_backend: Literal["fixture", "json_export", "postgres"] = "fixture"
+    # team_backend: read-only HTTP client for the team Node/Express API
+    structured_backend: Literal[
+        "fixture", "json_export", "postgres", "team_backend"
+    ] = "fixture"
     platform_export_path: Path | None = None
     postgres_dsn: str | None = None
+
+    # Team backend (Node/Express). The Node service owns MongoDB; this URL is
+    # the only integration point and no database credential is stored here.
+    team_backend_url: str = Field(
+        default="http://localhost:8000",
+        validation_alias="TERRATWIN_BACKEND_URL",
+    )
+    team_backend_timeout_s: float = 10.0
+    team_backend_max_retries: int = 1
 
     # Refuse fixture data in production-like deployments. When false, startup
     # fails if the configured backend would return unverified fixture records.
