@@ -29,14 +29,17 @@ uses a **synthetic test-only fixture** because this repository has no platform
 backend, database, candidate store or report API. Every fixture response is
 labelled `data_provenance_mode=fixture_test_only`.
 
-Verified on 2026-11-14:
+Verified on 2026-11-15:
 
-- 71 pytest tests pass.
+- 154 pytest tests pass (125 baseline plus 29 mocked Groq provider tests).
 - 26/26 evaluation questions pass in deterministic fallback mode.
 - SQLite FTS5 ingests 9 corpus documents / 38 chunks with no failures.
 - Ollama 0.40.16 is installed; `qwen3:4b-instruct-2507-q4_K_M` (ID
   `0edcdef34593`, 2.5 GB) is pulled, and real local inference is recorded in
   `docs/llm/EXPERIMENT_LOG.md`.
+- Optional hosted Groq inference is implemented and covered by mocked HTTP
+  tests. **No live Groq request has been made** because no API key was
+  available. Ollama remains the default provider.
 
 ## Run locally
 
@@ -72,7 +75,13 @@ python scripts/run_evaluation.py --use-model --ollama-url http://127.0.0.1:11434
 
 ## Configuration
 
-All settings are environment-overridable with `ASSISTANT_`:
+Inference provider: `ASSISTANT_LLM_PROVIDER=ollama` (default) or `groq`
+(optional hosted provider). Groq additionally reads `GROQ_API_KEY`,
+`GROQ_MODEL`, `GROQ_BASE_URL` and `GROQ_TIMEOUT_S` from the server
+environment. The key is never returned or logged. See
+`docs/llm/PROVIDER_CONFIGURATION.md`.
+
+All other settings are environment-overridable with `ASSISTANT_`:
 
 | Variable | Default |
 |---|---|
@@ -81,6 +90,11 @@ All settings are environment-overridable with `ASSISTANT_`:
 | `TERRATWIN_BACKEND_URL` | `http://localhost:8000` (team Node/Express read-only API) |
 | `ASSISTANT_TEAM_BACKEND_TIMEOUT_S` | `10` |
 | `ASSISTANT_ALLOW_FIXTURE_DATA` | `true` (set `false` outside development) |
+| `ASSISTANT_LLM_PROVIDER` | `ollama` (`ollama`, `groq`) |
+| `GROQ_API_KEY` | unset (optional; server-side only) |
+| `GROQ_MODEL` | `openai/gpt-oss-120b` |
+| `GROQ_BASE_URL` | `https://api.groq.com/openai/v1` |
+| `GROQ_TIMEOUT_S` | `60` |
 | `ASSISTANT_OLLAMA_BASE_URL` | `http://127.0.0.1:11434` |
 | `ASSISTANT_OLLAMA_MODEL` | `qwen3:4b-instruct-2507-q4_K_M` |
 | `ASSISTANT_OLLAMA_FALLBACK_MODEL` | `qwen2.5:3b-instruct-q4_K_M` |

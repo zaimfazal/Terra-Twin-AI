@@ -10,11 +10,14 @@ platform contract (see `API_CONTRACT.md`).
 
 Verified in this repository:
 
-- 125 automated tests pass.
+- 154 automated tests pass (125 baseline plus 29 mocked Groq provider tests).
 - 26 evaluation questions pass in deterministic evidence-only fallback mode.
 - SQLite FTS5 is available and 9 corpus documents ingest as `processed`.
 - Ollama 0.40.16 runs `qwen3:4b-instruct-2507-q4_K_M` locally; real inference
   and model-mode evaluation results are recorded in `EXPERIMENT_LOG.md`.
+- An optional hosted Groq provider is implemented behind the same interface
+  and is covered by mocked HTTP tests only. **No live Groq request has been
+  made** (no key was available).
 - A read-only team-backend adapter, natural-language place retrieval and
   cross-planetary NASA image retrieval are implemented with mocked tests only;
   no live MongoDB or Node backend has been exercised.
@@ -58,7 +61,10 @@ The assistant does **not**:
 | `assistant/evidence/assembler.py` | Deterministic evidence-pack assembly and lookups |
 | `assistant/evidence/validation.py` | Server-side ID, numeric, source, proxy, missing-as-zero and overclaim validation |
 | `assistant/llm/prompt.py` | Versioned prompt construction; untrusted-document delimiter |
+| `assistant/llm/types.py` | Shared `ModelResponse` / `ModelUnavailable` provider contract |
 | `assistant/llm/ollama.py` | Local Ollama health and structured generation adapter |
+| `assistant/llm/groq.py` | Optional hosted Groq adapter; OpenAI-compatible, server-side key, never logged |
+| `assistant/llm/provider.py` | Provider selection (`ollama`/`groq`) and provider-agnostic health payload |
 | `assistant/llm/fallback.py` | Deterministic evidence-only answer when inference is unavailable/rejected |
 | `assistant/llm/generation.py` | Generation orchestration, parse/validate, fallback |
 | `assistant/service.py` | Use cases: chat, explain report, place search, image search, health, feedback, close |
@@ -76,7 +82,7 @@ POST /api/assistant/chat
      -> detect score-manipulation / citation-fabrication requests
      -> GroundedGenerator.generate
         -> build_user_prompt (structured pack + delimited untrusted excerpts)
-        -> OllamaClient.generate (JSON-schema constrained)
+        -> configured provider: OllamaClient or GroqClient (JSON-schema output)
         -> parse_draft
         -> validate_draft (IDs, sources, numbers, classifications, guardrails)
         -> AssistantAnswer OR build_evidence_only_answer
@@ -103,6 +109,27 @@ POST /api/assistant/images/search
   -> URL/host validation, dedupe, grouping
   -> earth/moon/mars records, sources, missing_previews, rejected_assets
 ```
+
+## Inference providers
+
+`ASSISTANT_LLM_PROVIDER` selects the provider. Both clients expose
+`generate(system_prompt, user_prompt, json_schema) -> ModelResponse` and
+`health() -> dict`, so generation, parsing, validation and fallback are
+provider-independent:
+
+```
+GroundedGenerator
+  -> build_llm_client(settings)      # ollama (default) | groq
+  -> client.generate(...)
+  -> parse_draft / validate_draft    # identical for every provider
+  -> AssistantAnswer | evidence_only_fallback
+```
+
+Ollama runs locally with no credential. Groq is hosted, uses a server-side
+`GROQ_API_KEY`, and is never called by a browser. Provider errors (401/403/429/
+404, timeout, network failure, malformed envelope) all become `ModelUnavailable`
+and therefore the deterministic fallback. Provider choice never bypasses
+validation. Configuration: `PROVIDER_CONFIGURATION.md`.
 
 ## Trust boundaries
 

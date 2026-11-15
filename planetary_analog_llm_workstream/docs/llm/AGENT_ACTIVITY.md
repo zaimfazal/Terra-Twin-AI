@@ -309,3 +309,84 @@ optionally run one read-only smoke test against the deployed team backend.
 4. Confirmed the step-by-step guide PDF is absent and recorded that fact.
 5. Wrote `IMPLEMENTATION_ROADMAP.md` with phases 0–10 and honest status.
 
+---
+
+## Session 2026-11-15 — Groq provider, documentation, verification
+
+### Start state
+
+- Branch `feat/team-integration-place-image-groq` at `7dc8b58`, clean working
+  tree. No Groq file or modification existed yet.
+- 125 tests passing; place and image retrieval implemented against mocked HTTP.
+- No hosted inference provider.
+
+### Work performed
+
+1. **Provider abstraction** — added `assistant/llm/types.py`
+   (`ModelResponse`, `ModelUnavailable`) and moved Ollama onto it, keeping
+   backward-compatible imports. Added `assistant/llm/provider.py` with
+   `build_llm_client` and a provider-agnostic health payload.
+2. **Groq adapter** — added `assistant/llm/groq.py`: OpenAI-compatible
+   `/chat/completions`, `response_format: json_schema` (best-effort, with one
+   JSON-object retry), actual model ID and token usage, configurable timeout,
+   distinct 401/403/429/404 and transport errors, key redaction, and a
+   reachability-based health probe (`GET /models`).
+3. **Configuration** — `ASSISTANT_LLM_PROVIDER` plus `GROQ_API_KEY`(SecretStr)/
+   `GROQ_MODEL`/`GROQ_BASE_URL`/`GROQ_TIMEOUT_S`/health/temperature/token
+   settings. Ollama settings untouched and still the default.
+4. **Generator** — selects the provider, records `provider`/`total_tokens` in
+   `GenerationOutcome`, sets `model_provider` on the answer, and keeps
+   parse → validate → fallback unchanged for every provider.
+5. **Health** — `GET /api/assistant/health` now reports provider, configured
+   model, reachability, authentication, availability, effective model block
+   (local vs hosted) and structured backend status. No secret is returned.
+6. **Tests** — added `tests/test_groq_provider.py` with 29 mocked tests.
+7. **Evaluation runner** — added `--provider ollama|groq` for `--use-model`;
+   provider recorded in the result file; keys never recorded.
+8. **Documentation** — wrote `PLACE_RETRIEVAL.md`, `IMAGE_RETRIEVAL.md`,
+   `PROVIDER_CONFIGURATION.md`; updated `MODEL_SELECTION.md`,
+   `ARCHITECTURE.md`, `API_CONTRACT.md`, `TEAM_INTEGRATION.md` (gateway and
+   browser-to-Groq boundary), `TASKS.md`, `KNOWN_LIMITATIONS.md` (L28–L31),
+   `EVALUATION.md`, `EXPERIMENT_LOG.md` (Run 11), `IMPLEMENTATION_ROADMAP.md`,
+   `README.md`, `.env.example`, `HANDOVER.md`.
+
+### Commands and exact outcomes
+
+```powershell
+$env:PYTEST_DISABLE_PLUGIN_AUTOLOAD='1'
+python -m pytest -p no:warnings
+# 154 passed in 11.32s
+python -m ruff check .
+# All checks passed!
+python scripts/run_evaluation.py
+# 26/26 questions passed
+# eval-20261115T111105Z-evidence_only_fallback.json
+```
+
+Commits: `e96f07a` (provider), `0b332f1` (tests), plus a docs commit; see
+`git log`.
+
+### Decisions
+
+- Keep Ollama the default; Groq opt-in only, never required for local use.
+- Default Groq model `openai/gpt-oss-120b`: current production model on Groq
+  and one of those documented for JSON-Schema structured outputs. Model remains
+  configurable.
+- Best-effort `json_schema` rather than strict mode, because Groq strict mode
+  requires every field to be required and `ModelDraft` deliberately has
+  optional fields. Server-side validation stays the gate.
+- No Groq SDK added; `httpx` was already a dependency.
+- Health performs a real `GET /models` probe so a configured key is never
+  reported as available on its own.
+
+### Blockers
+
+- `GROQ_API_KEY` absent (no shell variable, no `.env`), so no live Groq request
+  was made. Recorded as L28 and LLM-036 `blocked`.
+- No live team Node/MongoDB backend; integration remains mocked.
+
+### Next dependency
+
+Push the branch; supply a Groq key for one live smoke test; run a read-only
+smoke test against the deployed team backend.
+

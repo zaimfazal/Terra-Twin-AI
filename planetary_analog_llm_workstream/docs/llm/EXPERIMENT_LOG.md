@@ -246,3 +246,42 @@ the 173743Z run.
 
 Do not present this as a clean model pass. The assistant's deterministic
 fallback remains the verified 26/26 path (`eval-20261114T132816Z-...json`).
+
+## Run 11 — Groq provider implementation (mocked only)
+
+Date: 2026-11-15. Branch `feat/team-integration-place-image-groq`.
+
+Environment check: `GROQ_API_KEY` was **not** present in the shell and no `.env`
+file existed in `planetary_analog_llm_workstream/`. **No live Groq request was
+made.** This is recorded as a limitation, not as a pass.
+
+What was verified with mocked HTTP responses:
+
+| Check | Result |
+|---|---|
+| Successful chat completion parsing | pass |
+| Actual provider model ID recorded | pass |
+| Token usage (`prompt`/`completion`/`total`) recorded | pass |
+| `json_schema` request shape | pass |
+| Malformed JSON content → fallback | pass |
+| Schema-invalid content → fallback | pass |
+| Unknown evidence ID rejected | pass |
+| HTTP 401, 403, 429, 404 distinct errors | pass |
+| Timeout and network failure | pass |
+| Missing key (no network call) | pass |
+| Deterministic fallback after provider failure | pass |
+| Supplied scores unchanged | pass |
+| API key absent from health, errors, repr, logs | pass |
+
+Commands and exact outcomes:
+
+```powershell
+$env:PYTEST_DISABLE_PLUGIN_AUTOLOAD='1'
+python -m pytest -p no:warnings
+# 154 passed in 11.32s
+python -m ruff check .
+# All checks passed!
+python scripts/run_evaluation.py
+# 26/26 questions passed
+# eval-20261115T111105Z-evidence_only_fallback.json
+```

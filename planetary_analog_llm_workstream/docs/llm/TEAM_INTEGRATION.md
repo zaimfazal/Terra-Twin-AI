@@ -201,6 +201,32 @@ Start order: MongoDB reachable → Node backend → assistant → frontend.
 - `TERRATWIN_BACKEND_URL` points at the deployed Node backend's internal URL.
 - The assistant service holds no MongoDB credential and no user data.
 
+### Inference gateway and the browser boundary
+
+```text
+Browser (React)
+   |  same-origin fetch('/api/assistant/chat')
+   v
+Team Node/Express gateway  ── server-side HTTPS ──►  Python assistant
+                                                          |
+                                                          | server-side HTTPS
+                                                          v
+                                                    Groq API (optional)
+```
+
+- The **browser never calls Groq directly** and never receives a Groq key. The
+  key exists only in the assistant's server-side environment.
+- The Node gateway is the only public surface. It forwards the request body,
+  applies the team's auth/rate limiting, and returns the assistant JSON
+  unchanged. It must not forward `Authorization` headers intended for Groq.
+- `GROQ_API_KEY` is injected into the Python service from the platform secret
+  store; it is never placed in the frontend bundle, a `VITE_*` variable, a
+  source file or a logged header.
+- If no hosted key is available, the same gateway works unchanged with
+  `ASSISTANT_LLM_PROVIDER=ollama`, or in fallback mode with no provider at all.
+- The assistant remains **independently deployable**: it needs only
+  `TERRATWIN_BACKEND_URL` for data and (optionally) a provider for inference.
+
 ---
 
 ## 3. Environment configuration
@@ -375,8 +401,13 @@ Minimal, non-redesigning additions:
       `images-api.nasa.gov`, `images-assets.nasa.gov`, `images.nasa.gov`,
       `gibs.earthdata.nasa.gov` and the PDS hosts in
       `assistant/images/validation.py`.
-- [ ] Ollama present, or `LLM_PROVIDER=groq` with a server-side key, or fallback
-      mode accepted.
+- [ ] Ollama present, or `ASSISTANT_LLM_PROVIDER=groq` with a server-side
+      `GROQ_API_KEY`, or fallback mode accepted.
+- [ ] `GROQ_API_KEY` set only in the assistant's secret store; absent from the
+      frontend bundle and the Node repository.
+- [ ] If Groq is enabled, `api.groq.com` added to the assistant's egress
+      allowlist and `GET /api/assistant/health` reports `available` only after
+      a successful probe.
 - [ ] Node gateway routes added if the assistant is not publicly exposed.
 - [ ] Existing team tests still pass; no team route changed.
 - [ ] `docs/llm/HANDOVER.md` read by the integrating engineer.

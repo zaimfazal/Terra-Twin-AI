@@ -33,6 +33,13 @@ Status values: `done`, `partial`, `blocked`, `not started`.
 | LLM-027 | Image retrieval API | done | `POST /api/assistant/images/search` |
 | LLM-028 | Provider and SSRF test suite | done | 23 mocked tests incl. attribution, injection-as-data, places→images end-to-end; live PDS/GIBS shapes still unverified |
 | LLM-029 | Team handover documentation | done | `HANDOVER.md`, `IMAGES.md`, `TEAM_INTEGRATION.md` maintained per milestone |
+| LLM-030 | Provider abstraction and shared model contract | done | `assistant/llm/types.py`, `provider.py`; `generate`/`health` shared by Ollama and Groq |
+| LLM-031 | Optional Groq hosted provider | done | `assistant/llm/groq.py`; OpenAI-compatible; `openai/gpt-oss-120b`; no weights |
+| LLM-032 | Groq config and secret handling | done | `ASSISTANT_LLM_PROVIDER`, `GROQ_*`; `SecretStr`; never logged or returned |
+| LLM-033 | Groq mocked test suite | done | 29 mocked tests: success, usage, malformed, 401/403/429/404, timeout, network, fallback, secret leakage |
+| LLM-034 | Provider-aware health reporting | done | `GET /api/assistant/health` distinguishes configured / reachable / authenticated / available |
+| LLM-035 | Place, image and provider documentation | done | `PLACE_RETRIEVAL.md`, `IMAGE_RETRIEVAL.md`, `PROVIDER_CONFIGURATION.md` |
+| LLM-036 | Live Groq inference smoke test | blocked | No `GROQ_API_KEY` supplied in this environment; mocked tests only |
 
 ## Next dependency
 

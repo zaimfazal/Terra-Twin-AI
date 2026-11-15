@@ -54,9 +54,14 @@ fixture/fallback run:
   ],
   "validation": {"schema_valid": true, "evidence_ids_valid": true, "sources_valid": true},
   "response_id": "RESP-...",
-  "pack_id": "PACK-..."
+  "pack_id": "PACK-...",
+  "model": "qwen3:4b-instruct-2507-q4_K_M",
+  "model_provider": "ollama"
 }
 ```
+
+`model` is the model ID the provider actually reported, and `model_provider` is
+`ollama` or `groq`. Both are `null` in fallback mode when no model answered.
 
 ### `POST /api/assistant/explain-report`
 
@@ -82,34 +87,57 @@ Response (`HealthResponse`):
   "retrieval": {
     "backend": "sqlite_fts5",
     "db_path": "...",
+    "structured_backend": "fixture",
+    "structured_backend_name": "fixture",
+    "structured_backend_status": "configured",
     "sources": 9,
     "failed_sources": 0,
     "chunks": 38,
     "fts5_available": true
   },
   "inference": {
+    "provider": "ollama",
     "available": true,
+    "reachable": true,
     "base_url": "http://127.0.0.1:11434",
     "configured_model": "qwen3:4b-instruct-2507-q4_K_M",
     "configured_model_present": true,
     "fallback_model": "qwen2.5:3b-instruct-q4_K_M",
     "fallback_model_present": false,
     "installed_models": ["qwen3:4b-instruct-2507-q4_K_M"],
+    "error": null,
     "mode": "local_ollama"
   },
   "model": {
+    "provider": "ollama",
     "configured": "qwen3:4b-instruct-2507-q4_K_M",
     "fallback": "qwen2.5:3b-instruct-q4_K_M",
     "context_length": 8192,
     "temperature": 0.0,
     "prompt_version": "assistant-rag-v1.1.0",
-    "local_only": true
+    "local_only": true,
+    "hosted": false
   },
   "data_mode": "fixture_test_only",
   "fts5_available": true,
   "message": "Structured data is synthetic test-only fixture data; not platform output."
 }
 ```
+
+### Inference provider reporting
+
+`GET /api/assistant/health` distinguishes configuration from availability:
+
+- `inference.configured` — a Groq key is present / Ollama settings exist.
+- `inference.reachable` — the provider host answered HTTP.
+- `inference.authenticated` — Groq accepted the key (`GET /models` succeeded).
+- `inference.available` — an actual provider request succeeded. A configured
+  key alone never sets this to `true`.
+- `inference.error` — safe diagnostic; never contains the API key.
+
+No route returns, logs or echoes credentials, MongoDB URIs or auth headers.
+When `ASSISTANT_LLM_PROVIDER=groq`, `model` reports the Groq model and
+`local_only: false`; otherwise it reports the Ollama model and `local_only: true`.
 
 ### `POST /api/assistant/feedback`
 

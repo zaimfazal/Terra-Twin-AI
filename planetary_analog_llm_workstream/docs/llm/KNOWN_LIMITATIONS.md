@@ -239,6 +239,49 @@ next action.
   only when a browser loads it.
 - **Next action:** optionally add a lightweight validated HEAD check if required.
 
+### L28 - No live Groq inference has been tested
+
+- **Affected:** hosted inference provider.
+- **Observed:** no `GROQ_API_KEY` was present in the development environment.
+- **Impact:** the Groq adapter is verified only against mocked HTTP responses.
+  Live latency, model availability, structured-output behaviour and free-tier
+  limits are unverified.
+- **Mitigation:** all failure modes (401/403/429/404, timeout, network error,
+  malformed output, missing key) are tested and fall back deterministically.
+- **Next action:** supply a key server-side, run one small request and record the
+  exact model ID, usage and latency here. Never claim a live result before it
+  happens.
+
+### L29 - Groq free tier is rate- and token-limited
+
+- **Affected:** hosted inference and evaluation.
+- **Observed:** Groq documents free-plan limits per model (requests and tokens
+  per minute/day); values change over time.
+- **Impact:** a 26-question evaluation can exhaust the daily token budget; 429
+  responses fall back rather than retrying.
+- **Next action:** check the account's live limits; use a paid plan or Ollama for
+  bulk evaluation.
+
+### L30 - Groq strict JSON Schema mode is not used by default
+
+- **Affected:** structured output on Groq.
+- **Observed:** Groq strict mode requires every field to be required and
+  `additionalProperties: false`; `ModelDraft` has optional fields.
+- **Impact:** the default is best-effort `json_schema`, so schema adherence is
+  not token-level guaranteed. Server-side validation remains the gate.
+- **Next action:** design an all-required schema if strict mode is required.
+
+### L31 - Hosted inference means evidence leaves the host
+
+- **Affected:** deployments using `ASSISTANT_LLM_PROVIDER=groq`.
+- **Observed:** the evidence pack is sent to `api.groq.com`.
+- **Impact:** a data-egress and third-party availability dependency that local
+  Ollama does not have.
+- **Mitigation:** Groq is opt-in, never required, and never called by a browser;
+  local use defaults to Ollama.
+- **Next action:** the platform owner decides whether hosted egress is
+  acceptable for the data involved.
+
 ### L27 - Image relevance is keyword-only
 
 - **Affected:** image retrieval.

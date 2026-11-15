@@ -115,18 +115,24 @@ Exit criteria: every returned image maps to a provider record. **Met.**
 
 ---
 
-## Phase 8 — Groq hosted inference (not started)
+## Phase 8 — Groq hosted inference (done, mocked verification)
 
-- [ ] `assistant/llm/groq.py` behind the existing provider abstraction.
-- [ ] `LLM_PROVIDER` / `GROQ_API_KEY` / `GROQ_MODEL` settings, server-side only.
-- [ ] Structured JSON output, schema validation, timeout and 429 handling.
-- [ ] Provider/model metadata recorded in the answer.
-- [ ] Deterministic evidence-only fallback when the provider fails.
-- [ ] Mocked tests: valid, malformed, timeout, 429, invalid key, no credential leak.
-- [ ] Ollama remains the local default; Groq optional.
+- [x] `assistant/llm/types.py` shared `ModelResponse` / `ModelUnavailable`.
+- [x] `assistant/llm/provider.py` provider selection and health payload.
+- [x] `assistant/llm/groq.py` OpenAI-compatible adapter.
+- [x] `ASSISTANT_LLM_PROVIDER` / `GROQ_API_KEY` / `GROQ_MODEL` /
+      `GROQ_BASE_URL` / `GROQ_TIMEOUT_S` settings, server-side only.
+- [x] JSON-Schema structured output, with one JSON-object retry when the model
+      rejects `json_schema`.
+- [x] Actual model ID and token usage recorded; `model_provider` on the answer.
+- [x] 401/403/429/404, timeout, network failure, malformed envelope handling.
+- [x] Deterministic evidence-only fallback on every provider/validation failure.
+- [x] 29 mocked tests; API key absent from health, errors, repr and logs.
+- [x] Ollama remains the local default; Groq optional and never required.
 
 Exit criteria: the deployed site can run without a laptop-hosted Ollama, and the
-fallback path still works.
+fallback path still works. **Met in code and mocked tests**; a live Groq smoke
+test remains blocked on credentials.
 
 ---
 
@@ -135,9 +141,11 @@ fallback path still works.
 - [x] Full suite: 125 passed (baseline, before Phase 8).
 - [x] Ruff clean.
 - [x] Deterministic evaluation available.
-- [ ] Re-run suite and evaluation after Groq changes.
+- [x] Re-run suite after Groq changes: **154 passed**.
+- [x] Re-run deterministic evaluation: **26/26 passed**
+      (`eval-20261115T111105Z-evidence_only_fallback.json`).
 - [ ] Live NASA smoke test where network permits (never required by CI).
-- [ ] Live Groq smoke test only if a key is supplied by the owner.
+- [ ] Live Groq smoke test: **blocked**, no `GROQ_API_KEY` supplied.
 
 Exit criteria: exact, recorded outcomes; no unexecuted claim marked passed.
 
@@ -147,10 +155,11 @@ Exit criteria: exact, recorded outcomes; no unexecuted claim marked passed.
 
 - [x] `TEAM_INTEGRATION.md` with adapter contract, gateway proposal, checklist.
 - [x] `HANDOVER.md` with branch, SHAs, commands and guardrails.
-- [ ] `PLACE_RETRIEVAL.md`, `IMAGE_RETRIEVAL.md`,
-      `PROVIDER_CONFIGURATION.md`, `IMPLEMENTATION_ROADMAP.md` (this file).
-- [ ] Node gateway patch proposal for the team.
-- [ ] Final handover entry with verified SHAs.
+- [x] `PLACE_RETRIEVAL.md`, `IMAGE_RETRIEVAL.md`, `PROVIDER_CONFIGURATION.md`.
+- [x] `IMPLEMENTATION_ROADMAP.md` (this file) updated.
+- [x] Node gateway design and browser-to-Groq boundary in `TEAM_INTEGRATION.md`.
+- [x] Final handover entry with verified SHAs (`HANDOVER.md`).
+- [ ] Node gateway **patch** itself: owned by the team repository (read-only here).
 
 Exit criteria: an integrating engineer can merge from the documents alone.
 
