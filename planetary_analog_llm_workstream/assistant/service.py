@@ -32,8 +32,8 @@ from assistant.images.contracts import ImageSearchRequest, ImageSearchResponse
 from assistant.images.orchestrator import ImageRetrievalService
 from assistant.ingestion.store import DocumentStore
 from assistant.llm.generation import GroundedGenerator
-from assistant.llm.ollama import ollama_health_payload
 from assistant.llm.prompt import PROMPT_VERSION
+from assistant.llm.provider import provider_health_payload
 from assistant.places.contracts import PlaceSearchRequest, PlaceSearchResponse
 from assistant.places.service import PlaceSearchService
 
@@ -197,23 +197,45 @@ class AssistantService:
     # ------------------------------------------------------------------
     def health(self) -> HealthResponse:
         stats = self.store.stats()
-        inference = ollama_health_payload(self.generator.client)
+        inference = provider_health_payload(self.generator.client)
+        provider = inference.get("provider", self.settings.llm_provider)
         mode = DataProvenanceMode(self.adapter.data_provenance_mode)
-        return HealthResponse(
-            retrieval={
-                "backend": "sqlite_fts5",
-                "db_path": str(self.store.path),
-                **stats,
-            },
-            inference=inference,
-            model={
+        if provider == "groq":
+            model_block = {
+                "provider": "groq",
+                "configured": self.settings.groq_model,
+                "fallback": None,
+                "temperature": self.settings.groq_temperature,
+                "timeout_s": self.settings.groq_timeout_s,
+                "max_completion_tokens": self.settings.groq_max_completion_tokens,
+                "prompt_version": PROMPT_VERSION,
+                "local_only": False,
+                "hosted": True,
+            }
+        else:
+            model_block = {
+                "provider": "ollama",
                 "configured": self.settings.ollama_model,
                 "fallback": self.settings.ollama_fallback_model,
                 "context_length": self.settings.ollama_num_ctx,
                 "temperature": self.settings.ollama_temperature,
                 "prompt_version": PROMPT_VERSION,
                 "local_only": True,
+                "hosted": False,
+            }
+        return HealthResponse(
+            retrieval={
+                "backend": "sqlite_fts5",
+                "db_path": str(self.store.path),
+                "structured_backend": self.settings.structured_backend,
+                "structured_backend_name": getattr(
+                    self.adapter, "backend_name", self.settings.structured_backend
+                ),
+                "structured_backend_status": "configured",
+                **stats,
             },
+            inference=inference,
+            model=model_block,
             data_mode=mode,
             fts5_available=self.store.fts5_available,
             message=(

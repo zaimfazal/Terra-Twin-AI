@@ -7,28 +7,22 @@ gives the model database or tool access.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-
 import httpx
 
 from assistant.config import Settings
+from assistant.llm.types import ModelResponse, ModelUnavailable
 
-
-class ModelUnavailable(RuntimeError):
-    pass
-
-
-@dataclass
-class ModelResponse:
-    content: str
-    model: str
-    used_fallback_model: bool = False
-    done_reason: str | None = None
-    prompt_eval_count: int | None = None
-    eval_count: int | None = None
+__all__ = [
+    "ModelResponse",
+    "ModelUnavailable",
+    "OllamaClient",
+    "ollama_health_payload",
+]
 
 
 class OllamaClient:
+    provider_name = "ollama"
+
     def __init__(self, settings: Settings):
         self.settings = settings
         self.base_url = settings.ollama_base_url.rstrip("/")
@@ -62,6 +56,7 @@ class OllamaClient:
             self._matches(installed, self.fallback_model) if available else False
         )
         return {
+            "provider": "ollama",
             "available": available,
             "base_url": self.base_url,
             "configured_model": self.model,

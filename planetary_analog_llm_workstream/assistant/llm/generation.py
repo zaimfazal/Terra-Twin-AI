@@ -13,8 +13,9 @@ from assistant.evidence.validation import (
     validate_draft,
 )
 from assistant.llm.fallback import build_evidence_only_answer
-from assistant.llm.ollama import ModelUnavailable, OllamaClient
 from assistant.llm.prompt import PROMPT_VERSION, build_user_prompt, load_system_prompt
+from assistant.llm.provider import build_llm_client, provider_health_payload
+from assistant.llm.types import ModelResponse, ModelUnavailable
 
 
 @dataclass
@@ -25,13 +26,39 @@ class GenerationOutcome:
     raw_output: str | None = None
     prompt_eval_count: int | None = None
     eval_count: int | None = None
+    provider: str | None = None
+    total_tokens: int | None = None
 
 
 class GroundedGenerator:
-    def __init__(self, settings: Settings, client: OllamaClient | None = None):
+    def __init__(self, settings: Settings, client=None):
         self.settings = settings
-        self.client = client or OllamaClient(settings)
+        self.client = client or build_llm_client(settings)
         self.system_prompt = load_system_prompt()
+
+    @property
+    def provider_name(self) -> str:
+        return self.client.health().get(
+            "provider", getattr(self.client, "provider_name", self.settings.llm_provider)
+        )
+
+    def _outcome_from_response(
+        self,
+        answer: AssistantAnswer,
+        response: ModelResponse,
+        *,
+        error: str | None = None,
+    ) -> GenerationOutcome:
+        return GenerationOutcome(
+            answer=answer,
+            model=response.model,
+            error=error,
+            raw_output=response.content,
+            prompt_eval_count=response.prompt_eval_count,
+            eval_count=response.eval_count,
+            provider=response.provider,
+            total_tokens=response.total_tokens,
+        )
 
     def generate(
         self,
@@ -62,12 +89,17 @@ class GroundedGenerator:
         except ModelUnavailable as exc:
             answer = build_evidence_only_answer(
                 pack,
-                reason="local model unavailable",
+                reason="inference provider unavailable",
                 schema_valid=True,
                 error=str(exc),
                 score_notice=score_notice,
             )
-            return GenerationOutcome(answer=answer, model=None, error=str(exc))
+            return GenerationOutcome(
+                answer=answer,
+                model=None,
+                error=str(exc),
+                provider=self.settings.llm_provider,
+            )
 
         try:
             draft = parse_draft(response.content)
@@ -80,14 +112,7 @@ class GroundedGenerator:
                 score_notice=score_notice,
             )
             answer.prompt_version = PROMPT_VERSION
-            return GenerationOutcome(
-                answer=answer,
-                model=response.model,
-                error=str(exc),
-                raw_output=response.content,
-                prompt_eval_count=response.prompt_eval_count,
-                eval_count=response.eval_count,
-            )
+            return self._outcome_from_response(answer, response, error=str(exc))
 
         try:
             answer = validate_draft(
@@ -106,30 +131,18 @@ class GroundedGenerator:
                 score_notice=score_notice,
             )
             answer.prompt_version = PROMPT_VERSION
-            return GenerationOutcome(
-                answer=answer,
-                model=response.model,
-                error=str(exc),
-                raw_output=response.content,
-                prompt_eval_count=response.prompt_eval_count,
-                eval_count=response.eval_count,
-            )
+            return self._outcome_from_response(answer, response, error=str(exc))
 
         answer.model = response.model
+        answer.model_provider = response.provider or self.settings.llm_provider
         answer.prompt_version = PROMPT_VERSION
-        return GenerationOutcome(
-            answer=answer,
-            model=response.model,
-            raw_output=response.content,
-            prompt_eval_count=response.prompt_eval_count,
-            eval_count=response.eval_count,
-        )
+        return self._outcome_from_response(answer, response)
 
     def health(self) -> dict:
-        return self.client.health()
+        return provider_health_payload(self.client)
 
     def available_models(self) -> list[str]:
-        return self.client.health().get("installed_models", [])
+        return list(self.health().get("installed_models") or [])
 
     def schema_json(self) -> str:
         return json.dumps(ModelDraft.model_json_schema(), indent=2)
