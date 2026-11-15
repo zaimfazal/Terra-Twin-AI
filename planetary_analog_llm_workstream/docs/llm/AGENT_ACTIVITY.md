@@ -363,8 +363,7 @@ python scripts/run_evaluation.py
 # eval-20261115T111105Z-evidence_only_fallback.json
 ```
 
-Commits: `e96f07a` (provider), `0b332f1` (tests), plus a docs commit; see
-`git log`.
+Commits: `e96f07a` (provider), `0b332f1` (tests), `c215ff1` (documentation).
 
 ### Decisions
 

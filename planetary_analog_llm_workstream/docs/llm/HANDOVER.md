@@ -15,8 +15,8 @@ continuing this workstream.
 | Phase 0 audit | `7dc8b58` — branch starts here effectively |
 | Groq provider | `e96f07a` — `feat: add optional Groq hosted inference provider` |
 | Groq tests | `0b332f1` — `test: add mocked Groq provider and fallback tests` |
-| Docs milestone | see `git log -1` on `docs: complete provider and retrieval documentation` |
-| Pushed | **not yet** — push the branch if remote auth is available |
+| Docs milestone | `c215ff1` — `docs: complete provider and retrieval documentation` |
+| Pushed | see the "Pushed" row after `git log`; the branch is pushed when `git ls-remote` shows this SHA |
 
 Verify before trusting this table:
 
@@ -30,9 +30,9 @@ git log -8 --oneline
 
 | Check | Command | Result |
 |---|---|---|
-| Tests | `python -m pytest -p no:warnings` (with plugin autoload disabled) | **154 passed in 11.32s** |
+| Tests | `python -m pytest -p no:warnings` (with plugin autoload disabled) | **154 passed** |
 | Lint | `python -m ruff check .` | **All checks passed!** |
-| Evaluation (fallback) | `python scripts/run_evaluation.py` | **26/26 passed**, `eval-20261115T111105Z-evidence_only_fallback.json` |
+| Evaluation (fallback) | `python scripts/run_evaluation.py` | **26/26 passed**, `eval-20261115T112417Z-evidence_only_fallback.json` (latest copy in `latest.json`) |
 | Live Groq inference | — | **not tested**: no `GROQ_API_KEY` present, no `.env` file |
 | Live Ollama inference | — | last verified 2026-11-14 (`EXPERIMENT_LOG.md` Runs 8–10) |
 
