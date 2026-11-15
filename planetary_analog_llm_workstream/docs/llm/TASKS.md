@@ -20,6 +20,19 @@ Status values: `done`, `partial`, `blocked`, `not started`.
 | LLM-014 | Multi-candidate comparison | not started | Requires a new pack design; do not rank |
 | LLM-015 | Optional local embeddings | not started | Only if FTS5 misses become a measured problem |
 | LLM-016 | Production auth/rate limiting | not started | Owned by platform/backend, not this workstream |
+| LLM-017 | Team repository audit and integration design | done | `TEAM_INTEGRATION.md`; read-only sibling clone |
+| LLM-018 | Repository cleanup and `.gitignore` | done | Untracked pycache/runtime DBs; artifacts preserved on disk |
+| LLM-019 | Team backend read-only HTTP adapter | not started | `assistant/adapters/team_backend.py`; `TERRATWIN_BACKEND_URL`; mocked tests |
+| LLM-020 | Natural-language query parser | not started | Deterministic rules; unsupported fields become warnings |
+| LLM-021 | Place search contracts | not started | `assistant/places/contracts.py`; provenance + missing fields |
+| LLM-022 | Place search service and API | not started | `POST /api/assistant/places/search` |
+| LLM-023 | NASA Image Library provider | not started | `/search`, `/asset/{id}`, `/metadata/{id}`; URL/domain validation |
+| LLM-024 | NASA GIBS Earth imagery provider | not started | Earth only; layer/date validation |
+| LLM-025 | PDS planetary image provider | not started | LROC/HiRISE; missing-preview handling |
+| LLM-026 | Cross-planetary image orchestration | not started | Group earth/moon/mars; dedupe; limitations |
+| LLM-027 | Image retrieval API | not started | `POST /api/assistant/images/search` |
+| LLM-028 | Provider and SSRF test suite | not started | Mocked HTTP only; no live NASA dependency |
+| LLM-029 | Team handover documentation | not started | `HANDOVER.md` maintained per milestone |
 
 ## Next dependency
 

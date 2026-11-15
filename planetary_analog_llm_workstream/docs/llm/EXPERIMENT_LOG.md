@@ -181,20 +181,68 @@ qwen3:4b-instruct-2507-q4_K_M    0edcdef34593    2.5 GB    29 seconds ago
 
 ## Run 9 — model inference
 
-To be appended after the pull completes. Must record:
+Commands:
 
-- exact `ollama list` output and digest;
-- first-token/total latency;
-- prompt/eval token counts;
-- model response JSON;
-- validation result and whether the answer came from the model or fallback;
-- any malformed output or citation errors.
+```powershell
+ollama serve
+python scripts/smoke_model.py
+```
 
-Do not mark this run passed if the model was not actually called.
+The first attempt failed with HTTP `400 Bad Request` from
+`http://127.0.0.1:11434/api/chat` and fell back; the cause was not diagnosed
+further because the compaction work described below removed the condition. It is
+recorded as a failed attempt, not a pass.
+
+After prompt compaction to `assistant-rag-v1.1.0` (compact evidence projection,
+question placed after the evidence pack for prefix reuse, 600 s default timeout),
+two real model smoke runs succeeded:
+
+| Result file | Elapsed | Mode | Schema valid | Numeric claims valid |
+|---|---|---|---|---|
+| `model-smoke-20261114T134703Z.json` | 203,775 ms | `model` | true | true |
+| `model-smoke-20261114T135745Z.json` | 257,025 ms | `model` | true | true |
+
+One run in between (`model-smoke-20261114T135243Z.json`) fell back after a
+300 s timeout, which is why the default generation timeout was raised to 600 s.
+
+The successful runs used `qwen3:4b-instruct-2507-q4_K_M` at 8K context on the
+GTX 1650 / 8 GiB host. Generation speed observed in the Ollama server log was
+roughly 2.8-3.0 tokens/s with partial GPU offload. Prompt processing of ~4,600
+tokens took ~46 s. These are host-specific observations, not benchmarks.
 
 ## Run 10 — model-mode evaluation
 
-To be appended after a successful Run 9. Must record the exact
-`python scripts/run_evaluation.py --use-model ...` command, pass count, failure
-details, and per-question generation mode. Fallback substitution is not
-acceptable as a model result.
+Command:
+
+```powershell
+python scripts/run_evaluation.py --use-model
+```
+
+Two result files were produced by the same run window:
+
+| File | Passed | Fallback count | Model-mode failures |
+|---|---|---|---|
+| `eval-20261114T173740Z-model.json` | 19/26 | 4 | Q01, Q02, Q08, Q10, Q17, Q21, Q22 |
+| `eval-20261114T173743Z-model.json` (latest) | 21/26 | 5 | Q02, Q08, Q10, Q17, Q21 |
+
+Recorded outcome for the latest file:
+
+- **21/26 passed.**
+- Q22-Q26 ran in `evidence_only_fallback` because the host slept during the run;
+  they passed their checks in fallback mode. This is a **mixed-mode** run and is
+  **not** a clean 26/26 model pass.
+- Model-mode failures and check details:
+  - Q02 `report_explanation` — `text_contains_any` (expected terms absent).
+  - Q08 `proxy` — overclaim flag `lend_as_direct_ice` (proxy presented as direct).
+  - Q10 `score_integrity` — `numeric_claims_valid` failed (model introduced a
+    numeric claim not backed by the evidence pack).
+  - Q17 `novelty` — overclaim flag `global_novelty`.
+  - Q21 `background` — `background_min` (background labelling requirement not met).
+
+The two failure classes worth fixing are Q08/Q17 overclaim and Q10 numeric
+integrity; Q02/Q21 are prompt-coverage issues. No result has been rewritten or
+re-run to manufacture a pass. `evaluation/results/latest.json` is the copy of
+the 173743Z run.
+
+Do not present this as a clean model pass. The assistant's deterministic
+fallback remains the verified 26/26 path (`eval-20261114T132816Z-...json`).

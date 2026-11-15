@@ -98,7 +98,93 @@ verbatim score representation and deterministic report ordering.
 
 ---
 
-## Session 2026-11-14 — model download and inference verification
+## Session 2026-11-14 - model download and inference verification
 
 Append the exact pull/inference outcomes and files changed after the run. See
 `EXPERIMENT_LOG.md` for commands, model digest, latency and evaluation counts.
+
+---
+
+## Session 2026-11-15 — model evaluation results, Phase 0 audit, cleanup
+
+### Start state
+
+- Model-mode evaluation had finished but its result was not recorded in docs.
+- `.pyc` files, runtime SQLite databases, temp DBs and PID/log files were
+  tracked in Git.
+- No branch or commit existed for the place/image retrieval work.
+- The team repository had never been inspected.
+
+### Work performed
+
+1. Inspected the model evaluation result files. Recorded the verified outcome:
+   **21/26 passed, 5 fallback** (Q22–Q26 fell back when the host slept).
+   Model-mode failures: Q02 `text_contains_any`, Q08 `lend_as_direct_ice`,
+   Q10 `numeric_claims_valid`, Q17 `global_novelty`, Q21 `background_min`.
+   No result was re-run or rewritten. `latest.json` kept as the 173743Z copy.
+2. Cloned `FM9447/TerraTwin---space-apps` to
+   `C:\Users\Zaim\Desktop\TerraTwin-team-reference` as a read-only sibling
+   reference (shallow clone, single commit `202480b`).
+3. Audited team models, routes, controllers, engines, seed script, middleware
+   and frontend data layer. Verified all ten route paths and their response
+   shapes. Found that the frontend imports local data modules and does not call
+   the Node API, that `POST /api/analog/search` scores an in-memory catalogue,
+   and that `POST /api/analog/image-match` is a heuristic 5-D matcher.
+4. Recorded provenance caveats: Mongoose schema defaults
+   (`similarity_score: 0`, `data_coverage: 100`, `data_confidence: 95`) are not
+   measurements; metrics are 0–100 heuristic indices; catalogue coordinates use
+   `{lat, lon}` while MongoDB uses GeoJSON `[lon, lat]`.
+5. Created branch `feat/place-and-image-retrieval`.
+6. Added `.gitignore`; untracked 26 `.pyc` files, `data/assistant.db`,
+   `data/smoke.db` and `evaluation/_tmp_debug.db`; preserved all source, corpus,
+   fixtures, evaluation questions and model result JSONs. Generated logs and PIDs
+   are now ignored and left on disk.
+7. Wrote `docs/llm/TEAM_INTEGRATION.md` and `docs/llm/ROADMAP.md`.
+
+### Files changed in this session
+
+- `.gitignore` — new.
+- `docs/llm/TEAM_INTEGRATION.md` — new.
+- `docs/llm/ROADMAP.md` — new.
+- `docs/llm/EXPERIMENT_LOG.md` — Runs 9 and 10 recorded.
+- `docs/llm/ARCHITECTURE.md` — 73 tests, real inference wording.
+- `docs/llm/AGENT_ACTIVITY.md`, `TASKS.md`, `HANDOVER.md` — updated.
+- `evaluation/results/eval-20261114T173740Z-model.json` — added.
+- `evaluation/results/eval-20261114T173743Z-model.json` — added.
+- `evaluation/results/latest.json`, `model-eval-console.log` — updated.
+
+### Commands and exact outcomes
+
+```powershell
+$env:PYTEST_DISABLE_PLUGIN_AUTOLOAD='1'; python -m pytest -p no:warnings
+# 73 passed in 7.66s
+python -m ruff check .
+# All checks passed!
+git checkout -b feat/place-and-image-retrieval
+git commit -m "chore: audit integration repositories and clean generated artifacts"
+# 325297d5eb05521cf81afc5149f25310d60108e3
+git commit -m "docs: add team integration architecture and implementation roadmap"
+# 30ea632
+```
+
+### Decisions
+
+- Treat team schema fields as unverified platform values, never as measurements.
+- Add a dedicated place/search contract rather than converting heuristic metrics
+  into verified `EvidenceItem` measurements.
+- Keep Mongo access exclusively in the Node backend; the assistant uses one
+  configurable read-only HTTP base URL.
+- Document additive team endpoints; do not modify the team repository.
+- Do not claim visual similarity as geological equivalence anywhere in the new
+  image contracts.
+
+### Blockers
+
+- No live MongoDB/Node backend locally; the team app needs an Atlas URI. All
+  adapter work will be tested with mocked HTTP responses only.
+- Exact live response shapes beyond code inspection remain unverified.
+
+### Next dependency
+
+Phase 1: implement `assistant/adapters/team_backend.py` with strict timeouts,
+response normalisation, verbatim score preservation and mocked tests.

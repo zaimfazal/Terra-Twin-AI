@@ -1,0 +1,135 @@
+# Handover — quota-loss recovery guide
+
+Updated: 2026-11-15. Read this first if you are a different coding agent
+continuing this workstream.
+
+## Current state
+
+| Item | Value |
+|---|---|
+| Repository | `https://github.com/zaimfazal/Terra-Twin-AI` |
+| Local root | `C:\Users\Zaim\Desktop\Terra Twin` |
+| Branch | `feat/place-and-image-retrieval` |
+| Baseline commit | `38d9f62` (merge, `main`) |
+| Milestone 1 | `325297d5eb05521cf81afc5149f25310d60108e3` — audit + cleanup |
+| Milestone 2 | `30ea632` — integration architecture + roadmap |
+| Milestone 3 | this handover doc — verify with `git log -1` |
+| Pushed | no (report status before assuming a remote copy exists) |
+
+## Completed
+
+1. Existing assistant workstream: contracts, adapters, ingestion, SQLite FTS5,
+   evidence assembly/validation, deterministic fallback, prompts, Ollama,
+   FastAPI routes, 26-question evaluation, documentation.
+2. Model evaluation recorded honestly: **21/26 passed in model mode, 5 fallback**
+   (Q22–Q26 when the host slept). Model failures Q02, Q08, Q10, Q17, Q21. Not a
+   clean model pass; do not re-label it.
+3. Phase 0 audit of both repositories, with exact team routes, response shapes,
+   model fields and provenance caveats in `TEAM_INTEGRATION.md`.
+4. Repository cleanup: `.gitignore` added; `__pycache__`, runtime DBs and temp DBs
+   untracked; model evaluation JSONs and console record preserved.
+5. Roadmap with phases 1–9 and exit criteria in `ROADMAP.md`.
+
+## Files created in this branch
+
+- `.gitignore`
+- `planetary_analog_llm_workstream/docs/llm/TEAM_INTEGRATION.md`
+- `planetary_analog_llm_workstream/docs/llm/ROADMAP.md`
+- `planetary_analog_llm_workstream/docs/llm/HANDOVER.md` (this file)
+
+## Files modified in this branch
+
+- `docs/llm/ARCHITECTURE.md` (73 tests, real-inference wording)
+- `docs/llm/EXPERIMENT_LOG.md` (Runs 9 and 10 recorded)
+- `docs/llm/AGENT_ACTIVITY.md` (2026-11-15 session)
+- `docs/llm/TASKS.md` (LLM-017 … LLM-029)
+- `evaluation/results/latest.json`, `model-eval-console.log`
+
+## Files removed from Git tracking (kept on disk)
+
+- 26 `.pyc` files under `assistant/**/__pycache__` and `tests/__pycache__`
+- `planetary_analog_llm_workstream/data/assistant.db`
+- `planetary_analog_llm_workstream/data/smoke.db`
+- `planetary_analog_llm_workstream/evaluation/_tmp_debug.db`
+
+Generated logs and PID files remain on disk and are ignored.
+
+## Commands executed (verified)
+
+```powershell
+git config --get user.name   # zaimfazal
+git checkout -b feat/place-and-image-retrieval
+
+$env:PYTEST_DISABLE_PLUGIN_AUTOLOAD='1'
+python -m pytest -p no:warnings
+# 73 passed in 7.66s
+
+python -m ruff check .
+# All checks passed!
+```
+
+The `PYTEST_DISABLE_PLUGIN_AUTOLOAD` flag is required on this machine because a
+globally installed `logfire` pytest plugin fails to import.
+
+## Pending tasks (in order)
+
+1. **Phase 1** — `assistant/adapters/team_backend.py`:
+   read-only `httpx` adapter for `/api/health`, `/api/analog`,
+   `/api/analog/:id`, `/api/targets`, `/api/nasa-datasets`,
+   `/api/mission-profiles`, `/api/analog/nearby`, `/api/analog/within-polygon`.
+   Strict timeouts, `AdapterUnavailable`, verbatim scores, missing ≠ zero,
+   both coordinate shapes. Config: `TERRATWIN_BACKEND_URL`,
+   `ASSISTANT_TEAM_BACKEND_TIMEOUT_S=10`, `structured_backend="team_backend"`.
+   Tests: `tests/test_team_backend_adapter.py` with mocked transports.
+2. **Phase 2** — `assistant/retrieval/query_parser.py`,
+   `assistant/places/contracts.py`, place search service, `POST
+   /api/assistant/places/search`, tests.
+3. **Phase 3** — wire place search to the adapter and target resolution;
+   mocked end-to-end test.
+4. **Phases 4–7** — NASA Image Library, GIBS (Earth only), PDS, grouping
+   orchestrator, `POST /api/assistant/images/search`.
+5. **Phase 8** — provider/SSRF/duplicate/attribution tests, visual-vs-scientific
+   separation tests.
+6. **Phase 9** — finish `TEAM_INTEGRATION.md`, update this file and
+   `AGENT_ACTIVITY.md`, `TASKS.md`, `EXPERIMENT_LOG.md`.
+7. Push branch to the personal repository if authenticated; otherwise report
+   unpushed commits by SHA.
+
+## Blockers
+
+- No live MongoDB or Node backend locally (team app requires an Atlas URI), so
+  all integration tests must use mocked HTTP. Do not claim live verification.
+- The "step-by-step project guide" PDF was never found. Only
+  `planetary_analog_llm_workstream/reference/planetary_analog_discovery_prd.docx`
+  and root `_prd.txt` exist. Do not invent its contents.
+- Team repository is read-only and must stay a sibling clone at
+  `C:\Users\Zaim\Desktop\TerraTwin-team-reference`; never nest it or add it as a
+  submodule.
+
+## Non-negotiable guardrails
+
+- Never invent measurements, coordinates, candidates, sources, DOIs, image
+  records, dates or scores.
+- Never change, round or re-rank a supplied score.
+- Missing is not zero; unsupported is not a negative match.
+- Preserve evidence classes and contradictions.
+- Exact insufficient-evidence sentence:
+  `The available evidence does not establish this.`
+- Never claim visual similarity proves geological equivalence.
+- Never put MongoDB credentials in this repository or in a response.
+- Keep Ollama the default; Groq optional and never required.
+- Do not modify the team repository or push to `FM9447/TerraTwin---space-apps`.
+
+## Exact command to resume
+
+```powershell
+cd "C:\Users\Zaim\Desktop\Terra Twin"
+git status
+git log -3 --oneline
+cd planetary_analog_llm_workstream
+$env:PYTEST_DISABLE_PLUGIN_AUTOLOAD='1'
+python -m pytest -p no:warnings
+```
+
+Then open `docs/llm/ROADMAP.md` at Phase 1 and start there. Commit every
+completed milestone with tests and Ruff run first.
