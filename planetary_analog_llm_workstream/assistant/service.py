@@ -28,6 +28,8 @@ from assistant.evidence.validation import (
     detect_citation_fabrication,
     detect_score_manipulation,
 )
+from assistant.images.contracts import ImageSearchRequest, ImageSearchResponse
+from assistant.images.orchestrator import ImageRetrievalService
 from assistant.ingestion.store import DocumentStore
 from assistant.llm.generation import GroundedGenerator
 from assistant.llm.ollama import ollama_health_payload
@@ -44,6 +46,7 @@ class AssistantService:
         store: DocumentStore | None = None,
         adapter=None,
         generator: GroundedGenerator | None = None,
+        image_service: ImageRetrievalService | None = None,
     ):
         self.settings = settings or default_settings
         if not self.settings.allow_fixture_data and self.settings.structured_backend == "fixture":
@@ -58,6 +61,7 @@ class AssistantService:
         self.generator = generator or GroundedGenerator(self.settings)
         self.assembler = EvidenceAssembler(self.adapter, self.store, self.settings)
         self.place_search = PlaceSearchService(self.adapter)
+        self._image_service = image_service
 
         if self.settings.auto_ingest_corpus:
             corpus = Path(self.settings.corpus_dir)
@@ -169,6 +173,24 @@ class AssistantService:
 
     def search_places(self, request: PlaceSearchRequest) -> PlaceSearchResponse:
         return self.place_search.search(request)
+
+    def search_images(self, request: ImageSearchRequest) -> ImageSearchResponse:
+        if self._image_service is None:
+            self._image_service = ImageRetrievalService(
+                self.adapter,
+                timeout_s=self.settings.image_provider_timeout_s,
+            )
+        return self._image_service.search(request)
+
+    def close(self) -> None:
+        """Release the store and any provider HTTP clients this service owns."""
+        if self._image_service is not None:
+            self._image_service.close()
+            self._image_service = None
+        close_adapter = getattr(self.adapter, "close", None)
+        if callable(close_adapter):
+            close_adapter()
+        self.store.close()
 
     # ------------------------------------------------------------------
     # Health and feedback

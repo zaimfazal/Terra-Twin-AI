@@ -22,6 +22,7 @@ from assistant.contracts import (
     FeedbackRequest,
     HealthResponse,
 )
+from assistant.images.contracts import ImageSearchRequest, ImageSearchResponse
 from assistant.places.contracts import PlaceSearchRequest, PlaceSearchResponse
 from assistant.service import AssistantService
 
@@ -36,7 +37,7 @@ def create_app(
     @asynccontextmanager
     async def lifespan(app: FastAPI):
         yield
-        service.store.close()
+        service.close()
 
     app = FastAPI(
         title="Planetary Analog Discovery — AI Scientific Research Assistant",
@@ -75,6 +76,10 @@ def create_app(
     @app.post("/api/assistant/places/search", response_model=PlaceSearchResponse)
     def places_search(request: PlaceSearchRequest) -> PlaceSearchResponse:
         return service.search_places(request)
+
+    @app.post("/api/assistant/images/search", response_model=ImageSearchResponse)
+    def images_search(request: ImageSearchRequest) -> ImageSearchResponse:
+        return service.search_images(request)
 
     @app.post("/api/assistant/feedback", response_model=FeedbackRecord)
     def feedback(request: FeedbackRequest) -> FeedbackRecord:

@@ -67,6 +67,9 @@ class Settings(BaseSettings):
     ollama_num_predict: int = 1200
     require_model: bool = False
 
+    # Image retrieval providers (NASA Image Library, GIBS, PDS).
+    image_provider_timeout_s: float = 15.0
+
     # Retrieval
     max_documents: int = 5
     max_document_chars: int = 1800
