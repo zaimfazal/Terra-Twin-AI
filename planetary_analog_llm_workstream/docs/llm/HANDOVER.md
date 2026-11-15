@@ -16,7 +16,7 @@ continuing this workstream.
 | Groq provider | `e96f07a` — `feat: add optional Groq hosted inference provider` |
 | Groq tests | `0b332f1` — `test: add mocked Groq provider and fallback tests` |
 | Docs milestone | `c215ff1` — `docs: complete provider and retrieval documentation` |
-| Pushed | see the "Pushed" row after `git log`; the branch is pushed when `git ls-remote` shows this SHA |
+| Pushed | yes — `origin/feat/team-integration-place-image-groq` tracks this branch; confirm the current tip with `git ls-remote origin` |
 
 Verify before trusting this table:
 
