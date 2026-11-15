@@ -98,7 +98,294 @@ verbatim score representation and deterministic report ordering.
 
 ---
 
-## Session 2026-11-14 — model download and inference verification
+## Session 2026-11-14 - model download and inference verification
 
 Append the exact pull/inference outcomes and files changed after the run. See
 `EXPERIMENT_LOG.md` for commands, model digest, latency and evaluation counts.
+
+---
+
+## Session 2026-11-15 — model evaluation results, Phase 0 audit, cleanup
+
+### Start state
+
+- Model-mode evaluation had finished but its result was not recorded in docs.
+- `.pyc` files, runtime SQLite databases, temp DBs and PID/log files were
+  tracked in Git.
+- No branch or commit existed for the place/image retrieval work.
+- The team repository had never been inspected.
+
+### Work performed
+
+1. Inspected the model evaluation result files. Recorded the verified outcome:
+   **21/26 passed, 5 fallback** (Q22–Q26 fell back when the host slept).
+   Model-mode failures: Q02 `text_contains_any`, Q08 `lend_as_direct_ice`,
+   Q10 `numeric_claims_valid`, Q17 `global_novelty`, Q21 `background_min`.
+   No result was re-run or rewritten. `latest.json` kept as the 173743Z copy.
+2. Cloned `FM9447/TerraTwin---space-apps` to
+   `C:\Users\Zaim\Desktop\TerraTwin-team-reference` as a read-only sibling
+   reference (shallow clone, single commit `202480b`).
+3. Audited team models, routes, controllers, engines, seed script, middleware
+   and frontend data layer. Verified all ten route paths and their response
+   shapes. Found that the frontend imports local data modules and does not call
+   the Node API, that `POST /api/analog/search` scores an in-memory catalogue,
+   and that `POST /api/analog/image-match` is a heuristic 5-D matcher.
+4. Recorded provenance caveats: Mongoose schema defaults
+   (`similarity_score: 0`, `data_coverage: 100`, `data_confidence: 95`) are not
+   measurements; metrics are 0–100 heuristic indices; catalogue coordinates use
+   `{lat, lon}` while MongoDB uses GeoJSON `[lon, lat]`.
+5. Created branch `feat/place-and-image-retrieval`.
+6. Added `.gitignore`; untracked 26 `.pyc` files, `data/assistant.db`,
+   `data/smoke.db` and `evaluation/_tmp_debug.db`; preserved all source, corpus,
+   fixtures, evaluation questions and model result JSONs. Generated logs and PIDs
+   are now ignored and left on disk.
+7. Wrote `docs/llm/TEAM_INTEGRATION.md` and `docs/llm/ROADMAP.md`.
+
+### Files changed in this session
+
+- `.gitignore` — new.
+- `docs/llm/TEAM_INTEGRATION.md` — new.
+- `docs/llm/ROADMAP.md` — new.
+- `docs/llm/EXPERIMENT_LOG.md` — Runs 9 and 10 recorded.
+- `docs/llm/ARCHITECTURE.md` — 73 tests, real inference wording.
+- `docs/llm/AGENT_ACTIVITY.md`, `TASKS.md`, `HANDOVER.md` — updated.
+- `evaluation/results/eval-20261114T173740Z-model.json` — added.
+- `evaluation/results/eval-20261114T173743Z-model.json` — added.
+- `evaluation/results/latest.json`, `model-eval-console.log` — updated.
+
+### Commands and exact outcomes
+
+```powershell
+$env:PYTEST_DISABLE_PLUGIN_AUTOLOAD='1'; python -m pytest -p no:warnings
+# 73 passed in 7.66s
+python -m ruff check .
+# All checks passed!
+git checkout -b feat/place-and-image-retrieval
+git commit -m "chore: audit integration repositories and clean generated artifacts"
+# 325297d5eb05521cf81afc5149f25310d60108e3
+git commit -m "docs: add team integration architecture and implementation roadmap"
+# 30ea632
+```
+
+### Decisions
+
+- Treat team schema fields as unverified platform values, never as measurements.
+- Add a dedicated place/search contract rather than converting heuristic metrics
+  into verified `EvidenceItem` measurements.
+- Keep Mongo access exclusively in the Node backend; the assistant uses one
+  configurable read-only HTTP base URL.
+- Document additive team endpoints; do not modify the team repository.
+- Do not claim visual similarity as geological equivalence anywhere in the new
+  image contracts.
+
+### Blockers
+
+- No live MongoDB/Node backend locally; the team app needs an Atlas URI. All
+  adapter work will be tested with mocked HTTP responses only.
+- Exact live response shapes beyond code inspection remain unverified.
+
+### Next dependency
+
+Phase 1: implement `assistant/adapters/team_backend.py` with strict timeouts,
+response normalisation, verbatim score preservation and mocked tests.
+
+---
+
+## Session 2026-11-15 — Phases 1–7 implementation
+
+### Start state
+
+- Branch `feat/place-and-image-retrieval` at `279ac49`.
+- No team backend adapter, no place retrieval, no image retrieval.
+- 73 tests passing.
+
+### Work performed
+
+1. **Phase 1** — added `assistant/adapters/team_records.py` (normalised
+   read-only records) and `assistant/adapters/team_backend.py` (httpx client for
+   the audited Express routes only). Scores keep their original JSON number type;
+   missing metrics stay missing; both coordinate shapes are supported; redirects,
+   credentials and invalid base URLs are refused; reports and evidence are not
+   synthesised. 13 mocked tests.
+2. **Phase 2** — added `assistant/retrieval/query_parser.py` (deterministic,
+   clause-scoped numeric parsing) and `assistant/places/contracts.py`.
+3. **Phase 3** — added `assistant/places/service.py` and
+   `POST /api/assistant/places/search`. Unsupported dimensions produce
+   `unavailable_fields`; missing metrics exclude a candidate and are reported,
+   never treated as zero. 15 tests.
+4. **Phase 4–7** — added `assistant/images/`: contracts, URL/SSRF validation,
+   NASA Image Library, GIBS (Earth only), PDS (defensive ODE parsing),
+   orchestrator and `POST /api/assistant/images/search`. 20 mocked tests.
+5. Added `AssistantService.close()` and switched the FastAPI lifespan to it so
+   provider HTTP clients and the SQLite store are released.
+6. Wrote `docs/llm/IMAGES.md`; updated `API_CONTRACT.md`, `README.md`,
+   `TASKS.md` and `HANDOVER.md`.
+
+### Files changed in this session
+
+- `assistant/adapters/team_records.py`, `assistant/adapters/team_backend.py`
+- `assistant/places/contracts.py`, `assistant/places/service.py`
+- `assistant/retrieval/query_parser.py`
+- `assistant/images/contracts.py`, `validation.py`, `orchestrator.py`
+- `assistant/images/providers/{base,nasa_library,gibs,pds}.py`
+- `assistant/config.py`, `assistant/service.py`, `assistant/api.py`
+- `.env.example`, `README.md`
+- `tests/test_team_backend_adapter.py`, `tests/test_place_search.py`,
+  `tests/test_images.py`
+- `docs/llm/{IMAGES.md,API_CONTRACT.md,TASKS.md,HANDOVER.md}`
+
+### Commands and exact outcomes
+
+```powershell
+$env:PYTEST_DISABLE_PLUGIN_AUTOLOAD='1'
+python -m pytest -p no:warnings
+# 122 passed
+python -m ruff check .
+# All checks passed!
+```
+
+### Decisions
+
+- Place retrieval uses a dedicated contract with provenance and
+  `missing_fields`; team metrics are never promoted to `EvidenceItem`
+  measurements.
+- Qualitative terrain terms fall back to documented 0–100 heuristic indices only
+  when the supplied text does not mention the term, with an explicit limitation.
+- Numeric ranges are created only from explicitly stated numbers; adjectives
+  never become thresholds.
+- Image relevance, visual resemblance, geological analogy, environmental
+  analogy, scientific similarity and mission usefulness stay separate. The image
+  contracts contain no score field at all.
+- GIBS is Earth-only and is never used for Moon or Mars; PDS is Moon/Mars-only.
+- The GIBS WMS URL is validated but not fetched server-side; the limitation is
+  stated in the record and in the docs.
+- PDS parsing is defensive because the live ODE response shape is unverified.
+
+### Blockers
+
+- No live MongoDB/Node backend, so all integration tests use mocked HTTP.
+- Live PDS ODE and GIBS response shapes remain unverified.
+- NASA Image Library does not supply per-item licence or instrument.
+
+### Follow-up in the same session
+
+- Added Phase 8 tests: attribution/identity completeness, injection metadata
+  preserved as data, and a places → images end-to-end flow.
+- Updated `IMAGES.md` (23 tests), `TASKS.md` (LLM-028/029 done),
+  `ARCHITECTURE.md` (125 tests, new modules and flows), `TEAM_INTEGRATION.md`
+  (egress allowlist) and `HANDOVER.md`.
+- Pushed the branch. Remote SHA `f9d9436` verified with `git ls-remote`.
+
+Final state of this session: **125 tests passed**, Ruff clean. Commits:
+`5db9a9a` (adapter), `b5e9396` (places), `fe87f0f` (images), `306fac7` (image
+docs), `da95b8f` (Phase 8 tests).
+
+### Next dependency
+
+Push the branch if authenticated, then verify the PDS ODE live response shape and
+optionally run one read-only smoke test against the deployed team backend.
+
+---
+
+## Session 2026-11-15 — team-integration branch (Groq + handover)
+
+### Start state
+
+- Branch `feat/place-and-image-retrieval` at `250685e`, pushed.
+- 125 tests passing; place and image retrieval implemented with mocked tests.
+- No hosted inference provider; only Ollama plus deterministic fallback.
+- Team engine internals (`similarityEngine.js`, `imageSimilarityEngine.js`) had
+  not been read line by line in a previous session.
+
+### Work performed (in progress)
+
+1. Created branch `feat/team-integration-place-image-groq`.
+2. Read `similarityEngine.js` and `imageSimilarityEngine.js` in full and recorded
+   their defaults and derivations in `TEAM_INTEGRATION.md`: missing criteria
+   become `70`, missing analog metrics become `50`, coverage is a dimension
+   count, and `match_percentage` is arithmetic over catalogue constants.
+3. Audited tracked files for credentials: only placeholder values in the team
+   `.env.example`; no real secret found, no rotation required.
+4. Confirmed the step-by-step guide PDF is absent and recorded that fact.
+5. Wrote `IMPLEMENTATION_ROADMAP.md` with phases 0–10 and honest status.
+
+---
+
+## Session 2026-11-15 — Groq provider, documentation, verification
+
+### Start state
+
+- Branch `feat/team-integration-place-image-groq` at `7dc8b58`, clean working
+  tree. No Groq file or modification existed yet.
+- 125 tests passing; place and image retrieval implemented against mocked HTTP.
+- No hosted inference provider.
+
+### Work performed
+
+1. **Provider abstraction** — added `assistant/llm/types.py`
+   (`ModelResponse`, `ModelUnavailable`) and moved Ollama onto it, keeping
+   backward-compatible imports. Added `assistant/llm/provider.py` with
+   `build_llm_client` and a provider-agnostic health payload.
+2. **Groq adapter** — added `assistant/llm/groq.py`: OpenAI-compatible
+   `/chat/completions`, `response_format: json_schema` (best-effort, with one
+   JSON-object retry), actual model ID and token usage, configurable timeout,
+   distinct 401/403/429/404 and transport errors, key redaction, and a
+   reachability-based health probe (`GET /models`).
+3. **Configuration** — `ASSISTANT_LLM_PROVIDER` plus `GROQ_API_KEY`(SecretStr)/
+   `GROQ_MODEL`/`GROQ_BASE_URL`/`GROQ_TIMEOUT_S`/health/temperature/token
+   settings. Ollama settings untouched and still the default.
+4. **Generator** — selects the provider, records `provider`/`total_tokens` in
+   `GenerationOutcome`, sets `model_provider` on the answer, and keeps
+   parse → validate → fallback unchanged for every provider.
+5. **Health** — `GET /api/assistant/health` now reports provider, configured
+   model, reachability, authentication, availability, effective model block
+   (local vs hosted) and structured backend status. No secret is returned.
+6. **Tests** — added `tests/test_groq_provider.py` with 29 mocked tests.
+7. **Evaluation runner** — added `--provider ollama|groq` for `--use-model`;
+   provider recorded in the result file; keys never recorded.
+8. **Documentation** — wrote `PLACE_RETRIEVAL.md`, `IMAGE_RETRIEVAL.md`,
+   `PROVIDER_CONFIGURATION.md`; updated `MODEL_SELECTION.md`,
+   `ARCHITECTURE.md`, `API_CONTRACT.md`, `TEAM_INTEGRATION.md` (gateway and
+   browser-to-Groq boundary), `TASKS.md`, `KNOWN_LIMITATIONS.md` (L28–L31),
+   `EVALUATION.md`, `EXPERIMENT_LOG.md` (Run 11), `IMPLEMENTATION_ROADMAP.md`,
+   `README.md`, `.env.example`, `HANDOVER.md`.
+
+### Commands and exact outcomes
+
+```powershell
+$env:PYTEST_DISABLE_PLUGIN_AUTOLOAD='1'
+python -m pytest -p no:warnings
+# 154 passed in 11.32s
+python -m ruff check .
+# All checks passed!
+python scripts/run_evaluation.py
+# 26/26 questions passed
+# eval-20261115T111105Z-evidence_only_fallback.json
+```
+
+Commits: `e96f07a` (provider), `0b332f1` (tests), `c215ff1` (documentation).
+
+### Decisions
+
+- Keep Ollama the default; Groq opt-in only, never required for local use.
+- Default Groq model `openai/gpt-oss-120b`: current production model on Groq
+  and one of those documented for JSON-Schema structured outputs. Model remains
+  configurable.
+- Best-effort `json_schema` rather than strict mode, because Groq strict mode
+  requires every field to be required and `ModelDraft` deliberately has
+  optional fields. Server-side validation stays the gate.
+- No Groq SDK added; `httpx` was already a dependency.
+- Health performs a real `GET /models` probe so a configured key is never
+  reported as available on its own.
+
+### Blockers
+
+- `GROQ_API_KEY` absent (no shell variable, no `.env`), so no live Groq request
+  was made. Recorded as L28 and LLM-036 `blocked`.
+- No live team Node/MongoDB backend; integration remains mocked.
+
+### Next dependency
+
+Push the branch; supply a Groq key for one live smoke test; run a read-only
+smoke test against the deployed team backend.
+

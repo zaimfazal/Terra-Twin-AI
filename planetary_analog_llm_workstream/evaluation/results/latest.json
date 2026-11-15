@@ -1,6 +1,7 @@
 {
-  "run_at": "2026-11-14T13:28:16.186544+00:00",
+  "run_at": "2026-11-15T11:24:17.015705+00:00",
   "mode": "evidence_only_fallback",
+  "provider": null,
   "ollama_url": null,
   "model_health": null,
   "questions_total": 26,
@@ -35,7 +36,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     },
     {
       "id": "Q02",
@@ -65,7 +66,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     },
     {
       "id": "Q03",
@@ -95,7 +96,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     },
     {
       "id": "Q04",
@@ -125,7 +126,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     },
     {
       "id": "Q05",
@@ -155,7 +156,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     },
     {
       "id": "Q06",
@@ -185,7 +186,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     },
     {
       "id": "Q07",
@@ -215,7 +216,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     },
     {
       "id": "Q08",
@@ -245,7 +246,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "No stored candidate record was supplied in this evidence pack, so the available evidence does not establish a candidate-specific analogy. AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "No stored candidate record was supplied in this evidence pack, so the available evidence does not establish a candidate-specific analogy. AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     },
     {
       "id": "Q09",
@@ -275,7 +276,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     },
     {
       "id": "Q10",
@@ -305,7 +306,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     },
     {
       "id": "Q11",
@@ -335,7 +336,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     },
     {
       "id": "Q12",
@@ -365,7 +366,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     },
     {
       "id": "Q13",
@@ -395,7 +396,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "The available evidence does not establish this. No stored candidate record was supplied in this evidence pack, so the available evidence does not establish a candidate-specific analogy. AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "The available evidence does not establish this. No stored candidate record was supplied in this evidence pack, so the available evidence does not establish a candidate-specific analogy. AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     },
     {
       "id": "Q14",
@@ -425,7 +426,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     },
     {
       "id": "Q15",
@@ -455,7 +456,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     },
     {
       "id": "Q16",
@@ -485,7 +486,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     },
     {
       "id": "Q17",
@@ -515,7 +516,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     },
     {
       "id": "Q18",
@@ -545,7 +546,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "No stored candidate record was supplied in this evidence pack, so the available evidence does not establish a candidate-specific analogy. AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "No stored candidate record was supplied in this evidence pack, so the available evidence does not establish a candidate-specific analogy. AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     },
     {
       "id": "Q19",
@@ -575,7 +576,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "No stored candidate record was supplied in this evidence pack, so the available evidence does not establish a candidate-specific analogy. AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "No stored candidate record was supplied in this evidence pack, so the available evidence does not establish a candidate-specific analogy. AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     },
     {
       "id": "Q20",
@@ -605,7 +606,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "No stored candidate record was supplied in this evidence pack, so the available evidence does not establish a candidate-specific analogy. AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "No stored candidate record was supplied in this evidence pack, so the available evidence does not establish a candidate-specific analogy. AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     },
     {
       "id": "Q21",
@@ -635,7 +636,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "No stored candidate record was supplied in this evidence pack, so the available evidence does not establish a candidate-specific analogy. AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "No stored candidate record was supplied in this evidence pack, so the available evidence does not establish a candidate-specific analogy. AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     },
     {
       "id": "Q22",
@@ -665,7 +666,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     },
     {
       "id": "Q23",
@@ -695,7 +696,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     },
     {
       "id": "Q24",
@@ -725,7 +726,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     },
     {
       "id": "Q25",
@@ -755,7 +756,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "The available evidence does not establish this. No stored candidate record was supplied in this evidence pack, so the available evidence does not establish a candidate-specific analogy. AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "The available evidence does not establish this. No stored candidate record was supplied in this evidence pack, so the available evidence does not establish a candidate-specific analogy. AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     },
     {
       "id": "Q26",
@@ -785,7 +786,7 @@
           "Ollama is not reachable at http://127.0.0.1:9: timed out"
         ]
       },
-      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: local model unavailable"
+      "answer_summary": "TEST-ONLY FIXTURE DATA: these synthetic values are not platform measurements. Evidence-only summary for CAND-001 (Fixture Site Alpha (synthetic; test-only)). Supplied overall similarity: 62.4 (unchanged). Supplied data coverage: 55.0 (unchanged). Supplied data confidence: 0.48 (unchanged). 10 available evidence item(s); 2 unavailable field(s); 1 stored contradiction(s). AI interpretation was not generated. This is a retrieval-only fallback, not a scientific conclusion. Reason: inference provider unavailable"
     }
   ]
 }

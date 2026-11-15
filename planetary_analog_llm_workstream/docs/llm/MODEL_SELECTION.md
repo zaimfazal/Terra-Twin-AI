@@ -1,9 +1,31 @@
 # Model selection
 
-## Constraints
+## Two inference providers, one pipeline
 
-- Free/open weights; no paid API, hosted inference, embeddings API or vector DB.
-- Local runtime preferred: Ollama over loopback HTTP.
+The assistant supports two interchangeable providers. They differ only in where
+inference runs; both feed the same prompt, parser and evidence validation.
+
+| Provider | Location | Credential | Required? | Weights needed? |
+|---|---|---|---|---|
+| **Ollama** | local process, loopback HTTP | none | no | yes, pulled locally |
+| **Groq** | hosted OpenAI-compatible API | server-side `GROQ_API_KEY` | no | no |
+
+- Ollama is the **default** and the offline path. It uses free/open weights and
+  involves no hosted service.
+- Groq is **optional** and exists so the deployed site can answer without a
+  laptop-hosted Ollama. It sends the evidence pack to a hosted provider, so it
+  is a data-egress decision the operator must make deliberately.
+- Groq requires a server-side API key and is never called from a browser.
+- A model's licence and a provider's terms are different things: an
+  Apache-2.0 model served by Groq is still subject to Groq's usage terms, rate
+  limits and pricing.
+- Groq free-tier limits (requests/tokens per minute and per day) are subject to
+  change; check the provider console. They constrain evaluation runs.
+- Configuration and secret handling: `PROVIDER_CONFIGURATION.md`.
+
+## Constraints (local default)
+
+- Local inference must stay free and offline-capable.
 - Configurable model name and generation options.
 - Must run on the development machine: 8 GB RAM, GTX 1650 with ~4 GB VRAM,
   i5-11320H.
@@ -38,12 +60,17 @@ Larger Qwen3 variants (8B, 14B, 30B, 32B) exceed comfortable VRAM at useful
 context lengths on a 4 GB GPU. They are not required for evidence quotation and
 would increase latency and the risk of truncation.
 
-### Why not a "free" hosted model
+### Why the default is not a hosted model
 
-A free hosted tier is not an open-source licence and creates a network
-dependency, data-egress risk and availability risk. The brief requires local,
-free/open operation. The assistant therefore never sends evidence to a hosted
-service.
+A hosted tier is not an open-source licence and creates a network dependency,
+data-egress consideration and availability risk. The evidence-grounded path is
+required to work locally and offline, so Ollama remains the default and local
+use never requires a hosted key or network inference.
+
+Groq was added as an **explicit opt-in** (`ASSISTANT_LLM_PROVIDER=groq`) for
+deployment, not as a replacement. It uses `openai/gpt-oss-120b`, a current
+Groq-hosted model that supports JSON-Schema structured outputs. No model weights
+are shipped or downloaded for the Groq path. See `PROVIDER_CONFIGURATION.md`.
 
 ## Verification performed
 

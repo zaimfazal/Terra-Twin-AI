@@ -9,7 +9,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Literal
 
-from pydantic import Field
+from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 WORKSTREAM_ROOT = Path(__file__).resolve().parent.parent
@@ -21,6 +21,7 @@ class Settings(BaseSettings):
         env_file=".env",
         extra="ignore",
         case_sensitive=False,
+        populate_by_name=True,
     )
 
     # Storage
@@ -35,13 +36,51 @@ class Settings(BaseSettings):
     # fixture: synthetic records marked test-only (development/evaluation only)
     # json_export: a read-only export produced by the platform owner
     # postgres: read-only SQL views described in docs/llm/API_CONTRACT.md
-    structured_backend: Literal["fixture", "json_export", "postgres"] = "fixture"
+    # team_backend: read-only HTTP client for the team Node/Express API
+    structured_backend: Literal[
+        "fixture", "json_export", "postgres", "team_backend"
+    ] = "fixture"
     platform_export_path: Path | None = None
     postgres_dsn: str | None = None
+
+    # Team backend (Node/Express). The Node service owns MongoDB; this URL is
+    # the only integration point and no database credential is stored here.
+    team_backend_url: str = Field(
+        default="http://localhost:8000",
+        validation_alias="TERRATWIN_BACKEND_URL",
+    )
+    team_backend_timeout_s: float = 10.0
+    team_backend_max_retries: int = 1
 
     # Refuse fixture data in production-like deployments. When false, startup
     # fails if the configured backend would return unverified fixture records.
     allow_fixture_data: bool = True
+
+    # Inference provider selection. Ollama is the local default; Groq is an
+    # optional hosted provider that must never be required for local use.
+    llm_provider: Literal["ollama", "groq"] = "ollama"
+
+    # Hosted Groq inference (OpenAI-compatible API). These settings use the
+    # unprefixed GROQ_* environment names documented by the provider so a key
+    # can be supplied without changing the local configuration. The key is a
+    # SecretStr and is never logged, serialised or returned by the API.
+    groq_api_key: SecretStr | None = Field(default=None, validation_alias="GROQ_API_KEY")
+    groq_model: str = Field(default="openai/gpt-oss-120b", validation_alias="GROQ_MODEL")
+    groq_base_url: str = Field(
+        default="https://api.groq.com/openai/v1", validation_alias="GROQ_BASE_URL"
+    )
+    groq_timeout_s: float = Field(default=60.0, validation_alias="GROQ_TIMEOUT_S")
+    groq_health_timeout_s: float = Field(
+        default=5.0, validation_alias="GROQ_HEALTH_TIMEOUT_S"
+    )
+    groq_temperature: float = Field(default=0.0, validation_alias="GROQ_TEMPERATURE")
+    groq_max_completion_tokens: int = Field(
+        default=4096, validation_alias="GROQ_MAX_COMPLETION_TOKENS"
+    )
+    # Groq strict JSON Schema mode requires every field to be required. The
+    # ModelDraft schema has optional fields, so best-effort json_schema mode is
+    # the default. See PROVIDER_CONFIGURATION.md.
+    groq_strict_schema: bool = Field(default=False, validation_alias="GROQ_STRICT_SCHEMA")
 
     # Local inference (Ollama). Verified default target: see MODEL_SELECTION.md.
     ollama_base_url: str = "http://127.0.0.1:11434"
@@ -53,6 +92,9 @@ class Settings(BaseSettings):
     ollama_temperature: float = 0.0
     ollama_num_predict: int = 1200
     require_model: bool = False
+
+    # Image retrieval providers (NASA Image Library, GIBS, PDS).
+    image_provider_timeout_s: float = 15.0
 
     # Retrieval
     max_documents: int = 5

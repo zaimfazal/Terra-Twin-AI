@@ -28,10 +28,14 @@ from assistant.evidence.validation import (
     detect_citation_fabrication,
     detect_score_manipulation,
 )
+from assistant.images.contracts import ImageSearchRequest, ImageSearchResponse
+from assistant.images.orchestrator import ImageRetrievalService
 from assistant.ingestion.store import DocumentStore
 from assistant.llm.generation import GroundedGenerator
-from assistant.llm.ollama import ollama_health_payload
 from assistant.llm.prompt import PROMPT_VERSION
+from assistant.llm.provider import provider_health_payload
+from assistant.places.contracts import PlaceSearchRequest, PlaceSearchResponse
+from assistant.places.service import PlaceSearchService
 
 
 class AssistantService:
@@ -42,6 +46,7 @@ class AssistantService:
         store: DocumentStore | None = None,
         adapter=None,
         generator: GroundedGenerator | None = None,
+        image_service: ImageRetrievalService | None = None,
     ):
         self.settings = settings or default_settings
         if not self.settings.allow_fixture_data and self.settings.structured_backend == "fixture":
@@ -55,6 +60,8 @@ class AssistantService:
         self.store = store or DocumentStore(self.settings.db_path)
         self.generator = generator or GroundedGenerator(self.settings)
         self.assembler = EvidenceAssembler(self.adapter, self.store, self.settings)
+        self.place_search = PlaceSearchService(self.adapter)
+        self._image_service = image_service
 
         if self.settings.auto_ingest_corpus:
             corpus = Path(self.settings.corpus_dir)
@@ -83,6 +90,14 @@ class AssistantService:
             raise AdapterUnavailable(
                 "The postgres adapter is a proposed contract awaiting the platform "
                 "backend owner. No platform database exists in this repository."
+            )
+        if backend == "team_backend":
+            from assistant.adapters.team_backend import TeamBackendAdapter
+
+            return TeamBackendAdapter(
+                self.settings.team_backend_url,
+                timeout_s=self.settings.team_backend_timeout_s,
+                max_retries=self.settings.team_backend_max_retries,
             )
         raise AdapterUnavailable(f"unknown structured backend: {backend}")
 
@@ -156,28 +171,71 @@ class AssistantService:
             answer.prompt_version = PROMPT_VERSION
         return answer
 
+    def search_places(self, request: PlaceSearchRequest) -> PlaceSearchResponse:
+        return self.place_search.search(request)
+
+    def search_images(self, request: ImageSearchRequest) -> ImageSearchResponse:
+        if self._image_service is None:
+            self._image_service = ImageRetrievalService(
+                self.adapter,
+                timeout_s=self.settings.image_provider_timeout_s,
+            )
+        return self._image_service.search(request)
+
+    def close(self) -> None:
+        """Release the store and any provider HTTP clients this service owns."""
+        if self._image_service is not None:
+            self._image_service.close()
+            self._image_service = None
+        close_adapter = getattr(self.adapter, "close", None)
+        if callable(close_adapter):
+            close_adapter()
+        self.store.close()
+
     # ------------------------------------------------------------------
     # Health and feedback
     # ------------------------------------------------------------------
     def health(self) -> HealthResponse:
         stats = self.store.stats()
-        inference = ollama_health_payload(self.generator.client)
+        inference = provider_health_payload(self.generator.client)
+        provider = inference.get("provider", self.settings.llm_provider)
         mode = DataProvenanceMode(self.adapter.data_provenance_mode)
-        return HealthResponse(
-            retrieval={
-                "backend": "sqlite_fts5",
-                "db_path": str(self.store.path),
-                **stats,
-            },
-            inference=inference,
-            model={
+        if provider == "groq":
+            model_block = {
+                "provider": "groq",
+                "configured": self.settings.groq_model,
+                "fallback": None,
+                "temperature": self.settings.groq_temperature,
+                "timeout_s": self.settings.groq_timeout_s,
+                "max_completion_tokens": self.settings.groq_max_completion_tokens,
+                "prompt_version": PROMPT_VERSION,
+                "local_only": False,
+                "hosted": True,
+            }
+        else:
+            model_block = {
+                "provider": "ollama",
                 "configured": self.settings.ollama_model,
                 "fallback": self.settings.ollama_fallback_model,
                 "context_length": self.settings.ollama_num_ctx,
                 "temperature": self.settings.ollama_temperature,
                 "prompt_version": PROMPT_VERSION,
                 "local_only": True,
+                "hosted": False,
+            }
+        return HealthResponse(
+            retrieval={
+                "backend": "sqlite_fts5",
+                "db_path": str(self.store.path),
+                "structured_backend": self.settings.structured_backend,
+                "structured_backend_name": getattr(
+                    self.adapter, "backend_name", self.settings.structured_backend
+                ),
+                "structured_backend_status": "configured",
+                **stats,
             },
+            inference=inference,
+            model=model_block,
             data_mode=mode,
             fts5_available=self.store.fts5_available,
             message=(

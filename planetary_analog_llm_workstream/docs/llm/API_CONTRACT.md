@@ -54,9 +54,14 @@ fixture/fallback run:
   ],
   "validation": {"schema_valid": true, "evidence_ids_valid": true, "sources_valid": true},
   "response_id": "RESP-...",
-  "pack_id": "PACK-..."
+  "pack_id": "PACK-...",
+  "model": "qwen3:4b-instruct-2507-q4_K_M",
+  "model_provider": "ollama"
 }
 ```
+
+`model` is the model ID the provider actually reported, and `model_provider` is
+`ollama` or `groq`. Both are `null` in fallback mode when no model answered.
 
 ### `POST /api/assistant/explain-report`
 
@@ -82,34 +87,57 @@ Response (`HealthResponse`):
   "retrieval": {
     "backend": "sqlite_fts5",
     "db_path": "...",
+    "structured_backend": "fixture",
+    "structured_backend_name": "fixture",
+    "structured_backend_status": "configured",
     "sources": 9,
     "failed_sources": 0,
     "chunks": 38,
     "fts5_available": true
   },
   "inference": {
+    "provider": "ollama",
     "available": true,
+    "reachable": true,
     "base_url": "http://127.0.0.1:11434",
     "configured_model": "qwen3:4b-instruct-2507-q4_K_M",
     "configured_model_present": true,
     "fallback_model": "qwen2.5:3b-instruct-q4_K_M",
     "fallback_model_present": false,
     "installed_models": ["qwen3:4b-instruct-2507-q4_K_M"],
+    "error": null,
     "mode": "local_ollama"
   },
   "model": {
+    "provider": "ollama",
     "configured": "qwen3:4b-instruct-2507-q4_K_M",
     "fallback": "qwen2.5:3b-instruct-q4_K_M",
     "context_length": 8192,
     "temperature": 0.0,
     "prompt_version": "assistant-rag-v1.1.0",
-    "local_only": true
+    "local_only": true,
+    "hosted": false
   },
   "data_mode": "fixture_test_only",
   "fts5_available": true,
   "message": "Structured data is synthetic test-only fixture data; not platform output."
 }
 ```
+
+### Inference provider reporting
+
+`GET /api/assistant/health` distinguishes configuration from availability:
+
+- `inference.configured` — a Groq key is present / Ollama settings exist.
+- `inference.reachable` — the provider host answered HTTP.
+- `inference.authenticated` — Groq accepted the key (`GET /models` succeeded).
+- `inference.available` — an actual provider request succeeded. A configured
+  key alone never sets this to `true`.
+- `inference.error` — safe diagnostic; never contains the API key.
+
+No route returns, logs or echoes credentials, MongoDB URIs or auth headers.
+When `ASSISTANT_LLM_PROVIDER=groq`, `model` reports the Groq model and
+`local_only: false`; otherwise it reports the Ollama model and `local_only: true`.
 
 ### `POST /api/assistant/feedback`
 
@@ -202,6 +230,98 @@ field names as the Pydantic models:
 No view may be writable by the assistant role. The assistant needs only
 `SELECT`. The adapter is intentionally unimplemented until the owner confirms
 names, types, null semantics and ID stability.
+
+## Team backend adapter (`team_backend`)
+
+`ASSISTANT_STRUCTURED_BACKEND=team_backend` selects
+`assistant.adapters.team_backend.TeamBackendAdapter`, which calls the team's
+Node/Express API at `TERRATWIN_BACKEND_URL` (default `http://localhost:8000`).
+It is read-only, holds no database credential and never synthesises reports or
+evidence.
+
+Consumed endpoints: `GET /api/health`, `/api/analog`, `/api/analog/{id}`,
+`/api/targets`, `/api/mission-profiles`, `/api/nasa-datasets`,
+`/api/analog/nearby`, and the read-only `POST /api/analog/within-polygon`.
+
+## `POST /api/assistant/places/search`
+
+Natural-language candidate retrieval over the team's Analog records.
+
+Request (`PlaceSearchRequest`, `assistant/places/contracts.py`):
+
+```json
+{
+  "question": "Find arid environments with volcanic terrain similar to Mars",
+  "target": null,
+  "planetary_reference": null,
+  "filters": null,
+  "max_results": 10,
+  "offset": 0
+}
+```
+
+- `question` or `filters` is required.
+- `filters` may add explicit `text_terms`, `countries`, `primary_planet_analogs`,
+  `target_ids`, `dataset_terms`, `metrics`, `bounding_box`, or `radius`.
+- Numeric ranges are applied only to the documented 0-100 platform indices
+  (`roughness`, `relief`, `slope`, `aridity`, `thermal`, `rockiness`, `volcanic`,
+  `access`). Numeric elevation is unavailable because the team schema stores
+  elevation as display text.
+
+Response (`PlaceSearchResponse`) includes `interpreted_filters`, `results`
+with `match_explanations`, `unavailable_fields`, `missing_information`,
+`limitations`, `data_provenance_mode`, `backend`, and
+`ordering: "backend_order_preserved"`.
+
+Semantics:
+
+- A missing metric excludes a candidate from that filter and is reported under
+  `missing_information`; it is never treated as zero or as dissimilarity.
+- Scores, coverage and confidence are echoed verbatim and never re-ranked.
+- Unsupported dimensions (mineralogy, vegetation, numeric elevation,
+  temperature, candidate mission profile) are returned as `unavailable_fields`.
+- An empty result is returned explicitly; nothing is fabricated.
+- Qualitative terrain terms may match a documented heuristic index when the text
+  does not mention the term; a limitation states this and labels the index as
+  unverified.
+
+## `POST /api/assistant/images/search`
+
+Cross-planetary NASA image retrieval. Providers: NASA Image and Video Library,
+GIBS (Earth only) and PDS (Moon/Mars only). Full detail in `IMAGES.md`.
+
+Request (`ImageSearchRequest`):
+
+```json
+{
+  "target": null,
+  "candidate_id": null,
+  "planets": ["earth", "moon", "mars"],
+  "image_types": [],
+  "feature_keywords": [],
+  "max_per_planet": 5
+}
+```
+
+- `target`, `candidate_id` or `feature_keywords` must supply the query basis;
+  otherwise the response is empty with an explicit limitation.
+- `planets` is deduplicated and order-preserving.
+
+Response (`ImageSearchResponse`): `earth`, `moon`, `mars` groups of
+`ImageRecord`, plus `sources`, `missing_previews`, `rejected_assets`,
+`limitations`, `providers_used`, `resolved_target_id`,
+`resolved_candidate_id`, `data_provenance_mode` and a fixed `notice`.
+
+Semantics:
+
+- No score, confidence or similarity field exists in the image contracts.
+- Image relevance is keyword-only and is never described as visual, geological or
+  scientific equivalence.
+- Asset URLs must be HTTPS and on the provider allowlist; failures go to
+  `rejected_assets`.
+- Products with no browse image appear in `missing_previews`, not as fake records.
+- Provider failures degrade to `limitations`; other providers still answer.
+- GIBS is never used for Moon or Mars; PDS is never used for Earth.
 
 ## Integration questions for the backend owner
 

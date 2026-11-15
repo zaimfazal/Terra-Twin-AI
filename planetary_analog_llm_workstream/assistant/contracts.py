@@ -469,6 +469,7 @@ class AssistantAnswer(BaseModel):
     response_id: str = ""
     pack_id: str | None = None
     model: str | None = None
+    model_provider: str | None = None
     prompt_version: str | None = None
     disclaimer: str = (
         "The assistant explains supplied platform records. It does not create, "

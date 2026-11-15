@@ -103,7 +103,15 @@ $env:PYTEST_DISABLE_PLUGIN_AUTOLOAD='1'
 python -m pytest -p no:warnings
 ```
 
-Exact outcome: `71 passed in 7.40s`.
+Exact outcome on 2026-11-15 (after the Groq provider work):
+
+```text
+154 passed in 11.32s
+```
+
+That total is the 125-test team/place/image baseline plus 29 mocked Groq
+provider tests. Earlier recorded totals in this file and in the activity log are
+historical and are not re-labelled.
 
 Ruff:
 
@@ -113,11 +121,23 @@ python -m ruff check .
 
 Exact outcome: `All checks passed!`.
 
+## Fallback-mode result — 2026-11-15
+
+Command: `python scripts/run_evaluation.py`
+
+Exact outcome: **26/26 passed**; result file
+`evaluation/results/eval-20261115T111105Z-evidence_only_fallback.json`.
+
+This is the verified path and is independent of any inference provider.
+
 ## Model-mode result
 
 See the "Model-mode evaluation" section in `EXPERIMENT_LOG.md` for the exact
 run, model, latency and pass count. If no model run is recorded there, model
 mode has not been evaluated on this machine and no model-accuracy claim is made.
+
+Groq has **not** been run in model mode: no API key was available. Its mocked
+tests verify failure handling and fallback, not answer quality.
 
 ## What the evaluation does not prove
 

@@ -1,12 +1,16 @@
 """Run the assistant evaluation questions and record exact results.
 
 Default mode forces the deterministic evidence-only fallback by pointing at an
-unused local port. ``--use-model`` requires a healthy Ollama endpoint; it fails
-loudly rather than silently evaluating the fallback.
+unused local port. ``--use-model`` requires a healthy endpoint for the selected
+provider; it fails loudly rather than silently evaluating the fallback.
 
 Usage:
     python scripts/run_evaluation.py
     python scripts/run_evaluation.py --use-model --ollama-url http://127.0.0.1:11434
+    python scripts/run_evaluation.py --use-model --provider groq
+
+The Groq provider requires a server-side GROQ_API_KEY in the environment. It is
+never printed or written to the result file.
 """
 
 from __future__ import annotations
@@ -380,7 +384,13 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--model",
         default=None,
-        help="Override the configured Ollama model name.",
+        help="Override the configured model name for the selected provider.",
+    )
+    parser.add_argument(
+        "--provider",
+        choices=["ollama", "groq"],
+        default="ollama",
+        help="Inference provider used with --use-model (default: ollama).",
     )
     args = parser.parse_args(argv)
 
@@ -400,7 +410,9 @@ def main(argv: list[str] | None = None) -> int:
         ollama_base_url=base_url,
         ollama_timeout_s=900.0 if args.use_model else 0.5,
         ollama_health_timeout_s=3.0 if args.use_model else 0.2,
-        **({"ollama_model": args.model} if args.model else {}),
+        llm_provider=args.provider if args.use_model else "ollama",
+        **({"groq_model": args.model} if args.model and args.provider == "groq" else {}),
+        **({"ollama_model": args.model} if args.model and args.provider == "ollama" else {}),
     )
 
     service = AssistantService(settings)
@@ -409,11 +421,12 @@ def main(argv: list[str] | None = None) -> int:
             health = service.generator.health()
             if not health.get("available"):
                 raise SystemExit(
-                    "refusing to evaluate: --use-model requested but Ollama is not "
-                    f"available at {base_url}: {health.get('error')}"
+                    "refusing to evaluate: --use-model requested but "
+                    f"{args.provider} is not available: {health.get('error')}"
                 )
             print(
-                f"model mode: model={health.get('configured_model')} "
+                f"model mode: provider={args.provider} "
+                f"model={health.get('configured_model')} "
                 f"present={health.get('configured_model_present')}"
             )
         else:
@@ -499,7 +512,8 @@ def main(argv: list[str] | None = None) -> int:
         report = {
             "run_at": datetime.now(timezone.utc).isoformat(),
             "mode": "model" if args.use_model else "evidence_only_fallback",
-            "ollama_url": base_url if args.use_model else None,
+            "provider": args.provider if args.use_model else None,
+            "ollama_url": base_url if args.use_model and args.provider == "ollama" else None,
             "model_health": service.generator.health() if args.use_model else None,
             "questions_total": total,
             "passed": passed_count,

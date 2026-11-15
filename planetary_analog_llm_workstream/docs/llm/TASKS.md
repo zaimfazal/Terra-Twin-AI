@@ -20,6 +20,26 @@ Status values: `done`, `partial`, `blocked`, `not started`.
 | LLM-014 | Multi-candidate comparison | not started | Requires a new pack design; do not rank |
 | LLM-015 | Optional local embeddings | not started | Only if FTS5 misses become a measured problem |
 | LLM-016 | Production auth/rate limiting | not started | Owned by platform/backend, not this workstream |
+| LLM-017 | Team repository audit and integration design | done | `TEAM_INTEGRATION.md`; read-only sibling clone |
+| LLM-018 | Repository cleanup and `.gitignore` | done | Untracked pycache/runtime DBs; artifacts preserved on disk |
+| LLM-019 | Team backend read-only HTTP adapter | done | `team_backend.py` + `team_records.py`; 13 mocked tests; no write verbs |
+| LLM-020 | Natural-language query parser | done | Deterministic rules; unsupported fields become warnings |
+| LLM-021 | Place search contracts | done | `assistant/places/contracts.py`; provenance + missing fields |
+| LLM-022 | Place search service and API | done | `POST /api/assistant/places/search` |
+| LLM-023 | NASA Image Library provider | done | `/search`, `/asset/{id}`; validated URLs; missing metadata stays null |
+| LLM-024 | NASA GIBS Earth imagery provider | done | Earth only; layer/date validation; URL not fetched server-side |
+| LLM-025 | PDS planetary image provider | done | Defensive ODE parsing; missing-preview handling; live shape unverified |
+| LLM-026 | Cross-planetary image orchestration | done | Group earth/moon/mars; dedupe by ID and URL; provider isolation |
+| LLM-027 | Image retrieval API | done | `POST /api/assistant/images/search` |
+| LLM-028 | Provider and SSRF test suite | done | 23 mocked tests incl. attribution, injection-as-data, places→images end-to-end; live PDS/GIBS shapes still unverified |
+| LLM-029 | Team handover documentation | done | `HANDOVER.md`, `IMAGES.md`, `TEAM_INTEGRATION.md` maintained per milestone |
+| LLM-030 | Provider abstraction and shared model contract | done | `assistant/llm/types.py`, `provider.py`; `generate`/`health` shared by Ollama and Groq |
+| LLM-031 | Optional Groq hosted provider | done | `assistant/llm/groq.py`; OpenAI-compatible; `openai/gpt-oss-120b`; no weights |
+| LLM-032 | Groq config and secret handling | done | `ASSISTANT_LLM_PROVIDER`, `GROQ_*`; `SecretStr`; never logged or returned |
+| LLM-033 | Groq mocked test suite | done | 29 mocked tests: success, usage, malformed, 401/403/429/404, timeout, network, fallback, secret leakage |
+| LLM-034 | Provider-aware health reporting | done | `GET /api/assistant/health` distinguishes configured / reachable / authenticated / available |
+| LLM-035 | Place, image and provider documentation | done | `PLACE_RETRIEVAL.md`, `IMAGE_RETRIEVAL.md`, `PROVIDER_CONFIGURATION.md` |
+| LLM-036 | Live Groq inference smoke test | blocked | No `GROQ_API_KEY` supplied in this environment; mocked tests only |
 
 ## Next dependency
 

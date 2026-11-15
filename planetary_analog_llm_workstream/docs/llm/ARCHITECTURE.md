@@ -10,11 +10,17 @@ platform contract (see `API_CONTRACT.md`).
 
 Verified in this repository:
 
-- 71 automated tests pass.
+- 154 automated tests pass (125 baseline plus 29 mocked Groq provider tests).
 - 26 evaluation questions pass in deterministic evidence-only fallback mode.
 - SQLite FTS5 is available and 9 corpus documents ingest as `processed`.
-- Ollama 0.40.16 is installed locally; model download and inference results are
-  recorded in `EXPERIMENT_LOG.md`.
+- Ollama 0.40.16 runs `qwen3:4b-instruct-2507-q4_K_M` locally; real inference
+  and model-mode evaluation results are recorded in `EXPERIMENT_LOG.md`.
+- An optional hosted Groq provider is implemented behind the same interface
+  and is covered by mocked HTTP tests only. **No live Groq request has been
+  made** (no key was available).
+- A read-only team-backend adapter, natural-language place retrieval and
+  cross-planetary NASA image retrieval are implemented with mocked tests only;
+  no live MongoDB or Node backend has been exercised.
 
 ## Responsibility boundary
 
@@ -41,15 +47,27 @@ The assistant does **not**:
 | `assistant/config.py` | `ASSISTANT_*` environment settings; local-only defaults |
 | `assistant/adapters/base.py` | `StructuredPlatformAdapter` protocol and `AdapterUnavailable` |
 | `assistant/adapters/json_records.py` | Read-only JSON export/fixture adapter; refuses unmarked data |
+| `assistant/adapters/team_backend.py` | Read-only HTTP client for the team Node/Express API; no write verbs |
+| `assistant/adapters/team_records.py` | Normalised team records with provenance and `missing_fields` |
+| `assistant/retrieval/query_parser.py` | Deterministic place-query parser; no invented thresholds |
+| `assistant/places/contracts.py` | Place-search request/response contracts |
+| `assistant/places/service.py` | Filtering, match explanations, provenance, limitations |
+| `assistant/images/contracts.py` | Image records with no score field; group/source contracts |
+| `assistant/images/validation.py` | HTTPS/host/IP/credential checks against provider allowlists |
+| `assistant/images/providers/*.py` | NASA Image Library, GIBS (Earth only) and PDS providers |
+| `assistant/images/orchestrator.py` | Keyword queries, provider isolation, dedupe, grouping |
 | `assistant/ingestion/loaders.py` | Markdown/TXT/JSON/CSV/PDF loading, metadata, hashing, injection sanitisation |
 | `assistant/ingestion/store.py` | SQLite schema, FTS5 index, source metadata, feedback |
 | `assistant/evidence/assembler.py` | Deterministic evidence-pack assembly and lookups |
 | `assistant/evidence/validation.py` | Server-side ID, numeric, source, proxy, missing-as-zero and overclaim validation |
 | `assistant/llm/prompt.py` | Versioned prompt construction; untrusted-document delimiter |
+| `assistant/llm/types.py` | Shared `ModelResponse` / `ModelUnavailable` provider contract |
 | `assistant/llm/ollama.py` | Local Ollama health and structured generation adapter |
+| `assistant/llm/groq.py` | Optional hosted Groq adapter; OpenAI-compatible, server-side key, never logged |
+| `assistant/llm/provider.py` | Provider selection (`ollama`/`groq`) and provider-agnostic health payload |
 | `assistant/llm/fallback.py` | Deterministic evidence-only answer when inference is unavailable/rejected |
 | `assistant/llm/generation.py` | Generation orchestration, parse/validate, fallback |
-| `assistant/service.py` | Use cases: chat, explain report, health, feedback |
+| `assistant/service.py` | Use cases: chat, explain report, place search, image search, health, feedback, close |
 | `assistant/api.py` | Minimal additive FastAPI routes |
 | `scripts/run_evaluation.py` | Evaluation harness and result recorder |
 
@@ -64,7 +82,7 @@ POST /api/assistant/chat
      -> detect score-manipulation / citation-fabrication requests
      -> GroundedGenerator.generate
         -> build_user_prompt (structured pack + delimited untrusted excerpts)
-        -> OllamaClient.generate (JSON-schema constrained)
+        -> configured provider: OllamaClient or GroqClient (JSON-schema output)
         -> parse_draft
         -> validate_draft (IDs, sources, numbers, classifications, guardrails)
         -> AssistantAnswer OR build_evidence_only_answer
@@ -74,6 +92,44 @@ POST /api/assistant/chat
 
 The evidence pack is built **before** the model call. The model cannot request
 records, query the database, call tools or add sources.
+
+Place and image retrieval do not call the model at all:
+
+```
+POST /api/assistant/places/search
+  -> parse_place_query (deterministic)
+  -> TeamBackendAdapter.list_analogs / find_target (read-only HTTP)
+  -> PlaceSearchService filters documented fields
+  -> results with match_explanations, missing_fields, unavailable_fields
+
+POST /api/assistant/images/search
+  -> TeamBackendAdapter.get_analog / find_target (read-only HTTP)
+  -> keyword query per planet
+  -> NASA Image Library (+ GIBS for Earth, + PDS for Moon/Mars)
+  -> URL/host validation, dedupe, grouping
+  -> earth/moon/mars records, sources, missing_previews, rejected_assets
+```
+
+## Inference providers
+
+`ASSISTANT_LLM_PROVIDER` selects the provider. Both clients expose
+`generate(system_prompt, user_prompt, json_schema) -> ModelResponse` and
+`health() -> dict`, so generation, parsing, validation and fallback are
+provider-independent:
+
+```
+GroundedGenerator
+  -> build_llm_client(settings)      # ollama (default) | groq
+  -> client.generate(...)
+  -> parse_draft / validate_draft    # identical for every provider
+  -> AssistantAnswer | evidence_only_fallback
+```
+
+Ollama runs locally with no credential. Groq is hosted, uses a server-side
+`GROQ_API_KEY`, and is never called by a browser. Provider errors (401/403/429/
+404, timeout, network failure, malformed envelope) all become `ModelUnavailable`
+and therefore the deterministic fallback. Provider choice never bypasses
+validation. Configuration: `PROVIDER_CONFIGURATION.md`.
 
 ## Trust boundaries
 
@@ -121,8 +177,11 @@ context (`ASSISTANT_OLLAMA_NUM_CTX=8192`), not the model's full 256K context.
 
 ## Known architectural gaps
 
-- No real platform adapter implementation; `postgres` raises
-  `AdapterUnavailable` until the backend owner supplies read-only views.
+- The team backend adapter is implemented but never exercised against a live
+  MongoDB/Node deployment; all tests use mocked HTTP.
+- `postgres` still raises `AdapterUnavailable` until the backend owner supplies
+  read-only views.
+- PDS ODE parsing is defensive; the live response shape is unverified.
 - One candidate evidence pack per answer (no cross-candidate comparison).
 - No embeddings or semantic retrieval; FTS5 + structured lookup only.
 - No streaming, auth, rate limiting or multi-tenant isolation.
