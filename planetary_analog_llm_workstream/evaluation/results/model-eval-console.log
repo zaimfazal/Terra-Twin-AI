@@ -1,5 +1,11 @@
-C:\Users\Zaim\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\pydantic\plugin\_schema_validator.py:39: UserWarning: ImportError while loading the `logfire-plugin` Pydantic plugin, this plugin will not be installed.
-
-ImportError("cannot import name '_ExtendedAttributes' from 'opentelemetry.util.types' (C:\\Users\\Zaim\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python312\\site-packages\\opentelemetry\\util\\types.py)")
-  plugins = get_plugins()
 warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+model mode: model=qwen3:4b-instruct-2507-q4_K_M present=True
+Q01 PASS [candidate_explanation] mode=evidence_only_fallback
+Q02 PASS [report_explanation] mode=evidence_only_fallback
+Q03 PASS [strong_matches] mode=evidence_only_fallback
+Q04 PASS [weak_matches] mode=model
+Q05 PASS [provenance] mode=model
+Q06 PASS [missing_data] mode=model
+Q07 PASS [proxy] mode=model
+Q08 FAIL [proxy] mode=model
+    - no_overclaim_flags: overclaim flags=['lend_as_direct_ice']

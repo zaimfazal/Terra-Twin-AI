@@ -10,11 +10,11 @@ platform contract (see `API_CONTRACT.md`).
 
 Verified in this repository:
 
-- 71 automated tests pass.
+- 73 automated tests pass.
 - 26 evaluation questions pass in deterministic evidence-only fallback mode.
 - SQLite FTS5 is available and 9 corpus documents ingest as `processed`.
-- Ollama 0.40.16 is installed locally; model download and inference results are
-  recorded in `EXPERIMENT_LOG.md`.
+- Ollama 0.40.16 runs `qwen3:4b-instruct-2507-q4_K_M` locally; real inference
+  and model-mode evaluation results are recorded in `EXPERIMENT_LOG.md`.
 
 ## Responsibility boundary
 

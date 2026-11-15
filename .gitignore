@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+
+# Runtime state and temporary databases
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+planetary_analog_llm_workstream/data/
+planetary_analog_llm_workstream/evaluation/_tmp_*.db
+
+# Generated logs and process files
+*.log
+*.pid
+
+# Model weights / large artifacts
+*.gguf
+*.bin
+*.safetensors
+*.pt
+*.onnx
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
