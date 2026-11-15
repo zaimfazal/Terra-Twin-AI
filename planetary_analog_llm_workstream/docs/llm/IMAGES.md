@@ -178,7 +178,7 @@ Response:
 
 ## 7. Tests
 
-`tests/test_images.py` (20 tests, all mocked, no live NASA dependency):
+`tests/test_images.py` (23 tests, all mocked, no live NASA dependency):
 
 - URL validation: scheme, credentials, port, localhost, private host, IP literal,
   lookalike domain, `file://`.
@@ -189,8 +189,13 @@ Response:
   coordinates.
 - PDS product with browse, product without browse, unrecognised response shape.
 - Orchestration: grouping, dedupe by ID and by URL, provider-failure isolation,
-  rate limiting, planet selection, image-type filtering, unknown candidate, and
-  absence of any score field.
+  rate limiting, planet selection, image-type filtering, unknown candidate,
+  attribution/identity completeness and absence of any score field.
+- Retrieved metadata carrying an embedded "ignore previous instructions" string
+  is preserved as untrusted text and cannot introduce a score or change the
+  separation notice.
+- End-to-end: a place query resolves a candidate, and the image route uses that
+  candidate and its target without re-resolving or inventing identifiers.
 
 ---
 

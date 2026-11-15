@@ -16,7 +16,9 @@ continuing this workstream.
 | Milestone 3 | `279ac49` — evaluation record + handover |
 | Milestone 4 | `5db9a9a` — Phase 1 adapter |
 | Milestone 5 | `b5e9396` — Phase 2–3 place retrieval |
-| Milestone 6 | Phase 4–7 image retrieval — verify with `git log -1` |
+| Milestone 6 | `fe87f0f` — Phase 4–7 image retrieval |
+| Milestone 7 | `306fac7` — image documentation |
+| Milestone 8 | Phase 8 tests — verify with `git log -1` |
 | Pushed | no (report status before assuming a remote copy exists) |
 
 ## Completed
@@ -40,8 +42,10 @@ continuing this workstream.
    15 place tests. Full suite: **102 passed**; Ruff clean.
 8. **Phase 4–7 done**: NASA Image Library, GIBS (Earth only) and PDS providers,
    URL/SSRF validation, grouping orchestrator and
-   `POST /api/assistant/images/search`. 20 mocked image tests. Full suite:
-   **122 passed**; Ruff clean.
+   `POST /api/assistant/images/search`. 20 mocked image tests.
+9. **Phase 8 done**: attribution/identity completeness, injection-as-data, and an
+   end-to-end mocked places → images test. Full suite: **125 passed**;
+   Ruff clean.
 
 ## Files created in this branch
 
@@ -107,15 +111,15 @@ globally installed `logfire` pytest plugin fails to import.
 
 ## Pending tasks (in order)
 
-1. **Phase 8 (remainder)** — expand adversarial coverage: metadata prompt
-   injection treated as data, attribution completeness, duplicate records across
-   planets, and an end-to-end mocked places → images flow.
-2. **Phase 9** — finish `TEAM_INTEGRATION.md` gateway notes, update
-   `AGENT_ACTIVITY.md`, `TASKS.md`, `EXPERIMENT_LOG.md`, `KNOWN_LIMITATIONS.md`.
-3. Push branch to the personal repository if authenticated; otherwise report
+1. **Phase 9 (remainder)** — refresh `ARCHITECTURE.md` test count and routes,
+   add the gateway notes to `TEAM_INTEGRATION.md`, and record the session in
+   `AGENT_ACTIVITY.md`.
+2. Push branch to the personal repository if authenticated; otherwise report
    unpushed commits by SHA.
-4. Verify PDS ODE live response shape when network access is available. Until
-   then the parser stays defensive and the limitation stays in the docs.
+3. Verify the PDS ODE live response shape when network access is available.
+   Until then the parser stays defensive and the limitation stays documented.
+4. Optional: run one read-only smoke test against the deployed team backend and
+   record exact outcomes (never claim it before it happens).
 
 ## Blockers
 

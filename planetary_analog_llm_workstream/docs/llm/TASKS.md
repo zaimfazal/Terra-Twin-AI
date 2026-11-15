@@ -31,8 +31,8 @@ Status values: `done`, `partial`, `blocked`, `not started`.
 | LLM-025 | PDS planetary image provider | done | Defensive ODE parsing; missing-preview handling; live shape unverified |
 | LLM-026 | Cross-planetary image orchestration | done | Group earth/moon/mars; dedupe by ID and URL; provider isolation |
 | LLM-027 | Image retrieval API | done | `POST /api/assistant/images/search` |
-| LLM-028 | Provider and SSRF test suite | partial | 20 mocked tests; live PDS/GIBS shapes still unverified |
-| LLM-029 | Team handover documentation | partial | `HANDOVER.md`, `IMAGES.md`, `TEAM_INTEGRATION.md` maintained per milestone |
+| LLM-028 | Provider and SSRF test suite | done | 23 mocked tests incl. attribution, injection-as-data, places→images end-to-end; live PDS/GIBS shapes still unverified |
+| LLM-029 | Team handover documentation | done | `HANDOVER.md`, `IMAGES.md`, `TEAM_INTEGRATION.md` maintained per milestone |
 
 ## Next dependency
 
