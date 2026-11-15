@@ -284,3 +284,28 @@ docs), `da95b8f` (Phase 8 tests).
 
 Push the branch if authenticated, then verify the PDS ODE live response shape and
 optionally run one read-only smoke test against the deployed team backend.
+
+---
+
+## Session 2026-11-15 — team-integration branch (Groq + handover)
+
+### Start state
+
+- Branch `feat/place-and-image-retrieval` at `250685e`, pushed.
+- 125 tests passing; place and image retrieval implemented with mocked tests.
+- No hosted inference provider; only Ollama plus deterministic fallback.
+- Team engine internals (`similarityEngine.js`, `imageSimilarityEngine.js`) had
+  not been read line by line in a previous session.
+
+### Work performed (in progress)
+
+1. Created branch `feat/team-integration-place-image-groq`.
+2. Read `similarityEngine.js` and `imageSimilarityEngine.js` in full and recorded
+   their defaults and derivations in `TEAM_INTEGRATION.md`: missing criteria
+   become `70`, missing analog metrics become `50`, coverage is a dimension
+   count, and `match_percentage` is arithmetic over catalogue constants.
+3. Audited tracked files for credentials: only placeholder values in the team
+   `.env.example`; no real secret found, no rotation required.
+4. Confirmed the step-by-step guide PDF is absent and recorded that fact.
+5. Wrote `IMPLEMENTATION_ROADMAP.md` with phases 0–10 and honest status.
+

@@ -55,6 +55,69 @@ POST /api/analog/search      -> similarityEngine result object (not a candidate 
 POST /api/analog/image-match -> { status, query_features_used, matches }
 ```
 
+### Engine internals verified this session (2026-11-15)
+
+Reading `backend/src/similarityEngine.js` and
+`backend/src/imageSimilarityEngine.js` in full changes how their output must be
+described:
+
+**`similarityEngine.calculateAnalogDiscoveries`**
+
+- Inputs are the eight 0–100 criteria. A missing input criterion is replaced by
+  `70`; a missing analog metric is replaced by `50`. A NoData value therefore
+  becomes a plausible-looking number rather than staying unknown.
+- Per-dimension score is `max(0, round(100 - |target - analog| * 1.15))`.
+- Overall score is the weight-normalised mean of those dimension scores.
+- `data_coverage` is **the share of weighted dimensions that had a weight > 0**,
+  not spatial or temporal data coverage.
+- `data_confidence` is `analog.data_confidence * (0.9 + 0.1 * coverage/100)`,
+  i.e. a derived rescaling of a schema field.
+- Results are sorted by the calculated score; this is a ranking produced by the
+  team engine, not by the assistant.
+
+Consequence: these numbers are heuristic platform values computed from
+catalogue constants. They must never be presented as measured NASA
+observations, and the assistant must not recompute or re-rank them.
+
+**`imageSimilarityEngine.matchVisualAnalogs`**
+
+- It never reads image pixels. "Visual features" are derived from catalogue text
+  and metrics, e.g. `brightness = aridity > 80 ? 0.65 : 0.45`,
+  `contrast = roughness / 100`, `edge_roughness = relief / 100`, and
+  `crater_morphology` from an ID substring test.
+- Missing query features default to fixed values (`roughness 0.7`,
+  `brightness 0.5`, `crater 0.5`, `volcanic 0.6`, `cryo 0.3`).
+- `match_percentage` is `round((1 - euclidean_distance / sqrt(5)) * 100)`
+  clamped to 10–99.
+- The returned `visual_reason` strings are fixed templates.
+
+Consequence: `match_percentage` is arithmetic over catalogue constants. It is
+**not** an image-derived visual similarity measurement and must be labelled as a
+heuristic demonstration wherever it appears.
+
+**`model/` directory**: reserved and empty of weights by the team's own README;
+no model binaries or checkpoints exist there. This workstream adds none.
+
+### Credential audit
+
+- The team repository tracks only `backend/.env.example`, which contains
+  placeholder credentials (`<username>:<password>`), not a real secret.
+- No live MongoDB URI, password or Groq key was found in either repository's
+  tracked files during this audit.
+- The personal repository's `.env.example` contains placeholders only.
+- Cluster hostnames/identifiers seen in the team's example file are deliberately
+  not reproduced in this workstream's documentation.
+
+### Project guide
+
+The six-page TerraTwin step-by-step project guide PDF is **not present** in
+either repository or the workspace. Only
+`planetary_analog_llm_workstream/reference/planetary_analog_discovery_prd.docx`
+exists. Its requirements are not invented here; the product plan summarised in
+the brief (Jezero Crater target; Ladakh, Spiti, Atacama, Iceland candidates;
+elevation, slope, roughness, relief as first features) is treated as an
+investigation brief, not as validated results.
+
 ### Model fields available to the assistant
 
 `Analog` (`backend/src/models/Analog.js`):
