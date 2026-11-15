@@ -19,7 +19,7 @@ continuing this workstream.
 | Milestone 6 | `fe87f0f` — Phase 4–7 image retrieval |
 | Milestone 7 | `306fac7` — image documentation |
 | Milestone 8 | Phase 8 tests — verify with `git log -1` |
-| Pushed | no (report status before assuming a remote copy exists) |
+| Pushed | yes — `origin/feat/place-and-image-retrieval` at `f9d9436` (verified with `git ls-remote`) |
 
 ## Completed
 

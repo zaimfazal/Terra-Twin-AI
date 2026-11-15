@@ -274,6 +274,7 @@ python -m ruff check .
 - Updated `IMAGES.md` (23 tests), `TASKS.md` (LLM-028/029 done),
   `ARCHITECTURE.md` (125 tests, new modules and flows), `TEAM_INTEGRATION.md`
   (egress allowlist) and `HANDOVER.md`.
+- Pushed the branch. Remote SHA `f9d9436` verified with `git ls-remote`.
 
 Final state of this session: **125 tests passed**, Ruff clean. Commits:
 `5db9a9a` (adapter), `b5e9396` (places), `fe87f0f` (images), `306fac7` (image
