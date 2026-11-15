@@ -267,7 +267,19 @@ python -m ruff check .
 - Live PDS ODE and GIBS response shapes remain unverified.
 - NASA Image Library does not supply per-item licence or instrument.
 
+### Follow-up in the same session
+
+- Added Phase 8 tests: attribution/identity completeness, injection metadata
+  preserved as data, and a places → images end-to-end flow.
+- Updated `IMAGES.md` (23 tests), `TASKS.md` (LLM-028/029 done),
+  `ARCHITECTURE.md` (125 tests, new modules and flows), `TEAM_INTEGRATION.md`
+  (egress allowlist) and `HANDOVER.md`.
+
+Final state of this session: **125 tests passed**, Ruff clean. Commits:
+`5db9a9a` (adapter), `b5e9396` (places), `fe87f0f` (images), `306fac7` (image
+docs), `da95b8f` (Phase 8 tests).
+
 ### Next dependency
 
-Phase 8 remainder: adversarial metadata, attribution completeness and an
-end-to-end mocked places → images test. Then Phase 9 documentation and push.
+Push the branch if authenticated, then verify the PDS ODE live response shape and
+optionally run one read-only smoke test against the deployed team backend.

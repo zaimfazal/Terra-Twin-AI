@@ -308,6 +308,10 @@ Minimal, non-redesigning additions:
 - [ ] Assistant deployed with `TERRATWIN_BACKEND_URL` pointing at the backend.
 - [ ] Assistant has no `MONGODB_URI`.
 - [ ] `ASSISTANT_STRUCTURED_BACKEND=team_backend` in production.
+- [ ] Outbound egress from the assistant is limited to the team backend plus
+      `images-api.nasa.gov`, `images-assets.nasa.gov`, `images.nasa.gov`,
+      `gibs.earthdata.nasa.gov` and the PDS hosts in
+      `assistant/images/validation.py`.
 - [ ] Ollama present, or `LLM_PROVIDER=groq` with a server-side key, or fallback
       mode accepted.
 - [ ] Node gateway routes added if the assistant is not publicly exposed.
