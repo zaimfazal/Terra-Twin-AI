@@ -22,6 +22,7 @@ from assistant.contracts import (
     FeedbackRequest,
     HealthResponse,
 )
+from assistant.places.contracts import PlaceSearchRequest, PlaceSearchResponse
 from assistant.service import AssistantService
 
 
@@ -70,6 +71,10 @@ def create_app(
     @app.get("/api/assistant/health", response_model=HealthResponse)
     def health() -> HealthResponse:
         return service.health()
+
+    @app.post("/api/assistant/places/search", response_model=PlaceSearchResponse)
+    def places_search(request: PlaceSearchRequest) -> PlaceSearchResponse:
+        return service.search_places(request)
 
     @app.post("/api/assistant/feedback", response_model=FeedbackRecord)
     def feedback(request: FeedbackRequest) -> FeedbackRecord:

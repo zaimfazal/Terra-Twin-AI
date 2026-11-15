@@ -14,7 +14,8 @@ continuing this workstream.
 | Milestone 1 | `325297d5eb05521cf81afc5149f25310d60108e3` — audit + cleanup |
 | Milestone 2 | `30ea632` — integration architecture + roadmap |
 | Milestone 3 | `279ac49` — evaluation record + handover |
-| Milestone 4 | Phase 1 adapter — verify with `git log -1` |
+| Milestone 4 | Phase 1 adapter — `5db9a9a` |
+| Milestone 5 | Phase 2–3 place retrieval — verify with `git log -1` |
 | Pushed | no (report status before assuming a remote copy exists) |
 
 ## Completed
@@ -33,7 +34,9 @@ continuing this workstream.
 6. **Phase 1 done**: `assistant/adapters/team_backend.py` and
    `assistant/adapters/team_records.py`, wired through
    `ASSISTANT_STRUCTURED_BACKEND=team_backend`. 13 mocked adapter tests.
-   Full suite: **87 passed**; Ruff clean.
+7. **Phase 2–3 done**: deterministic place parser, typed contracts, place search
+   service and `POST /api/assistant/places/search`, wired to the adapter.
+   15 place tests. Full suite: **102 passed**; Ruff clean.
 
 ## Files created in this branch
 
@@ -42,6 +45,10 @@ continuing this workstream.
 - `planetary_analog_llm_workstream/assistant/adapters/team_records.py`
 - `planetary_analog_llm_workstream/assistant/adapters/team_backend.py`
 - `planetary_analog_llm_workstream/tests/test_team_backend_adapter.py`
+- `planetary_analog_llm_workstream/assistant/places/contracts.py`
+- `planetary_analog_llm_workstream/assistant/places/service.py`
+- `planetary_analog_llm_workstream/assistant/retrieval/query_parser.py`
+- `planetary_analog_llm_workstream/tests/test_place_search.py`
 - `planetary_analog_llm_workstream/docs/llm/TEAM_INTEGRATION.md`
 - `planetary_analog_llm_workstream/docs/llm/ROADMAP.md`
 - `planetary_analog_llm_workstream/docs/llm/HANDOVER.md` (this file)
@@ -86,18 +93,17 @@ globally installed `logfire` pytest plugin fails to import.
 
 ## Pending tasks (in order)
 
-1. **Phase 2** — `assistant/retrieval/query_parser.py`,
-   `assistant/places/contracts.py`, place search service, `POST
-   /api/assistant/places/search`, tests.
-2. **Phase 3** — wire place search to the adapter and target resolution;
-   mocked end-to-end test.
-3. **Phases 4–7** — NASA Image Library, GIBS (Earth only), PDS, grouping
-   orchestrator, `POST /api/assistant/images/search`.
-4. **Phase 8** — provider/SSRF/duplicate/attribution tests, visual-vs-scientific
+1. **Phase 4** — NASA Image Library provider (`/search`, `/asset/{nasa_id}`,
+   `/metadata/{nasa_id}`) with URL/domain allowlisting, timeout and dedupe.
+2. **Phase 5** — GIBS WMS/WMTS for Earth candidates only; validate layer/date.
+3. **Phase 6** — PDS LROC/HiRISE product and browse-image metadata.
+4. **Phase 7** — grouping orchestrator, `POST /api/assistant/images/search`,
+   Earth/Moon/Mars response contract.
+5. **Phase 8** — provider/SSRF/duplicate/attribution tests, visual-vs-scientific
    separation tests.
-5. **Phase 9** — finish `TEAM_INTEGRATION.md`, update this file and
+6. **Phase 9** — finish `TEAM_INTEGRATION.md`, update this file and
    `AGENT_ACTIVITY.md`, `TASKS.md`, `EXPERIMENT_LOG.md`.
-6. Push branch to the personal repository if authenticated; otherwise report
+7. Push branch to the personal repository if authenticated; otherwise report
    unpushed commits by SHA.
 
 ## Blockers

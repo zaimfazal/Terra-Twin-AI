@@ -23,9 +23,9 @@ Status values: `done`, `partial`, `blocked`, `not started`.
 | LLM-017 | Team repository audit and integration design | done | `TEAM_INTEGRATION.md`; read-only sibling clone |
 | LLM-018 | Repository cleanup and `.gitignore` | done | Untracked pycache/runtime DBs; artifacts preserved on disk |
 | LLM-019 | Team backend read-only HTTP adapter | done | `team_backend.py` + `team_records.py`; 13 mocked tests; no write verbs |
-| LLM-020 | Natural-language query parser | not started | Deterministic rules; unsupported fields become warnings |
-| LLM-021 | Place search contracts | not started | `assistant/places/contracts.py`; provenance + missing fields |
-| LLM-022 | Place search service and API | not started | `POST /api/assistant/places/search` |
+| LLM-020 | Natural-language query parser | done | Deterministic rules; unsupported fields become warnings |
+| LLM-021 | Place search contracts | done | `assistant/places/contracts.py`; provenance + missing fields |
+| LLM-022 | Place search service and API | done | `POST /api/assistant/places/search` |
 | LLM-023 | NASA Image Library provider | not started | `/search`, `/asset/{id}`, `/metadata/{id}`; URL/domain validation |
 | LLM-024 | NASA GIBS Earth imagery provider | not started | Earth only; layer/date validation |
 | LLM-025 | PDS planetary image provider | not started | LROC/HiRISE; missing-preview handling |

@@ -203,6 +203,60 @@ No view may be writable by the assistant role. The assistant needs only
 `SELECT`. The adapter is intentionally unimplemented until the owner confirms
 names, types, null semantics and ID stability.
 
+## Team backend adapter (`team_backend`)
+
+`ASSISTANT_STRUCTURED_BACKEND=team_backend` selects
+`assistant.adapters.team_backend.TeamBackendAdapter`, which calls the team's
+Node/Express API at `TERRATWIN_BACKEND_URL` (default `http://localhost:8000`).
+It is read-only, holds no database credential and never synthesises reports or
+evidence.
+
+Consumed endpoints: `GET /api/health`, `/api/analog`, `/api/analog/{id}`,
+`/api/targets`, `/api/mission-profiles`, `/api/nasa-datasets`,
+`/api/analog/nearby`, and the read-only `POST /api/analog/within-polygon`.
+
+## `POST /api/assistant/places/search`
+
+Natural-language candidate retrieval over the team's Analog records.
+
+Request (`PlaceSearchRequest`, `assistant/places/contracts.py`):
+
+```json
+{
+  "question": "Find arid environments with volcanic terrain similar to Mars",
+  "target": null,
+  "planetary_reference": null,
+  "filters": null,
+  "max_results": 10,
+  "offset": 0
+}
+```
+
+- `question` or `filters` is required.
+- `filters` may add explicit `text_terms`, `countries`, `primary_planet_analogs`,
+  `target_ids`, `dataset_terms`, `metrics`, `bounding_box`, or `radius`.
+- Numeric ranges are applied only to the documented 0-100 platform indices
+  (`roughness`, `relief`, `slope`, `aridity`, `thermal`, `rockiness`, `volcanic`,
+  `access`). Numeric elevation is unavailable because the team schema stores
+  elevation as display text.
+
+Response (`PlaceSearchResponse`) includes `interpreted_filters`, `results`
+with `match_explanations`, `unavailable_fields`, `missing_information`,
+`limitations`, `data_provenance_mode`, `backend`, and
+`ordering: "backend_order_preserved"`.
+
+Semantics:
+
+- A missing metric excludes a candidate from that filter and is reported under
+  `missing_information`; it is never treated as zero or as dissimilarity.
+- Scores, coverage and confidence are echoed verbatim and never re-ranked.
+- Unsupported dimensions (mineralogy, vegetation, numeric elevation,
+  temperature, candidate mission profile) are returned as `unavailable_fields`.
+- An empty result is returned explicitly; nothing is fabricated.
+- Qualitative terrain terms may match a documented heuristic index when the text
+  does not mention the term; a limitation states this and labels the index as
+  unverified.
+
 ## Integration questions for the backend owner
 
 1. What are the real candidate/report/evidence/target identifier formats?

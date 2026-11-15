@@ -261,7 +261,7 @@ same-origin deployment.
 | Method | Path | Purpose |
 |---|---|---|
 | POST | `/api/assistant/chat` | Grounded explanation of one candidate/report |
-| POST | `/api/assistant/reports/explain` | Explain an existing report |
+| POST | `/api/assistant/explain-report` | Explain an existing report |
 | GET | `/api/assistant/health` | Adapter/model/retrieval health |
 | POST | `/api/assistant/feedback` | Store optional feedback |
 | POST | `/api/assistant/places/search` | Natural-language place retrieval (Phase 2–3) |

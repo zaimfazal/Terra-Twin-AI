@@ -32,6 +32,8 @@ from assistant.ingestion.store import DocumentStore
 from assistant.llm.generation import GroundedGenerator
 from assistant.llm.ollama import ollama_health_payload
 from assistant.llm.prompt import PROMPT_VERSION
+from assistant.places.contracts import PlaceSearchRequest, PlaceSearchResponse
+from assistant.places.service import PlaceSearchService
 
 
 class AssistantService:
@@ -55,6 +57,7 @@ class AssistantService:
         self.store = store or DocumentStore(self.settings.db_path)
         self.generator = generator or GroundedGenerator(self.settings)
         self.assembler = EvidenceAssembler(self.adapter, self.store, self.settings)
+        self.place_search = PlaceSearchService(self.adapter)
 
         if self.settings.auto_ingest_corpus:
             corpus = Path(self.settings.corpus_dir)
@@ -163,6 +166,9 @@ class AssistantService:
         if not answer.prompt_version:
             answer.prompt_version = PROMPT_VERSION
         return answer
+
+    def search_places(self, request: PlaceSearchRequest) -> PlaceSearchResponse:
+        return self.place_search.search(request)
 
     # ------------------------------------------------------------------
     # Health and feedback
