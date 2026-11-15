@@ -188,3 +188,86 @@ git commit -m "docs: add team integration architecture and implementation roadma
 
 Phase 1: implement `assistant/adapters/team_backend.py` with strict timeouts,
 response normalisation, verbatim score preservation and mocked tests.
+
+---
+
+## Session 2026-11-15 — Phases 1–7 implementation
+
+### Start state
+
+- Branch `feat/place-and-image-retrieval` at `279ac49`.
+- No team backend adapter, no place retrieval, no image retrieval.
+- 73 tests passing.
+
+### Work performed
+
+1. **Phase 1** — added `assistant/adapters/team_records.py` (normalised
+   read-only records) and `assistant/adapters/team_backend.py` (httpx client for
+   the audited Express routes only). Scores keep their original JSON number type;
+   missing metrics stay missing; both coordinate shapes are supported; redirects,
+   credentials and invalid base URLs are refused; reports and evidence are not
+   synthesised. 13 mocked tests.
+2. **Phase 2** — added `assistant/retrieval/query_parser.py` (deterministic,
+   clause-scoped numeric parsing) and `assistant/places/contracts.py`.
+3. **Phase 3** — added `assistant/places/service.py` and
+   `POST /api/assistant/places/search`. Unsupported dimensions produce
+   `unavailable_fields`; missing metrics exclude a candidate and are reported,
+   never treated as zero. 15 tests.
+4. **Phase 4–7** — added `assistant/images/`: contracts, URL/SSRF validation,
+   NASA Image Library, GIBS (Earth only), PDS (defensive ODE parsing),
+   orchestrator and `POST /api/assistant/images/search`. 20 mocked tests.
+5. Added `AssistantService.close()` and switched the FastAPI lifespan to it so
+   provider HTTP clients and the SQLite store are released.
+6. Wrote `docs/llm/IMAGES.md`; updated `API_CONTRACT.md`, `README.md`,
+   `TASKS.md` and `HANDOVER.md`.
+
+### Files changed in this session
+
+- `assistant/adapters/team_records.py`, `assistant/adapters/team_backend.py`
+- `assistant/places/contracts.py`, `assistant/places/service.py`
+- `assistant/retrieval/query_parser.py`
+- `assistant/images/contracts.py`, `validation.py`, `orchestrator.py`
+- `assistant/images/providers/{base,nasa_library,gibs,pds}.py`
+- `assistant/config.py`, `assistant/service.py`, `assistant/api.py`
+- `.env.example`, `README.md`
+- `tests/test_team_backend_adapter.py`, `tests/test_place_search.py`,
+  `tests/test_images.py`
+- `docs/llm/{IMAGES.md,API_CONTRACT.md,TASKS.md,HANDOVER.md}`
+
+### Commands and exact outcomes
+
+```powershell
+$env:PYTEST_DISABLE_PLUGIN_AUTOLOAD='1'
+python -m pytest -p no:warnings
+# 122 passed
+python -m ruff check .
+# All checks passed!
+```
+
+### Decisions
+
+- Place retrieval uses a dedicated contract with provenance and
+  `missing_fields`; team metrics are never promoted to `EvidenceItem`
+  measurements.
+- Qualitative terrain terms fall back to documented 0–100 heuristic indices only
+  when the supplied text does not mention the term, with an explicit limitation.
+- Numeric ranges are created only from explicitly stated numbers; adjectives
+  never become thresholds.
+- Image relevance, visual resemblance, geological analogy, environmental
+  analogy, scientific similarity and mission usefulness stay separate. The image
+  contracts contain no score field at all.
+- GIBS is Earth-only and is never used for Moon or Mars; PDS is Moon/Mars-only.
+- The GIBS WMS URL is validated but not fetched server-side; the limitation is
+  stated in the record and in the docs.
+- PDS parsing is defensive because the live ODE response shape is unverified.
+
+### Blockers
+
+- No live MongoDB/Node backend, so all integration tests use mocked HTTP.
+- Live PDS ODE and GIBS response shapes remain unverified.
+- NASA Image Library does not supply per-item licence or instrument.
+
+### Next dependency
+
+Phase 8 remainder: adversarial metadata, attribution completeness and an
+end-to-end mocked places → images test. Then Phase 9 documentation and push.

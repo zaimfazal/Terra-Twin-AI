@@ -28,7 +28,7 @@ Verification: `git status`, pytest 73 passed, Ruff clean (from prior milestones)
 
 ---
 
-## Phase 1 — team backend read-only adapter
+## Phase 1 — team backend read-only adapter (done, `5db9a9a`)
 
 Files:
 
@@ -57,7 +57,7 @@ database in the ordinary suite.
 
 ---
 
-## Phase 2 — natural-language place retrieval
+## Phase 2 — natural-language place retrieval (done)
 
 Files:
 
@@ -91,7 +91,7 @@ immutability tests, empty-result test.
 
 ---
 
-## Phase 3 — connect to current candidate and target data
+## Phase 3 — connect to current candidate and target data (done)
 
 - Wire `TeamBackendAdapter` into `AssistantService` for place search.
 - Resolve target by ID or name through `GET /api/targets`.
@@ -100,7 +100,7 @@ immutability tests, empty-result test.
 
 ---
 
-## Phase 4 — NASA Image and Video Library
+## Phase 4 — NASA Image and Video Library (done)
 
 Files:
 
@@ -116,7 +116,7 @@ content-type and host allowlist.
 
 ---
 
-## Phase 5 — NASA GIBS (Earth only)
+## Phase 5 — NASA GIBS (Earth only) (done)
 
 - WMS/WMTS request construction from real candidate coordinates.
 - Validate layer names against a documented allowlist and validate dates.
@@ -125,7 +125,7 @@ content-type and host allowlist.
 
 ---
 
-## Phase 6 — NASA PDS planetary products
+## Phase 6 — NASA PDS planetary products (done; live shape unverified)
 
 - Documented PDS search/product metadata only.
 - Prefer LRO/LROC, MRO/HiRISE, available surface products.
@@ -134,7 +134,7 @@ content-type and host allowlist.
 
 ---
 
-## Phase 7 — cross-planetary orchestration and API
+## Phase 7 — cross-planetary orchestration and API (done)
 
 Files:
 
@@ -153,7 +153,7 @@ environmental analogy, scientific similarity score, mission usefulness.
 
 ---
 
-## Phase 8 — scientific guardrails and end-to-end tests
+## Phase 8 — scientific guardrails and end-to-end tests (partial)
 
 - Provider mocks: success, empty, invalid asset, missing thumbnail, valid GIBS
   layer, unsupported layer, PDS product, missing browse product, duplicates,
@@ -166,7 +166,7 @@ environmental analogy, scientific similarity score, mission usefulness.
 
 ---
 
-## Phase 9 — documentation and team handover
+## Phase 9 — documentation and team handover (partial)
 
 - Complete `TEAM_INTEGRATION.md`, `HANDOVER.md`, `AGENT_ACTIVITY.md`,
   `TASKS.md`, `EXPERIMENT_LOG.md`, `API_CONTRACT.md`.

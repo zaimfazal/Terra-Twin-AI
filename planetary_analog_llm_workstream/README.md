@@ -52,6 +52,8 @@ Routes:
 - `POST /api/assistant/explain-report`
 - `GET  /api/assistant/health`
 - `POST /api/assistant/feedback`
+- `POST /api/assistant/places/search` (natural-language place retrieval)
+- `POST /api/assistant/images/search` (NASA Image Library / GIBS / PDS)
 
 ## Test and evaluate
 

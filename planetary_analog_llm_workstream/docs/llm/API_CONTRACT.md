@@ -257,6 +257,44 @@ Semantics:
   does not mention the term; a limitation states this and labels the index as
   unverified.
 
+## `POST /api/assistant/images/search`
+
+Cross-planetary NASA image retrieval. Providers: NASA Image and Video Library,
+GIBS (Earth only) and PDS (Moon/Mars only). Full detail in `IMAGES.md`.
+
+Request (`ImageSearchRequest`):
+
+```json
+{
+  "target": null,
+  "candidate_id": null,
+  "planets": ["earth", "moon", "mars"],
+  "image_types": [],
+  "feature_keywords": [],
+  "max_per_planet": 5
+}
+```
+
+- `target`, `candidate_id` or `feature_keywords` must supply the query basis;
+  otherwise the response is empty with an explicit limitation.
+- `planets` is deduplicated and order-preserving.
+
+Response (`ImageSearchResponse`): `earth`, `moon`, `mars` groups of
+`ImageRecord`, plus `sources`, `missing_previews`, `rejected_assets`,
+`limitations`, `providers_used`, `resolved_target_id`,
+`resolved_candidate_id`, `data_provenance_mode` and a fixed `notice`.
+
+Semantics:
+
+- No score, confidence or similarity field exists in the image contracts.
+- Image relevance is keyword-only and is never described as visual, geological or
+  scientific equivalence.
+- Asset URLs must be HTTPS and on the provider allowlist; failures go to
+  `rejected_assets`.
+- Products with no browse image appear in `missing_previews`, not as fake records.
+- Provider failures degrade to `limitations`; other providers still answer.
+- GIBS is never used for Moon or Mars; PDS is never used for Earth.
+
 ## Integration questions for the backend owner
 
 1. What are the real candidate/report/evidence/target identifier formats?

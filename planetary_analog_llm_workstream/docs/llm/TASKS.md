@@ -26,13 +26,13 @@ Status values: `done`, `partial`, `blocked`, `not started`.
 | LLM-020 | Natural-language query parser | done | Deterministic rules; unsupported fields become warnings |
 | LLM-021 | Place search contracts | done | `assistant/places/contracts.py`; provenance + missing fields |
 | LLM-022 | Place search service and API | done | `POST /api/assistant/places/search` |
-| LLM-023 | NASA Image Library provider | not started | `/search`, `/asset/{id}`, `/metadata/{id}`; URL/domain validation |
-| LLM-024 | NASA GIBS Earth imagery provider | not started | Earth only; layer/date validation |
-| LLM-025 | PDS planetary image provider | not started | LROC/HiRISE; missing-preview handling |
-| LLM-026 | Cross-planetary image orchestration | not started | Group earth/moon/mars; dedupe; limitations |
-| LLM-027 | Image retrieval API | not started | `POST /api/assistant/images/search` |
-| LLM-028 | Provider and SSRF test suite | not started | Mocked HTTP only; no live NASA dependency |
-| LLM-029 | Team handover documentation | not started | `HANDOVER.md` maintained per milestone |
+| LLM-023 | NASA Image Library provider | done | `/search`, `/asset/{id}`; validated URLs; missing metadata stays null |
+| LLM-024 | NASA GIBS Earth imagery provider | done | Earth only; layer/date validation; URL not fetched server-side |
+| LLM-025 | PDS planetary image provider | done | Defensive ODE parsing; missing-preview handling; live shape unverified |
+| LLM-026 | Cross-planetary image orchestration | done | Group earth/moon/mars; dedupe by ID and URL; provider isolation |
+| LLM-027 | Image retrieval API | done | `POST /api/assistant/images/search` |
+| LLM-028 | Provider and SSRF test suite | partial | 20 mocked tests; live PDS/GIBS shapes still unverified |
+| LLM-029 | Team handover documentation | partial | `HANDOVER.md`, `IMAGES.md`, `TEAM_INTEGRATION.md` maintained per milestone |
 
 ## Next dependency
 

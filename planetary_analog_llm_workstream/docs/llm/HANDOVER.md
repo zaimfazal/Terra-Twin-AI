@@ -14,8 +14,9 @@ continuing this workstream.
 | Milestone 1 | `325297d5eb05521cf81afc5149f25310d60108e3` — audit + cleanup |
 | Milestone 2 | `30ea632` — integration architecture + roadmap |
 | Milestone 3 | `279ac49` — evaluation record + handover |
-| Milestone 4 | Phase 1 adapter — `5db9a9a` |
-| Milestone 5 | Phase 2–3 place retrieval — verify with `git log -1` |
+| Milestone 4 | `5db9a9a` — Phase 1 adapter |
+| Milestone 5 | `b5e9396` — Phase 2–3 place retrieval |
+| Milestone 6 | Phase 4–7 image retrieval — verify with `git log -1` |
 | Pushed | no (report status before assuming a remote copy exists) |
 
 ## Completed
@@ -37,6 +38,10 @@ continuing this workstream.
 7. **Phase 2–3 done**: deterministic place parser, typed contracts, place search
    service and `POST /api/assistant/places/search`, wired to the adapter.
    15 place tests. Full suite: **102 passed**; Ruff clean.
+8. **Phase 4–7 done**: NASA Image Library, GIBS (Earth only) and PDS providers,
+   URL/SSRF validation, grouping orchestrator and
+   `POST /api/assistant/images/search`. 20 mocked image tests. Full suite:
+   **122 passed**; Ruff clean.
 
 ## Files created in this branch
 
@@ -49,6 +54,12 @@ continuing this workstream.
 - `planetary_analog_llm_workstream/assistant/places/service.py`
 - `planetary_analog_llm_workstream/assistant/retrieval/query_parser.py`
 - `planetary_analog_llm_workstream/tests/test_place_search.py`
+- `planetary_analog_llm_workstream/assistant/images/contracts.py`
+- `planetary_analog_llm_workstream/assistant/images/validation.py`
+- `planetary_analog_llm_workstream/assistant/images/orchestrator.py`
+- `planetary_analog_llm_workstream/assistant/images/providers/{base,nasa_library,gibs,pds}.py`
+- `planetary_analog_llm_workstream/tests/test_images.py`
+- `planetary_analog_llm_workstream/docs/llm/IMAGES.md`
 - `planetary_analog_llm_workstream/docs/llm/TEAM_INTEGRATION.md`
 - `planetary_analog_llm_workstream/docs/llm/ROADMAP.md`
 - `planetary_analog_llm_workstream/docs/llm/HANDOVER.md` (this file)
@@ -61,7 +72,10 @@ continuing this workstream.
 - `docs/llm/TASKS.md` (LLM-017 … LLM-029)
 - `docs/llm/HANDOVER.md` (this file)
 - `planetary_analog_llm_workstream/assistant/config.py` (team backend settings)
-- `planetary_analog_llm_workstream/assistant/service.py` (adapter factory)
+- `planetary_analog_llm_workstream/assistant/service.py` (adapter factory, image
+  service, close)
+- `planetary_analog_llm_workstream/assistant/api.py` (places + images routes,
+  lifespan close)
 - `planetary_analog_llm_workstream/README.md` (config table)
 - `evaluation/results/latest.json`, `model-eval-console.log`
 
@@ -82,7 +96,7 @@ git checkout -b feat/place-and-image-retrieval
 
 $env:PYTEST_DISABLE_PLUGIN_AUTOLOAD='1'
 python -m pytest -p no:warnings
-# 73 passed in 7.66s
+# 122 passed (after Phase 4-7)
 
 python -m ruff check .
 # All checks passed!
@@ -93,18 +107,15 @@ globally installed `logfire` pytest plugin fails to import.
 
 ## Pending tasks (in order)
 
-1. **Phase 4** — NASA Image Library provider (`/search`, `/asset/{nasa_id}`,
-   `/metadata/{nasa_id}`) with URL/domain allowlisting, timeout and dedupe.
-2. **Phase 5** — GIBS WMS/WMTS for Earth candidates only; validate layer/date.
-3. **Phase 6** — PDS LROC/HiRISE product and browse-image metadata.
-4. **Phase 7** — grouping orchestrator, `POST /api/assistant/images/search`,
-   Earth/Moon/Mars response contract.
-5. **Phase 8** — provider/SSRF/duplicate/attribution tests, visual-vs-scientific
-   separation tests.
-6. **Phase 9** — finish `TEAM_INTEGRATION.md`, update this file and
-   `AGENT_ACTIVITY.md`, `TASKS.md`, `EXPERIMENT_LOG.md`.
-7. Push branch to the personal repository if authenticated; otherwise report
+1. **Phase 8 (remainder)** — expand adversarial coverage: metadata prompt
+   injection treated as data, attribution completeness, duplicate records across
+   planets, and an end-to-end mocked places → images flow.
+2. **Phase 9** — finish `TEAM_INTEGRATION.md` gateway notes, update
+   `AGENT_ACTIVITY.md`, `TASKS.md`, `EXPERIMENT_LOG.md`, `KNOWN_LIMITATIONS.md`.
+3. Push branch to the personal repository if authenticated; otherwise report
    unpushed commits by SHA.
+4. Verify PDS ODE live response shape when network access is available. Until
+   then the parser stays defensive and the limitation stays in the docs.
 
 ## Blockers
 

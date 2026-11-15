@@ -186,10 +186,63 @@ next action.
 - **Impact:** results demonstrate guardrail behaviour, not Mars science.
 - **Next action:** run against real exports when available.
 
-### L21 — Model-mode results are machine-specific
+### L21 - Model-mode results are machine-specific
 
 - **Affected:** reproducibility.
 - **Observed:** results depend on Ollama version, model digest, GPU/CPU and
   context settings.
 - **Impact:** another machine may differ.
 - **Next action:** record runtime, model digest and hardware with every run.
+
+## Team integration and retrieval
+
+### L22 - No live team backend verification
+
+- **Affected:** team adapter, place search, image retrieval.
+- **Observed:** no local MongoDB or Node backend; team app needs an Atlas URI.
+- **Impact:** all integration tests use mocked HTTP built from code inspection.
+  Live field values, null semantics and response details are unverified.
+- **Next action:** run a read-only smoke test against the deployed backend and
+  record exact outcomes.
+
+### L23 - Team metrics are heuristic, not measurements
+
+- **Affected:** place retrieval.
+- **Observed:** `metrics`/`criteria_signature` are 0-100 indices from the team
+  similarity engine; `similarity_score`, `data_coverage`, `data_confidence` have
+  schema defaults.
+- **Impact:** values are echoed with an explicit unverified provenance tag and
+  are never promoted to `EvidenceItem` measurements.
+- **Next action:** platform owner confirms which values are computed.
+
+### L24 - Numeric elevation unavailable
+
+- **Affected:** place filtering.
+- **Observed:** `elevation` is display text with embedded units.
+- **Impact:** no numeric elevation filter is applied; the request is reported in
+  `unavailable_fields`.
+- **Next action:** platform adds a numeric elevation field.
+
+### L25 - PDS live response shape unverified
+
+- **Affected:** Moon/Mars image retrieval.
+- **Observed:** PDS Geosciences ODE REST response shape was never exercised.
+- **Impact:** the parser is defensive and may return zero records plus a
+  limitation against the real service.
+- **Next action:** verify against the live ODE endpoint before merge.
+
+### L26 - GIBS imagery not fetched server-side
+
+- **Affected:** Earth visualization records.
+- **Observed:** the WMS GetMap URL is built and host-validated only.
+- **Impact:** HTTP status and content-type of the rendered image are confirmed
+  only when a browser loads it.
+- **Next action:** optionally add a lightweight validated HEAD check if required.
+
+### L27 - Image relevance is keyword-only
+
+- **Affected:** image retrieval.
+- **Observed:** providers are queried with candidate/target keywords.
+- **Impact:** relevance is keyword match, not visual, geological or scientific
+  similarity. No image-derived score exists in the contracts.
+- **Next action:** none; this is a deliberate guardrail.
